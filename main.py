@@ -3,14 +3,26 @@ its a school project to initiat with Python programming
 for more informations and licence please check README file attached to the folder."""
 
 
-def function(original_function):
-    def inner_function():
-        return original_function()
-    return inner_function
+import pygame
 
-def display():
-    print("display run")
+class Game:
+    def __init__(self):
+        """ Set up the game window """
+        pygame.init()
+        self.running = True
+        self.windowWidth = 500
+        self.windowHeight = 400
+        self.window = pygame.display.set_mode((self.windowWidth, self.windowHeight))
 
-var = function(display)
 
-var()
+    def gameLoop(self):
+        """ main game loop """
+        while self.running:
+            pygame.display.fl
+
+    def drawText(self, text, x, y ,size = 20):
+        """ draws any text on the main window """
+        gameFont = pygame.font.Font("./assets/Minecraft.ttf", size)
+        textSurface = gameFont.render(text, False, objectColor)
+        textRect = textSurface.get_rect(center = (int(x), int(y)))
+        display.blit(textSurface, textRect)
