@@ -124,7 +124,11 @@ def credit():
         display.blit(textSurface1, buttonText1)
 
         textSurface2 = textSurface("Game design & production", (245, 245, 245), 20)
-        buttonText2 = textSurface2.get_rect(center = (int(displayWidth/2), int(displayHeight/2 - 100)))
+        buttonText2 = textSurface2.get_rect(center = (int(displayWidth/2), int(displayHeight/2 - 50)))
+        display.blit(textSurface2, buttonText2)
+
+        textSurface2 = textSurface("Youness Id bakkasse", (245, 245, 245), 16)
+        buttonText2 = textSurface2.get_rect(center = (int(displayWidth/2), int(displayHeight/2 - 20)))
         display.blit(textSurface2, buttonText2)
 
         for event in pygame.event.get():
