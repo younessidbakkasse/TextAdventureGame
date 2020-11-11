@@ -54,6 +54,9 @@ def menu():
         if buttonText4.collidepoint((mx, my)):
             if click:
                 options()
+        if buttonText5.collidepoint((mx, my)):
+            if click:
+                credit()
         
 
         for event in pygame.event.get():
@@ -75,7 +78,7 @@ def game():
         display.blit(backIcon, (int(displayWidth/2 - 15), 440))
 
         textSurface1 = textSurface("Game", (238, 117, 57))
-        buttonText1 = textSurface1.get_rect(center = (int(displayWidth/2), 100))
+        buttonText1 = textSurface1.get_rect(center = (int(displayWidth/2), 50))
         display.blit(textSurface1, buttonText1)
 
         for event in pygame.event.get():
@@ -96,7 +99,28 @@ def options():
         display.blit(backIcon, (int(displayWidth/2 - 15), 440))
 
         textSurface1 = textSurface("Options", (238, 117, 57))
-        buttonText1 = textSurface1.get_rect(center = (int(displayWidth/2), 100))
+        buttonText1 = textSurface1.get_rect(center = (int(displayWidth/2), 50))
+        display.blit(textSurface1, buttonText1)
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button:
+                    running = False
+                    
+        pygame.display.update()
+        clock.tick(60)
+
+def credit():
+    running = True
+    while running:
+        display.fill((49, 45, 46))
+        display.blit(backIcon, (int(displayWidth/2 - 15), 440))
+
+        textSurface1 = textSurface("Credit", (238, 117, 57))
+        buttonText1 = textSurface1.get_rect(center = (int(displayWidth/2), 50))
         display.blit(textSurface1, buttonText1)
 
         for event in pygame.event.get():
