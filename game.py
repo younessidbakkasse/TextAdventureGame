@@ -123,6 +123,10 @@ def credit():
         buttonText1 = textSurface1.get_rect(center = (int(displayWidth/2), 50))
         display.blit(textSurface1, buttonText1)
 
+        textSurface2 = textSurface("Game design & production", (245, 245, 245), 20)
+        buttonText2 = textSurface2.get_rect(center = (int(displayWidth/2), int(displayHeight/2 - 100)))
+        display.blit(textSurface2, buttonText2)
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
