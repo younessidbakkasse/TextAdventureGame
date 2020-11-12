@@ -20,6 +20,11 @@ def textSurface(text, color, size = 38,):
         gameFont = pygame.font.Font("Minecraft.ttf", size)
         return gameFont.render(text, False, color)
 
+def textSurfaceSmall(text, color, size = 38,):
+        """ draws any text on the main window """
+        gameFont = pygame.font.Font("MinecraftS.ttf", size)
+        return gameFont.render(text, True, color)
+
 def menu():
     while True: 
         
@@ -123,11 +128,11 @@ def credit():
         buttonText1 = textSurface1.get_rect(center = (int(displayWidth/2), 50))
         display.blit(textSurface1, buttonText1)
 
-        textSurface2 = textSurface("Game design & production", (245, 245, 245), 20)
+        textSurface2 = textSurfaceSmall("Game design & production", (245, 245, 245), 20)
         buttonText2 = textSurface2.get_rect(center = (int(displayWidth/2), int(displayHeight/2 - 50)))
         display.blit(textSurface2, buttonText2)
 
-        textSurface2 = textSurface("Youness Id bakkasse", (245, 245, 245), 16)
+        textSurface2 = textSurfaceSmall("Youness Id bakkasse", (245, 245, 245), 16)
         buttonText2 = textSurface2.get_rect(center = (int(displayWidth/2), int(displayHeight/2 - 20)))
         display.blit(textSurface2, buttonText2)
 
