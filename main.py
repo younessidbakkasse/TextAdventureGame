@@ -27,14 +27,6 @@ class scene:
         """ Set up the game display """
         self.running, self.click = True, False
 
-    def gameLoop(self):
-        """ scene main loop : basicly each scene has its own loop """
-        while self.running:
-            scene.display.fill(color["brown"])
-            self.eventLoop()
-            pygame.display.update()
-            clock.tick(60)
-
     def eventLoop(self):
         """ This function collects keyboard and mouse clicks from the user """
         for event in pygame.event.get():
@@ -51,20 +43,52 @@ class scene:
 
     def renderImage(self, path, x, y):
         """ Renders images on the screen """
-        image = pygame.image.load(path).convert()
+        image = pygame.image.load(path)
         imageRect = image.get_rect(center = (int(x), int(y)))
         scene.display.blit(image, imageRect)
 
-class menuScene(scene):
+class mainMenuScene(scene):
     """ This is a sub class from scene base class ; sceneMenu = a variant of scene with a menu """
     def __init__(self):
         super().__init__()
-    
-    
-    
 
-    
+    def gameLoop(self):
+        """ scene main loop : basicly each scene has its own loop """
+        while self.running:
+            scene.display.fill(color["brown"])
+            self.render()
+            self.eventLoop()
+            pygame.display.update()
+            clock.tick(60)
+
+    def render(self):
+        # logo
+        self.renderText("woods", 200, 55, color["yellow"], 32)
+        self.renderText("runner", 200, 100, color["yellow"], 80)
+
+        # menu items
+        self.renderText("New game", 200, int(scene.displayHeight/2), color["orange"], 40)
+        self.renderText("Options", 200, int(scene.displayHeight/2) + 50, color["orange"], 40)        
+        self.renderText("Credit", 200, int(scene.displayHeight/2) + 100, color["orange"], 40)
+
+        # render icon
+        self.renderImage("Sound Icon.png", int(scene.displayWidth/2), int(scene.displayHeight - 40))
 
 
-mainMenu = scene()
+class MenuScene(scene):
+    """ This is a sub class from scene base class ; sceneMenu = a variant of scene with a menu """
+    def __init__(self):
+        super().__init__()
+        self.name = "Credit"
+
+    def gameLoop(self):
+        """ scene main loop : basicly each scene has its own loop """
+        while self.running:
+            scene.display.fill(color["brown"])
+            self.renderText(self.name, 200, 50, color["orange"], 40)
+            self.eventLoop()
+            pygame.display.update()
+            clock.tick(60)
+
+mainMenu = mainMenuScene()
 mainMenu.gameLoop()
