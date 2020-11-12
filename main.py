@@ -31,8 +31,6 @@ class scene:
         """ scene main loop : basicly each scene has its own loop """
         while self.running:
             scene.display.fill(color["brown"])
-            self.renderText("woods", 200, 55, color["yellow"], 32)
-            self.renderText("runner", 200, 100, color["yellow"], 80)
             self.eventLoop()
             pygame.display.update()
             clock.tick(60)
@@ -56,6 +54,17 @@ class scene:
         image = pygame.image.load(path).convert()
         imageRect = image.get_rect(center = (int(x), int(y)))
         scene.display.blit(image, imageRect)
+
+class menuScene(scene):
+    """ This is a sub class from scene base class ; sceneMenu = a variant of scene with a menu """
+    def __init__(self):
+        super().__init__()
+    
+    
+    
+
+    
+
 
 mainMenu = scene()
 mainMenu.gameLoop()
