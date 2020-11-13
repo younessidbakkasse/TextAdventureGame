@@ -14,44 +14,45 @@ color = {
     "orange" : (238, 117, 57)
 }
 
-class scene:
+class Scene:
     def __init__(self):
         """ Set up the game display """
         self.running, self.click = True, False
 
-    def gameLoop(self, function):
-        """ scene main loop : basicly each scene has its own loop """
-        while self.running:
-            game.display.fill(color["brown"])
-            self.eventLoop()
-            pygame.display.update()
-            game.clock.tick(60)
-
-    def eventLoop(self):
+    def get_events(self):
         """ This function collects keyboard and mouse clicks from the user """
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
 
-    def renderText(self, text, x, y, color,size = 20):
+    def render_text(self, text, x, y, color, size = 20):
         """ Draws any text on the scene window """
-        gameFont = pygame.font.Font("Minecraft.ttf", size)
-        textSurface = gameFont.render(text, False, color)
-        textRect = textSurface.get_rect(center = (int(x), int(y)))
-        game.display.blit(textSurface, textRect)
+        game_font = pygame.font.Font("Minecraft.ttf", size)
+        text_surface = game_font.render(text, False, color)
+        text_rect = text_surface.get_rect(center = (int(x), int(y)))
+        game.display.blit(text_surface, text_rect)
 
-    def renderImage(self, path, x, y):
+    def render_image(self, path, x, y):
         """ Renders images on the screen """
         image = pygame.image.load(path)
-        imageRect = image.get_rect(center = (int(x), int(y)))
-        game.display.blit(image, imageRect)
+        image_rect = image.get_rect(center = (int(x), int(y)))
+        game.display.blit(image, image_rect)
 
-class mainMenu(scene):
+class mainMenu(Scene):
     """ This is a sub class from scene base class ; sceneMenu = a variant of scene with a menu """
     def __init__(self):
         super().__init__()
-        self.gameLoop(self.render())
+        self.gameLoop()
+
+    def gameloop(self):
+        """ scene main loop : basicly each scene has its own loop """
+        while self.running:
+            game.display.fill(color["brown"])
+            self.render()
+            self.get_events()
+            pygame.display.update()
+            game.clock.tick(60)
 
     def render(self):
         # logo
@@ -67,36 +68,6 @@ class mainMenu(scene):
         self.renderImage("Sound Icon.png", int(Game.displayWidth/2), int(Game.displayHeight - 40))
 
 
-class Menu(scene):
-    """ This is a sub class from scene base class ; sceneMenu = a variant of scene with a menu """
-    def __init__(self, name):
-        super().__init__()
-        self.name = name
-
-    def gameLoop(self):
-        """ scene main loop : basicly each scene has its own loop """
-        while self.running:
-            game.display.fill(color["brown"])
-            self.renderText(self.name, 200, 50, color["orange"], 40)
-            self.eventLoop()
-            pygame.display.update()
-            game.clock.tick(60)
-
-class Game:
-    displayWidth = 400
-    displayHeight = 500
-    
-    def __init__(self):
-        pygame.init()
-        self.clock = pygame.time.Clock()
-        self.display = pygame.display.set_mode((Game.displayWidth, Game.displayHeight))
-
-    def run(self):
-        self.mainMenu = mainMenu()
-
-
-game = Game()
-game.run()
 
     
        
