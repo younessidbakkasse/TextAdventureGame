@@ -14,10 +14,17 @@ color = {
     "orange" : (238, 117, 57)
 }
 
+DISPLAY_HEIGHT = 500
+DISPLAY_WIDTH = 400
+
+
 class Scene:
     def __init__(self):
         """ Set up the game display """
         self.running, self.click = True, False
+        pygame.init()
+        self.display = pygame.display.set_mode((DISPLAY_WIDTH, DISPLAY_HEIGHT))
+        self.clock = pygame.time.Clock()
 
     def get_events(self):
         """ This function collects keyboard and mouse clicks from the user """
@@ -31,42 +38,43 @@ class Scene:
         game_font = pygame.font.Font("Minecraft.ttf", size)
         text_surface = game_font.render(text, False, color)
         text_rect = text_surface.get_rect(center = (int(x), int(y)))
-        game.display.blit(text_surface, text_rect)
+        self.display.blit(text_surface, text_rect)
 
     def render_image(self, path, x, y):
         """ Renders images on the screen """
         image = pygame.image.load(path)
         image_rect = image.get_rect(center = (int(x), int(y)))
-        game.display.blit(image, image_rect)
+        self.display.blit(image, image_rect)
 
-class mainMenu(Scene):
+class Menu(Scene):
     """ This is a sub class from scene base class ; sceneMenu = a variant of scene with a menu """
     def __init__(self):
         super().__init__()
-        self.gameLoop()
 
-    def gameloop(self):
+    def run_scene(self):
         """ scene main loop : basicly each scene has its own loop """
         while self.running:
-            game.display.fill(color["brown"])
+            self.display.fill(color["brown"])
             self.render()
             self.get_events()
             pygame.display.update()
-            game.clock.tick(60)
+            self.clock.tick(60)
 
     def render(self):
         # logo
-        self.renderText("woods", 200, 55, color["yellow"], 32)
-        self.renderText("runner", 200, 100, color["yellow"], 80)
+        self.render_text("woods", 200, 55, color["yellow"], 32)
+        self.render_text("runner", 200, 100, color["yellow"], 80)
 
         # menu items
-        self.renderText("New game", 200, int(Game.displayHeight/2), color["orange"], 40)
-        self.renderText("Options", 200, int(Game.displayHeight/2) + 50, color["orange"], 40)        
-        self.renderText("Credit", 200, int(Game.displayHeight/2) + 100, color["orange"], 40)
+        self.render_text("New game", 200, int(DISPLAY_HEIGHT/2), color["orange"], 40)
+        self.render_text("Options", 200, int(DISPLAY_HEIGHT/2) + 50, color["orange"], 40)        
+        self.render_text("Credit", 200, int(DISPLAY_HEIGHT/2) + 100, color["orange"], 40)
 
         # render icon
-        self.renderImage("Sound Icon.png", int(Game.displayWidth/2), int(Game.displayHeight - 40))
+        self.render_image("Sound Icon.png", int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT - 40))
 
+menu = Menu()
+menu.run_scene()
 
 
     
