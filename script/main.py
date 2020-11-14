@@ -70,16 +70,38 @@ class Menu(Scene):
     
     def render(self):
         # logo
-        self.render_text("woods", 200, 55, colors["yellow"], 32)
-        self.render_text("runner", 200, 100, colors["yellow"], 80)
+        self.render_text("woods", int(DISPLAY_WIDTH/2), 55, colors["yellow"], 32)
+        self.render_text("runner", int(DISPLAY_WIDTH/2), 100, colors["yellow"], 80)
 
         # menu items
-        self.buttons["new game"] = self.render_text("New game", 200, int(DISPLAY_HEIGHT/2), colors["orange"], 40)
-        self.buttons["options"] = self.render_text("Options", 200, int(DISPLAY_HEIGHT/2) + 50, colors["orange"], 40)        
-        self.buttons["credit"] = self.render_text("Credit", 200, int(DISPLAY_HEIGHT/2) + 100, colors["orange"], 40)
+        self.buttons["new game"] = self.render_text("New game", int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2), colors["orange"], 40)
+        self.buttons["options"] = self.render_text("Options", int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2) + 50, colors["orange"], 40)        
+        self.buttons["credit"] = self.render_text("Credit", int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2) + 100, colors["orange"], 40)
 
         # render sound icon
         self.buttons["music on"] = self.render_image(self.music_icon_path, int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT - 50))
+
+    def scene_events(self, event):
+       if event.type == pygame.MOUSEBUTTONDOWN:
+            if event.button:
+                self.click = True
+                for button in self.buttons: 
+                    controle.to_destination_scene()
+
+
+class Description(Scene):
+    """ This is a sub class from scene base class ; sceneMenu = a variant of scene with a menu """
+    back_icon_path = "./assets/icons/back_icon.png"
+    def __init__(self, name):
+        super().__init__()
+        self.name = name
+    
+    def render(self):
+        # menu item
+        self.render_text(self.name, int(DISPLAY_WIDTH/2), 70, colors["orange"], 40)
+
+        # render sound icon
+        self.buttons["back_icon"] = self.render_image(Description.back_icon_path, int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT - 50))
 
     def scene_events(self, event):
        if event.type == pygame.MOUSEBUTTONDOWN:
@@ -93,7 +115,7 @@ class Controle:
         self.scenes = {}
         self.scenes["menu_music_on"] = Menu("./assets/icons/music_on_icon.png")
         self.scenes["menu_music_off"] = Menu("./assets/icons/music_off_icon.png")
-
+        self.scenes["option_menu_description"] = Description("Options")
 
     def to_destination_scene(self):
         """ Checks if mouse points to a text or button (rect) """
@@ -106,7 +128,7 @@ class Controle:
             self.scenes["menu_music_on"].run_scene()
 
     def run_scene(self):
-        self.scenes["menu_music_on"].run_scene()
+        self.scenes["option_menu_description"].run_scene()
 
     
 
