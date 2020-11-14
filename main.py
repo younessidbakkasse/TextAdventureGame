@@ -6,7 +6,7 @@ for more informations and licence please check README file attached to the folde
 import pygame, sys
 
 # Colors
-color = {
+colors = {
     "black" : (15, 15, 15),
     "white" : (245, 245, 245),
     "yellow": (249, 200, 51),
@@ -22,14 +22,16 @@ class Scene():
     pygame.init()
     display = pygame.display.set_mode((DISPLAY_WIDTH, DISPLAY_HEIGHT))
     clock = pygame.time.Clock()
-    def __init__(self):
+    scenes = {}
+    def __init__(self, name, category):
         """ Set up the game display """
         self.running, self.click = True, False
+        Scene.scenes[name] = category  
 
     def run_scene(self):
         """ scene main loop : basicly each scene has its own loop """
         while self.running:
-            Scene.display.fill(color["brown"])
+            Scene.display.fill(colors["brown"])
             self.render()
             self.get_events()
             pygame.display.update()
@@ -58,13 +60,13 @@ class Scene():
         Scene.display.blit(image, image_rect)
         return image_rect
 
-    def mouse_click(self, button_rect):
+    def mouse_clicks_run_scene(self, button_rect, scene):
         """ Checks if mouse points to a text or button (rect) """
         self.mx, self.my = pygame.mouse.get_pos()
         if button_rect.collidepoint((self.mx, self.my)) and self.click:
-            return True
-        else: 
-            return False
+            self.click = False
+            scene.run_scene()
+
 
 
 class Menu(Scene):
@@ -72,32 +74,32 @@ class Menu(Scene):
     def __init__(self, path):
         super().__init__()
         self.music_icon_path = path
+        self.buttons = {}
     
     def render(self):
         # logo
-        self.render_text("woods", 200, 55, color["yellow"], 32)
-        self.render_text("runner", 200, 100, color["yellow"], 80)
+        self.render_text("woods", 200, 55, colors["yellow"], 32)
+        self.render_text("runner", 200, 100, colors["yellow"], 80)
 
         # menu items
-        self.render_text("New game", 200, int(DISPLAY_HEIGHT/2), color["orange"], 40)
-        self.render_text("Options", 200, int(DISPLAY_HEIGHT/2) + 50, color["orange"], 40)        
-        self.render_text("Credit", 200, int(DISPLAY_HEIGHT/2) + 100, color["orange"], 40)
+        self.buttons["new game"] = self.render_text("New game", 200, int(DISPLAY_HEIGHT/2), colors["orange"], 40)
+        self.buttons["options"] = self.render_text("Options", 200, int(DISPLAY_HEIGHT/2) + 50, colors["orange"], 40)        
+        self.buttons["credit"] = self.render_text("Credit", 200, int(DISPLAY_HEIGHT/2) + 100, colors["orange"], 40)
 
         # render sound icon
-        music_button = self.render_image(self.music_icon_path, int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT - 40))
-
-        if self.mouse_click(music_button):
-            menu_music_off.run_scene()
+        self.buttons["music on"] = self.render_image(self.music_icon_path, int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT - 40))
 
     def scene_events(self, event):
        if event.type == pygame.MOUSEBUTTONDOWN:
             if event.button:
                 self.click = True
+                for button in self.buttons: 
+                    self.mouse_clicks_run_scene(self.buttons[button], scene)
 
 class Description(Scene):
     def render(self):
         # rendering the menu title
-        self.render_text("Options", int(DISPLAY_WIDTH/2), 50, color["orange"], 35)
+        self.render_text("Options", int(DISPLAY_WIDTH/2), 50, colors["orange"], 35)
 
         # render back icon
         self.render_image("Back Icon.png", int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT - 40))
@@ -107,6 +109,7 @@ class Description(Scene):
           
 menu_music_on = Menu("music_on_icon.png")
 menu_music_off = Menu("music_off_icon.png")
+
 
 menu_music_on.run_scene()
 
