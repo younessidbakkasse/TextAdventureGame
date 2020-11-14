@@ -47,7 +47,7 @@ class Scene():
 
     def render_text(self, text, x, y, color, size = 20):
         """ Draws any text on the scene window """
-        game_font = pygame.font.Font("Minecraft.ttf", size)
+        game_font = pygame.font.Font("./assets/fonts/Minecraft.ttf", size)
         text_surface = game_font.render(text, False, color)
         text_rect = text_surface.get_rect(center = (int(x), int(y)))
         Scene.display.blit(text_surface, text_rect)
@@ -79,7 +79,7 @@ class Menu(Scene):
         self.buttons["credit"] = self.render_text("Credit", 200, int(DISPLAY_HEIGHT/2) + 100, colors["orange"], 40)
 
         # render sound icon
-        self.buttons["music on"] = self.render_image(self.music_icon_path, int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT - 40))
+        self.buttons["music on"] = self.render_image(self.music_icon_path, int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT - 50))
 
     def scene_events(self, event):
        if event.type == pygame.MOUSEBUTTONDOWN:
@@ -91,8 +91,8 @@ class Menu(Scene):
 class Controle: 
     def __init__(self):
         self.scenes = {}
-        self.scenes["menu_music_on"] = Menu("music_on_icon.png")
-        self.scenes["menu_music_off"] = Menu("music_off_icon.png")
+        self.scenes["menu_music_on"] = Menu("./assets/icons/music_on_icon.png")
+        self.scenes["menu_music_off"] = Menu("./assets/icons/music_off_icon.png")
 
 
     def to_destination_scene(self):
