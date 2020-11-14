@@ -22,11 +22,11 @@ class Scene():
     pygame.init()
     display = pygame.display.set_mode((DISPLAY_WIDTH, DISPLAY_HEIGHT))
     clock = pygame.time.Clock()
-    scenes = {}
-    def __init__(self, name, category):
+
+    def __init__(self):
         """ Set up the game display """
-        self.running, self.click = True, False
-        Scene.scenes[name] = category  
+        self.running, self.click = True, False 
+        self.buttons = {}
 
     def run_scene(self):
         """ scene main loop : basicly each scene has its own loop """
@@ -60,13 +60,6 @@ class Scene():
         Scene.display.blit(image, image_rect)
         return image_rect
 
-    def mouse_clicks_run_scene(self, button_rect, scene):
-        """ Checks if mouse points to a text or button (rect) """
-        self.mx, self.my = pygame.mouse.get_pos()
-        if button_rect.collidepoint((self.mx, self.my)) and self.click:
-            self.click = False
-            scene.run_scene()
-
 
 
 class Menu(Scene):
@@ -74,7 +67,6 @@ class Menu(Scene):
     def __init__(self, path):
         super().__init__()
         self.music_icon_path = path
-        self.buttons = {}
     
     def render(self):
         # logo
@@ -94,24 +86,32 @@ class Menu(Scene):
             if event.button:
                 self.click = True
                 for button in self.buttons: 
-                    self.mouse_clicks_run_scene(self.buttons[button], scene)
+                    controle.to_destination_scene()
 
-class Description(Scene):
-    def render(self):
-        # rendering the menu title
-        self.render_text("Options", int(DISPLAY_WIDTH/2), 50, colors["orange"], 35)
-
-        # render back icon
-        self.render_image("Back Icon.png", int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT - 40))
-
-    def scene_events(self, event):
-        pass
-          
-menu_music_on = Menu("music_on_icon.png")
-menu_music_off = Menu("music_off_icon.png")
+class Controle: 
+    def __init__(self):
+        self.scenes = {}
+        self.scenes["menu_music_on"] = Menu("music_on_icon.png")
+        self.scenes["menu_music_off"] = Menu("music_off_icon.png")
 
 
-menu_music_on.run_scene()
+    def to_destination_scene(self):
+        """ Checks if mouse points to a text or button (rect) """
+        self.mx, self.my = pygame.mouse.get_pos()
+        if self.scenes["menu_music_on"].buttons["music on"].collidepoint((self.mx, self.my)) and self.scenes["menu_music_on"].click:
+            self.scenes["menu_music_on"].click = False
+            self.scenes["menu_music_off"].run_scene()
+        elif self.scenes["menu_music_on"].buttons["music on"].collidepoint((self.mx, self.my)) and self.scenes["menu_music_off"].click:
+            self.scenes["menu_music_off"].click = False
+            self.scenes["menu_music_on"].run_scene()
+
+    def run_scene(self):
+        self.scenes["menu_music_on"].run_scene()
+
+    
+
+controle = Controle()
+controle.run_scene()
 
 
     
