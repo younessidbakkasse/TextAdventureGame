@@ -91,11 +91,11 @@ class MainMenu(Scene):
 
         # Menu items
         self.buttons["game_scene"] = self.render_text("New game", int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2), colors["orange"], 40)
-        self.buttons["option_menu_music_on"] = self.render_text("Options", int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2) + 50, colors["orange"], 40)        
-        self.buttons["credit_menu_music_on"] = self.render_text("Credit", int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2) + 100, colors["orange"], 40)
+        self.buttons[f"option_menu{self.scene_name}"] = self.render_text("Options", int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2) + 50, colors["orange"], 40)        
+        self.buttons[f"credit_menu{self.scene_name}"] = self.render_text("Credit", int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2) + 100, colors["orange"], 40)
 
         # Music on/off icon
-        self.buttons[self.previous_scene] = self.render_image(self.music_icon_path, int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT - 50))       
+        self.buttons[f"main_menu{self.previous_scene}"] = self.render_image(self.music_icon_path, int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT - 50))       
 
 class MenuDescription(Scene):
     """ This is a sub class from scene base class and it refers to menu definitions """
@@ -115,8 +115,8 @@ class Controle:
     def __init__(self):
         self.scenes = {}
         
-        self.scenes["main_menu_music_on"] = MainMenu("main_menu_music_on", "main_menu_music_off", "./assets/icons/music_on_icon.png")
-        self.scenes["main_menu_music_off"] = MainMenu("main_menu_music_off", "main_menu_music_on", "./assets/icons/music_off_icon.png")
+        self.scenes["main_menu_music_on"] = MainMenu("_music_on", "_music_off", "./assets/icons/music_on_icon.png")
+        self.scenes["main_menu_music_off"] = MainMenu("_music_off", "_music_on", "./assets/icons/music_off_icon.png")
         self.scenes["credit_menu_music_on"] = MenuDescription("credit_menu_music_on", "main_menu_music_on", "Credit")    
         self.scenes["credit_menu_music_off"] = MenuDescription("credit_menu_music_off", "main_menu_music_off", "Credit")                              
    
