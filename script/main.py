@@ -23,9 +23,10 @@ class Scene():
     display = pygame.display.set_mode((DISPLAY_WIDTH, DISPLAY_HEIGHT))
     clock = pygame.time.Clock()
 
-    def __init__(self):
+    def __init__(self, scene_name):
         """ Constructor method runs when I creat an object using the Scene class """
-        self.running= True 
+        self.running = True 
+        self.scene_name = scene_name
         self.buttons = {}
 
     def run_scene(self):
@@ -50,12 +51,16 @@ class Scene():
     def transition(self, scenes):
         """ Checks if mouse points to a text or button (rect) """
         self.mx, self.my = pygame.mouse.get_pos()
-        for button_name, button in self.buttons.items():
-            
+        for button_name, button in self.buttons.items():   
             if button.collidepoint((self.mx, self.my)):
-                for scene_name, scene in scenes.items():
-                    if scene_name == button_name:
+                for scene_key, scene in scenes.items():
+                    if scene_key == button_name:
+                        print(self.scene_name, button_name)
                         scene.run_scene()
+
+    def get_previous_scene(self):
+        pass
+        
 
     def render_text(self, text, x, y, color, size = 20):
         """ Draws any text on the scene window and also returns a rectangle object wich have 
@@ -76,9 +81,9 @@ class Scene():
 
 class Menu(Scene):
     """ This is a sub class from scene base class """
-    def __init__(self, destination_scene, file_path):
-        super().__init__()
-        self.icon = ( destination_scene, file_path)
+    def __init__(self, scene_name, destination_scene, file_path):
+        super().__init__(scene_name)
+        self.icon = (destination_scene, file_path)
         
     def render_template(self):
         """ This is the template function for scene with similar template """
@@ -89,34 +94,32 @@ class Menu(Scene):
         # Menu items
         self.buttons["game_scene"] = self.render_text("New game", int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2), colors["orange"], 40)
         self.buttons["option_menu"] = self.render_text("Options", int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2) + 50, colors["orange"], 40)        
-        self.buttons["credit_menu"] = self.render_text("Credit", int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2) + 100, colors["orange"], 40)
+        self.buttons[f"{self.scene_name} to credit_menu"] = self.render_text("Credit", int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2) + 100, colors["orange"], 40)
 
         # Music on/off icon
         self.buttons[self.icon[0]] = self.render_image(self.icon[1], int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT - 50))       
 
 class MenuDescription(Scene):
     """ This is a sub class from scene base class """
-    def __init__(self, title):
-        super().__init__()
+    def __init__(self, scene_name, title):
+        super().__init__(scene_name)
         self.title = title
-        
+
     def render_template(self):
         """ This is the template function for scene with similar template """
         # menu title
-        self.buttons["credit_menu"] = self.render_text(self.title, int(DISPLAY_WIDTH/2), 60, colors["orange"], 40)        
+        self.render_text(self.title, int(DISPLAY_WIDTH/2), 60, colors["orange"], 40)        
 
         # Music on/off icon
-        self.buttons["music_on"] = self.render_image("./assets/icons/back_icon.png", int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT - 50))       
-
+        self.buttons["credit_menu to music_on"] = self.render_image("./assets/icons/back_icon.png", int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT - 50))       
 
 class Controle: 
     def __init__(self):
         self.scenes = {}
         
-        self.scenes["music_on"] = Menu("music_off", "./assets/icons/music_on_icon.png")
-        self.scenes["music_off"] = Menu("music_on", "./assets/icons/music_off_icon.png")
-        self.scenes["credit_menu"] = MenuDescription("Credit")                 
-        self.scenes["option_menu"] = MenuDescription("Option")                 
+        self.scenes["music_on"] = Menu("music_on", "music_off", "./assets/icons/music_on_icon.png")
+        self.scenes["music_off"] = Menu("music_off", "music_on", "./assets/icons/music_off_icon.png")
+        self.scenes["credit_menu"] = MenuDescription("credit_menu", "Credit")                 
    
     def run_game(self):
         self.scenes["music_on"].run_scene()
