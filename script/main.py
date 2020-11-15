@@ -57,7 +57,7 @@ class Scene():
             if button.collidepoint((self.mx, self.my)):
                 for scene_key, scene in scenes.items():
                     if scene_key == button_name:
-                        print(self.previous_scene, button_name)
+                        print(self.previous_scene, self.scene_name)
                         scene.run_scene()
 
     def render_text(self, text, x, y, color, size = 20):
@@ -78,7 +78,7 @@ class Scene():
 
 class MainMenu(Scene):
     """ This is a sub class from scene base class """
-    def __init__(self, scene_name, previous_scene, destination_scene, music_icon_path):
+    def __init__(self, scene_name, previous_scene, music_icon_path):
         super().__init__(scene_name, previous_scene)
         # The menu scene have an a music icon
         self.music_icon_path = music_icon_path
@@ -91,8 +91,8 @@ class MainMenu(Scene):
 
         # Menu items
         self.buttons["game_scene"] = self.render_text("New game", int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2), colors["orange"], 40)
-        self.buttons["option_menu"] = self.render_text("Options", int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2) + 50, colors["orange"], 40)        
-        self.buttons["credit_menu"] = self.render_text("Credit", int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2) + 100, colors["orange"], 40)
+        self.buttons["option_menu_music_on"] = self.render_text("Options", int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2) + 50, colors["orange"], 40)        
+        self.buttons["credit_menu_music_on"] = self.render_text("Credit", int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2) + 100, colors["orange"], 40)
 
         # Music on/off icon
         self.buttons[self.previous_scene] = self.render_image(self.music_icon_path, int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT - 50))       
@@ -115,12 +115,13 @@ class Controle:
     def __init__(self):
         self.scenes = {}
         
-        self.scenes["music_on"] = Menu("music_on", "music_off", "./assets/icons/music_on_icon.png")
-        self.scenes["music_off"] = Menu("music_off", "music_on", "./assets/icons/music_off_icon.png")
-        self.scenes["credit_menu"] = MenuDescription("credit_menu", "Credit")                 
+        self.scenes["main_menu_music_on"] = MainMenu("main_menu_music_on", "main_menu_music_off", "./assets/icons/music_on_icon.png")
+        self.scenes["main_menu_music_off"] = MainMenu("main_menu_music_off", "main_menu_music_on", "./assets/icons/music_off_icon.png")
+        self.scenes["credit_menu_music_on"] = MenuDescription("credit_menu_music_on", "main_menu_music_on", "Credit")    
+        self.scenes["credit_menu_music_off"] = MenuDescription("credit_menu_music_off", "main_menu_music_off", "Credit")                              
    
     def run_game(self):
-        self.scenes["music_on"].run_scene()
+        self.scenes["main_menu_music_on"].run_scene()
 
 controle = Controle()
 controle.run_game()
