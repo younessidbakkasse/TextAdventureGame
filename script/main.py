@@ -23,10 +23,10 @@ class Scene():
     display = pygame.display.set_mode((DISPLAY_WIDTH, DISPLAY_HEIGHT))
     clock = pygame.time.Clock()
 
-    def __init__(self, scene_name):
+    def __init__(self, scene_name, previous_scene):
         """ Constructor method runs when I creat an object using the Scene class """
         self.running = True 
-        self.scene_name = scene_name
+        self.scene_name, self.previous_scene = scene_name, previous_scene 
         self.buttons = {}
 
     def run_scene(self):
@@ -49,18 +49,16 @@ class Scene():
                     self.transition(controle.scenes)
     
     def transition(self, scenes):
-        """ Checks if mouse points to a text or button (rect) """
+        """ One hell of an importante method it checks if mouse points to a text or 
+        button (rect) and also allows scene transitions from self to another depending 
+        on the button's name"""
         self.mx, self.my = pygame.mouse.get_pos()
         for button_name, button in self.buttons.items():   
             if button.collidepoint((self.mx, self.my)):
                 for scene_key, scene in scenes.items():
                     if scene_key == button_name:
-                        print(self.scene_name, button_name)
+                        print(self.previous_scene, button_name)
                         scene.run_scene()
-
-    def get_previous_scene(self):
-        pass
-        
 
     def render_text(self, text, x, y, color, size = 20):
         """ Draws any text on the scene window and also returns a rectangle object wich have 
@@ -78,12 +76,12 @@ class Scene():
         Scene.display.blit(image, image_rect)
         return image_rect
 
-
-class Menu(Scene):
+class MainMenu(Scene):
     """ This is a sub class from scene base class """
-    def __init__(self, scene_name, destination_scene, file_path):
-        super().__init__(scene_name)
-        self.icon = (destination_scene, file_path)
+    def __init__(self, scene_name, previous_scene, destination_scene, music_icon_path):
+        super().__init__(scene_name, previous_scene)
+        # The menu scene have an a music icon
+        self.music_icon_path = music_icon_path
         
     def render_template(self):
         """ This is the template function for scene with similar template """
@@ -94,24 +92,24 @@ class Menu(Scene):
         # Menu items
         self.buttons["game_scene"] = self.render_text("New game", int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2), colors["orange"], 40)
         self.buttons["option_menu"] = self.render_text("Options", int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2) + 50, colors["orange"], 40)        
-        self.buttons[f"{self.scene_name} to credit_menu"] = self.render_text("Credit", int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2) + 100, colors["orange"], 40)
+        self.buttons["credit_menu"] = self.render_text("Credit", int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2) + 100, colors["orange"], 40)
 
         # Music on/off icon
-        self.buttons[self.icon[0]] = self.render_image(self.icon[1], int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT - 50))       
+        self.buttons[self.previous_scene] = self.render_image(self.music_icon_path, int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT - 50))       
 
 class MenuDescription(Scene):
-    """ This is a sub class from scene base class """
-    def __init__(self, scene_name, title):
-        super().__init__(scene_name)
-        self.title = title
+    """ This is a sub class from scene base class and it refers to menu definitions """
+    def __init__(self, scene_name, previous_scene, menu_title, ):
+        super().__init__(scene_name, previous_scene)
+        self.menu_title = menu_title
 
     def render_template(self):
         """ This is the template function for scene with similar template """
         # menu title
-        self.render_text(self.title, int(DISPLAY_WIDTH/2), 60, colors["orange"], 40)        
+        self.render_text(self.menu_title, int(DISPLAY_WIDTH/2), 60, colors["orange"], 40)        
 
         # Music on/off icon
-        self.buttons["credit_menu to music_on"] = self.render_image("./assets/icons/back_icon.png", int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT - 50))       
+        self.buttons[self.previous_scene] = self.render_image("./assets/icons/back_icon.png", int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT - 50))       
 
 class Controle: 
     def __init__(self):
