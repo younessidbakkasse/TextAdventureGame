@@ -58,7 +58,7 @@ class Scene():
                 for scene_key, scene in scenes.items():
                     if scene_key == button_name:
                         controle.previous_scene = self.scene_name
-                        print(controle.previous_scene)
+                        self.buttons.popitem()
                         scene.run_scene()
 
     def render_text(self, text, x, y, color, size = 20):
