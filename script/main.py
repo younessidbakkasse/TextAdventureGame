@@ -58,6 +58,7 @@ class Scene():
                 for scene_key, scene in scenes.items():
                     if scene_key == button_name:
                         controle.previous_scene = self.scene_name
+                        # This may cause bugs in futur if it didn't ur a lucky mothafucka
                         self.buttons.popitem()
                         scene.run_scene()
 
@@ -92,7 +93,7 @@ class MainMenu(Scene):
         self.render_text("runner", int(DISPLAY_WIDTH/2), 100, colors["yellow"], 80)
 
         # Menu items
-        self.buttons["game_scene"] = self.render_text("New game", int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2), colors["orange"], 40)
+        self.buttons["game"] = self.render_text("New game", int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2), colors["orange"], 40)
         self.buttons["options_menu"] = self.render_text("Options", int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2) + 50, colors["orange"], 40)        
         self.buttons["credit_menu"] = self.render_text("Credit", int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2) + 100, colors["orange"], 40)
 
@@ -120,7 +121,10 @@ class Controle:
         
         self.scenes["main_menu_music_on"] = MainMenu("main_menu_music_on", "music_off", "./assets/icons/music_on_icon.png")
         self.scenes["main_menu_music_off"] = MainMenu("main_menu_music_off", "music_on", "./assets/icons/music_off_icon.png")
-        self.scenes["credit_menu"] = MenuDescription("credit_menu", "Credit")    
+        self.scenes["credit_menu"] = MenuDescription("credit_menu", "Credit")
+        self.scenes["options_menu"] = MenuDescription("options_menu", "Options")    
+        self.scenes["game"] = MenuDescription("game", "Game")    
+
 
     def save_previous_scene(self):
         pass
