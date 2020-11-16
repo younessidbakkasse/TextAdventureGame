@@ -23,10 +23,10 @@ class Scene():
     display = pygame.display.set_mode((DISPLAY_WIDTH, DISPLAY_HEIGHT))
     clock = pygame.time.Clock()
 
-    def __init__(self, scene_name, previous_scene):
+    def __init__(self, scene_name):
         """ Constructor method runs when I creat an object using the Scene class """
         self.running = True 
-        self.scene_name, self.previous_scene = scene_name, previous_scene 
+        self.scene_name = scene_name
         self.buttons = {}
 
     def run_scene(self):
@@ -57,7 +57,8 @@ class Scene():
             if button.collidepoint((self.mx, self.my)):
                 for scene_key, scene in scenes.items():
                     if scene_key == button_name:
-                        print(self.previous_scene, self.scene_name)
+                        controle.previous_scene = self.scene_name
+                        print(controle.previous_scene)
                         scene.run_scene()
 
     def render_text(self, text, x, y, color, size = 20):
@@ -78,10 +79,11 @@ class Scene():
 
 class MainMenu(Scene):
     """ This is a sub class from scene base class """
-    def __init__(self, scene_name, previous_scene, music_icon_path):
-        super().__init__(scene_name, previous_scene)
+    def __init__(self, scene_name, main_menu_type, music_icon_path):
+        super().__init__(scene_name)
         # The menu scene have an a music icon
         self.music_icon_path = music_icon_path
+        self.main_menu_type = main_menu_type
         
     def render_template(self):
         """ This is the template function for scene with similar template """
@@ -91,16 +93,16 @@ class MainMenu(Scene):
 
         # Menu items
         self.buttons["game_scene"] = self.render_text("New game", int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2), colors["orange"], 40)
-        self.buttons[f"option_menu{self.scene_name}"] = self.render_text("Options", int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2) + 50, colors["orange"], 40)        
-        self.buttons[f"credit_menu{self.scene_name}"] = self.render_text("Credit", int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2) + 100, colors["orange"], 40)
+        self.buttons["options_menu"] = self.render_text("Options", int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2) + 50, colors["orange"], 40)        
+        self.buttons["credit_menu"] = self.render_text("Credit", int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2) + 100, colors["orange"], 40)
 
         # Music on/off icon
-        self.buttons[f"main_menu{self.previous_scene}"] = self.render_image(self.music_icon_path, int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT - 50))       
+        self.buttons[f"main_menu_{self.main_menu_type}"] = self.render_image(self.music_icon_path, int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT - 50))       
 
 class MenuDescription(Scene):
     """ This is a sub class from scene base class and it refers to menu definitions """
-    def __init__(self, scene_name, previous_scene, menu_title, ):
-        super().__init__(scene_name, previous_scene)
+    def __init__(self, scene_name, menu_title, ):
+        super().__init__(scene_name)
         self.menu_title = menu_title
 
     def render_template(self):
@@ -108,18 +110,21 @@ class MenuDescription(Scene):
         # menu title
         self.render_text(self.menu_title, int(DISPLAY_WIDTH/2), 60, colors["orange"], 40)        
 
-        # Music on/off icon
-        self.buttons[self.previous_scene] = self.render_image("./assets/icons/back_icon.png", int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT - 50))       
+        # Back button icon points to previous scene
+        self.buttons[controle.previous_scene] = self.render_image("./assets/icons/back_icon.png", int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT - 50))       
 
 class Controle: 
     def __init__(self):
+        self.previous_scene = None
         self.scenes = {}
         
-        self.scenes["main_menu_music_on"] = MainMenu("_music_on", "_music_off", "./assets/icons/music_on_icon.png")
-        self.scenes["main_menu_music_off"] = MainMenu("_music_off", "_music_on", "./assets/icons/music_off_icon.png")
-        self.scenes["credit_menu_music_on"] = MenuDescription("credit_menu_music_on", "main_menu_music_on", "Credit")    
-        self.scenes["credit_menu_music_off"] = MenuDescription("credit_menu_music_off", "main_menu_music_off", "Credit")                              
-   
+        self.scenes["main_menu_music_on"] = MainMenu("main_menu_music_on", "music_off", "./assets/icons/music_on_icon.png")
+        self.scenes["main_menu_music_off"] = MainMenu("main_menu_music_off", "music_on", "./assets/icons/music_off_icon.png")
+        self.scenes["credit_menu"] = MenuDescription("credit_menu", "Credit")    
+
+    def save_previous_scene(self):
+        pass
+
     def run_game(self):
         self.scenes["main_menu_music_on"].run_scene()
 
