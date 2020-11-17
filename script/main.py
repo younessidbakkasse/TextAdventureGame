@@ -73,7 +73,7 @@ class Scene():
 
     def render_image(self, path, x, y):
         """ Renders images and icons on the screen and returns a rect object """
-        image = pygame.image.load(path)
+        image = pygame.image.load(path).convert_alpha()
         image_rect = image.get_rect(center = (int(x), int(y)))
         Scene.display.blit(image, image_rect)
         return image_rect
@@ -109,10 +109,32 @@ class MenuDescription(Scene):
     def render_template(self):
         """ This is the template function for scene with similar template """
         # menu title
-        self.render_text(self.menu_title, int(DISPLAY_WIDTH/2), 60, colors["orange"], 40)        
+        self.render_text(self.menu_title, int(DISPLAY_WIDTH/2), 60, colors["orange"], 40)
+
+        self.render_image("./assets/icons/Credit.png", int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2))        
 
         # Back button icon points to previous scene
         self.buttons[controle.previous_scene] = self.render_image("./assets/icons/back_icon.png", int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT - 50))       
+
+class Game(Scene):
+    """ This is a sub class from scene base class and it refers to menu definitions """
+    def __init__(self, scene_name, menu_title, ):
+        super().__init__(scene_name)
+        self.menu_title = menu_title
+
+    def render_template(self):
+        """ This is the template function for scene with similar template """
+        # Logo
+        self.render_text("woods", int(DISPLAY_WIDTH/2), 35, colors["yellow"], 21)
+        self.render_text("runner", int(DISPLAY_WIDTH/2), 60, colors["yellow"], 43)
+
+
+        self.render_image("./assets/icons/stats_rect.png", int(DISPLAY_WIDTH/2), 145)
+        self.render_image("./assets/icons/game_rect.png", int(DISPLAY_WIDTH/2), 335)      
+        
+        # Back button icon points to previous scene
+        self.buttons[controle.previous_scene] = self.render_image("./assets/tiles/skull.png", 40, 50) 
+
 
 class Controle: 
     def __init__(self):
@@ -123,11 +145,7 @@ class Controle:
         self.scenes["main_menu_music_off"] = MainMenu("main_menu_music_off", "music_on", "./assets/icons/music_off_icon.png")
         self.scenes["credit_menu"] = MenuDescription("credit_menu", "Credit")
         self.scenes["options_menu"] = MenuDescription("options_menu", "Options")    
-        self.scenes["game"] = MenuDescription("game", "Game")    
-
-
-    def save_previous_scene(self):
-        pass
+        self.scenes["game"] = Game("game", "Game")    
 
     def run_game(self):
         self.scenes["main_menu_music_on"].run_scene()
