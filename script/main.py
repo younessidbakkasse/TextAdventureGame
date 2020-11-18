@@ -3,15 +3,16 @@ its a school project to initiat with Python programming
 for more informations and licence please check README file attached to the folder."""
 
 # Importing modules: pygame is a module that allows us to draw on screen
-import pygame, sys
+import pygame, sys, random
 
 # Colors
 colors = {
-    "black" : (15, 15, 15),
+    "dark green" : (14, 43, 35),
+    "dark blue" : (2, 17, 29),
     "white" : (245, 245, 245),
-    "yellow": (249, 200, 51),
-    "brown" : (49, 45, 46),
-    "orange" : (238, 117, 57)
+    "green": (18, 168, 113),
+    "red" : (255, 0, 69),
+    "yellow" : (250, 200, 50)
 }
 
 DISPLAY_HEIGHT = 500
@@ -32,7 +33,8 @@ class Scene():
     def run_scene(self):
         """ scene's main loop : basicly each scene has its own loop """
         while self.running:
-            Scene.display.fill(colors["brown"])
+            Scene.display.fill(colors["dark green"])
+            gui.render_random_stars()
             self.render_template()
             self.get_events()
             pygame.display.update()
@@ -62,21 +64,6 @@ class Scene():
                         self.buttons.popitem()
                         scene.run_scene()
 
-    def render_text(self, text, x, y, color, size = 20):
-        """ Draws any text on the scene window and also returns a rectangle object wich have 
-        coord attributes and collide methode """
-        game_font = pygame.font.Font("./assets/fonts/Minecraft.ttf", size)
-        text_surface = game_font.render(text, False, color)
-        text_rect = text_surface.get_rect(center = (int(x), int(y)))
-        Scene.display.blit(text_surface, text_rect)
-        return text_rect
-
-    def render_image(self, path, x, y):
-        """ Renders images and icons on the screen and returns a rect object """
-        image = pygame.image.load(path).convert_alpha()
-        image_rect = image.get_rect(center = (int(x), int(y)))
-        Scene.display.blit(image, image_rect)
-        return image_rect
 
 class MainMenu(Scene):
     """ This is a sub class from scene base class """
@@ -89,16 +76,11 @@ class MainMenu(Scene):
     def render_template(self):
         """ This is the template function for scene with similar template """
         # Logo
-        self.render_text("woods", int(DISPLAY_WIDTH/2), 55, colors["yellow"], 32)
-        self.render_text("runner", int(DISPLAY_WIDTH/2), 100, colors["yellow"], 80)
+        gui.render_logo(150)
 
-        # Menu items
-        self.buttons["game"] = self.render_text("New game", int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2), colors["orange"], 40)
-        self.buttons["options_menu"] = self.render_text("Options", int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2) + 50, colors["orange"], 40)        
-        self.buttons["credit_menu"] = self.render_text("Credit", int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2) + 100, colors["orange"], 40)
 
         # Music on/off icon
-        self.buttons[f"main_menu_{self.main_menu_type}"] = self.render_image(self.music_icon_path, int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT - 50))       
+        self.buttons[f"main_menu_{self.main_menu_type}"] = gui.render_image(self.music_icon_path, int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT - 50))       
 
 class MenuDescription(Scene):
     """ This is a sub class from scene base class and it refers to menu definitions """
@@ -109,7 +91,7 @@ class MenuDescription(Scene):
     def render_template(self):
         """ This is the template function for scene with similar template """
         # menu title
-        self.render_text(self.menu_title, int(DISPLAY_WIDTH/2), 60, colors["orange"], 40)
+        self.render_text(self.menu_title, int(DISPLAY_WIDTH/2), 60, colors["green"], 40)
 
         self.render_image("./assets/icons/Credit.png", int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2))        
 
@@ -125,8 +107,7 @@ class Game(Scene):
     def render_template(self):
         """ This is the template function for scene with similar template """
         # Logo
-        self.render_text("woods", int(DISPLAY_WIDTH/2), 35, colors["yellow"], 21)
-        self.render_text("runner", int(DISPLAY_WIDTH/2), 60, colors["yellow"], 43)
+        gui.render_logo(100)
 
 
         self.render_image("./assets/icons/stats_rect.png", int(DISPLAY_WIDTH/2), 145)
@@ -150,6 +131,45 @@ class Controle:
     def run_game(self):
         self.scenes["main_menu_music_on"].run_scene()
 
+class Gui:
+    def __init__(self):
+        self.stars = [pygame.Rect(random.randint(0, DISPLAY_WIDTH), random.randint(0, DISPLAY_HEIGHT), 3, 3) for i in range(30)]
+       
+
+    def render_random_stars(self):
+        for star in self.stars:
+            pygame.draw.rect(Scene.display, colors["white"], star)
+
+    def render_logo(self, y, big_logo = True):
+        if big_logo:
+            self.render_text("woods", DISPLAY_WIDTH/2 + 5, y + 5, colors["dark blue"], 80)
+            self.render_text("runner", DISPLAY_WIDTH/2 + 5, y + 65, colors["dark blue"], 80)
+            self.render_text("woods", DISPLAY_WIDTH/2, y, colors["white"], 80)
+            self.render_text("runner", DISPLAY_WIDTH/2, y + 60, colors["white"], 80)
+        else:
+            self.render_text("woods", DISPLAY_WIDTH/2, y, colors["white"], 30)
+            self.render_text("runner", DISPLAY_WIDTH/2, y + 20, colors["white"], 30)
+                        
+
+    def render_text(self, text, x, y, color, size = 20):
+        """ Draws any text on the scene window and also returns a rectangle object wich have 
+        coord attributes and collide methode """
+        game_font = pygame.font.Font("./assets/fonts/Minecraft.ttf", size)
+        text_surface = game_font.render(text, False, color)
+        text_rect = text_surface.get_rect(center = (int(x), int(y)))
+        Scene.display.blit(text_surface, text_rect)
+        return text_rect
+
+    def render_image(self, path, x, y):
+        """ Renders images and icons on the screen and returns a rect object """
+        image = pygame.image.load(path).convert_alpha()
+        image_rect = image.get_rect(center = (int(x), int(y)))
+        Scene.display.blit(image, image_rect)
+        return image_rect
+
+
+
+gui = Gui()
 controle = Controle()
 controle.run_game()
 
