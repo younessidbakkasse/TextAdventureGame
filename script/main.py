@@ -78,15 +78,15 @@ class Gui:
 
     def render_logo(self, y, big_logo = True):
         if big_logo:
-            self.render_text("woods", DISPLAY_WIDTH/2 + 6, y + 6, colors["dark blue"], 80)
-            self.render_text("runner", DISPLAY_WIDTH/2 + 6, y + 66, colors["dark blue"], 80)
+            self.render_text("woods", DISPLAY_WIDTH/2 + 7, y + 7, colors["dark blue"], 80)
+            self.render_text("runner", DISPLAY_WIDTH/2 + 7, y + 67, colors["dark blue"], 80)
             self.render_text("woods", DISPLAY_WIDTH/2, y, colors["white"], 80)
             self.render_text("runner", DISPLAY_WIDTH/2, y + 60, colors["white"], 80)
         else:
             self.render_text("woods", DISPLAY_WIDTH/2 + 4, y + 4, colors["dark blue"], 30)
-            self.render_text("runner", DISPLAY_WIDTH/2 + 4, y + 24, colors["dark blue"], 30)
+            self.render_text("runner", DISPLAY_WIDTH/2 + 4, y + 26, colors["dark blue"], 30)
             self.render_text("woods", DISPLAY_WIDTH/2, y, colors["white"], 30)
-            self.render_text("runner", DISPLAY_WIDTH/2, y + 20, colors["white"], 30)
+            self.render_text("runner", DISPLAY_WIDTH/2, y + 22, colors["white"], 30)
 
     def render_button(self, name, x, y):
         path = f"./assets/buttons/{name}.png"
@@ -121,7 +121,7 @@ class Start(Scene):
         
     def render_template(self):
         # Logo
-        gui.render_logo(130)
+        gui.render_logo(30, False)
         # start game button
         gui.render_button("button_game", DISPLAY_WIDTH/2, DISPLAY_HEIGHT- 160)       
 
