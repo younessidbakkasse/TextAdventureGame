@@ -31,11 +31,13 @@ class Scene:
         self.buttons = {}
         self.mx, self.my = 0, 0
 
+    def render_template(self):
+        pass
+
     def run_scene(self):
         """ scene's main loop : basicly each scene has its own loop """
-        while self.running:
-            Scene.display.fill(colors["dark green"])
-            gui.render_random_stars()
+        while self.running:  
+            gui.render_background()
             self.render_template()
             self.get_events()
             pygame.display.update()
@@ -65,34 +67,12 @@ class Scene:
                         self.buttons.popitem()
                         scene.run_scene()
 
-
-class Start(Scene):
-    """ This is a sub class from scene base class """
-    def __init__(self, scene_name):
-        super().__init__(scene_name)
-        
-    def render_template(self):
-        # Logo
-        gui.render_logo(130)
-        # start game button
-        gui.render_button("button_game", DISPLAY_WIDTH/2, DISPLAY_HEIGHT- 160)
-        
-
-class Controle: 
-    def __init__(self):
-        self.previous_scene = None
-        self.scenes = {}
-        
-        self.scenes["start"] = Start("start")
-
-    def run_game(self):
-        self.scenes["start"].run_scene()
-
 class Gui:
     def __init__(self):
         self.stars = [pygame.Rect(random.randint(0, DISPLAY_WIDTH), random.randint(0, DISPLAY_HEIGHT), 3, 3) for i in range(30)]
 
-    def render_random_stars(self):
+    def render_background(self):
+        Scene.display.fill(colors["dark green"])
         for star in self.stars:
             pygame.draw.rect(Scene.display, colors["white"], star)
 
@@ -134,7 +114,27 @@ class Gui:
         Scene.display.blit(image, image_rect)
         return image_rect
 
+class Start(Scene):
+    """ This is a sub class from scene base class """
+    def __init__(self, scene_name):
+        super().__init__(scene_name)
+        
+    def render_template(self):
+        # Logo
+        gui.render_logo(130)
+        # start game button
+        gui.render_button("button_game", DISPLAY_WIDTH/2, DISPLAY_HEIGHT- 160)       
 
+class Controle: 
+    def __init__(self):
+        self.previous_scene = None
+        self.scenes = {}
+        
+        self.scenes["start"] = Start("start")
+
+    def run_game(self):
+        self.scenes["start"].run_scene()
+        
 
 gui = Gui()
 controle = Controle()
