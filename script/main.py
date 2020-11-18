@@ -66,7 +66,7 @@ class Scene:
                         scene.run_scene()
 
 
-class MainMenu(Scene):
+class Start(Scene):
     """ This is a sub class from scene base class """
     def __init__(self, scene_name):
         super().__init__(scene_name)
@@ -83,7 +83,7 @@ class Controle:
         self.previous_scene = None
         self.scenes = {}
         
-        self.scenes["start"] = MainMenu("start")
+        self.scenes["start"] = Start("start")
 
     def run_game(self):
         self.scenes["start"].run_scene()
