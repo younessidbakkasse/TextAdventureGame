@@ -21,8 +21,10 @@ DISPLAY_WIDTH = 400
 class Scene:
     # Set up the game display
     pygame.init()
-    display = pygame.display.set_mode((DISPLAY_WIDTH, DISPLAY_HEIGHT))
+    display = pygame.display.set_mode((DISPLAY_WIDTH, DISPLAY_HEIGHT), display = 7)
     clock = pygame.time.Clock()
+    pygame.mouse.set_cursor(*pygame.cursors.tri_left)
+    pygame.mouse.set_visible(False)
 
     def __init__(self, scene_name):
         """ Constructor method runs when I creat an object using the Scene class """
@@ -40,7 +42,7 @@ class Scene:
             gui.render_background()
             self.render_template()
             self.get_events()
-            pygame.display.update()
+            pygame.display.flip()
             Scene.clock.tick(60)
 
     def get_events(self):
@@ -67,10 +69,8 @@ class Scene:
                         self.buttons.popitem()
                         scene.run_scene()
 
-
 class Gui:
-    def __init__(self):
-        self.stars = [pygame.Rect(random.randint(0, DISPLAY_WIDTH), random.randint(0, DISPLAY_HEIGHT), 3, 3) for i in range(35)]
+    stars = [pygame.Rect(random.randint(0, DISPLAY_WIDTH), random.randint(0, DISPLAY_HEIGHT), 3, 3) for i in range(35)]
 
     def render_background(self):
         Scene.display.fill(colors["dark green"])
