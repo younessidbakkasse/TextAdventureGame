@@ -67,6 +67,7 @@ class Scene:
                         self.buttons.popitem()
                         scene.run_scene()
 
+
 class Gui:
     def __init__(self):
         self.stars = [pygame.Rect(random.randint(0, DISPLAY_WIDTH), random.randint(0, DISPLAY_HEIGHT), 3, 3) for i in range(35)]
@@ -96,7 +97,6 @@ class Gui:
             path = f"./assets/buttons/{name}_pressed.png"
             button_pressed = self.render_image(path, x, y)
             return button_pressed
-
 
     def render_text(self, text, x, y, color, size = 20):
         """ Draws any text on the scene window and also returns a rectangle object wich have 
@@ -129,15 +129,13 @@ class Start(Scene):
 class Controle: 
     def __init__(self):
         self.previous_scene = "main_game"
-        self.scenes = {}
-        
-        self.scenes["start"] = Start("start", True)
-        self.scenes["main_game"] = Start("main_game", False)
+        self.scenes_keys = ["start", "main_game"]
+        self.scenes_values = [Start("start", True), Start("main_game", False)]
+        self.scenes = {key:value for key, value in zip(self.scenes_keys, self.scenes_values)}
 
     def run_game(self):
         self.scenes["start"].run_scene()
         
-
 gui = Gui()
 controle = Controle()
 controle.run_game()
