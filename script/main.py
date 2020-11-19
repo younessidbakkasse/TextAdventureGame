@@ -51,15 +51,15 @@ class Scene:
                 sys.exit()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button: 
-                    self.mx, self.my = pygame.mouse.get_pos()
                     self.transition(controle.scenes)
     
     def transition(self, scenes):
         """ One hell of an importante method it checks if mouse points to a text or 
         button (rect) and also allows scene transitions from self to another depending 
         on the button's name"""
-        for button_name, button in self.buttons.items():   
-            if button.collidepoint((self.mx, self.my)):
+        for button_name, button in self.buttons.items():
+            self.mx, self.my = pygame.mouse.get_pos()   
+            if button != None and button.collidepoint((self.mx, self.my)):
                 for scene_key, scene in scenes.items():
                     if scene_key == button_name:
                         controle.previous_scene = self.scene_name
@@ -69,7 +69,7 @@ class Scene:
 
 class Gui:
     def __init__(self):
-        self.stars = [pygame.Rect(random.randint(0, DISPLAY_WIDTH), random.randint(0, DISPLAY_HEIGHT), 3, 3) for i in range(30)]
+        self.stars = [pygame.Rect(random.randint(0, DISPLAY_WIDTH), random.randint(0, DISPLAY_HEIGHT), 3, 3) for i in range(35)]
 
     def render_background(self):
         Scene.display.fill(colors["dark green"])
@@ -116,21 +116,23 @@ class Gui:
 
 class Start(Scene):
     """ This is a sub class from scene base class """
-    def __init__(self, scene_name):
+    def __init__(self, scene_name, size):
         super().__init__(scene_name)
+        self.size = size
         
     def render_template(self):
         # Logo
-        gui.render_logo(30, False)
+        gui.render_logo(150, self.size)
         # start game button
-        gui.render_button("button_game", DISPLAY_WIDTH/2, DISPLAY_HEIGHT- 160)       
+        self.buttons[controle.previous_scene] = gui.render_button("button_game", DISPLAY_WIDTH/2, DISPLAY_HEIGHT- 160)       
 
 class Controle: 
     def __init__(self):
-        self.previous_scene = None
+        self.previous_scene = "main_game"
         self.scenes = {}
         
-        self.scenes["start"] = Start("start")
+        self.scenes["start"] = Start("start", True)
+        self.scenes["main_game"] = Start("main_game", False)
 
     def run_game(self):
         self.scenes["start"].run_scene()
