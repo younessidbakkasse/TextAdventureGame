@@ -70,6 +70,24 @@ class Scene:
 
 class Gui:
     stars = [pygame.Rect(random.randint(0, DISPLAY_WIDTH), random.randint(0, DISPLAY_HEIGHT), 3, 3) for i in range(35)]
+    gui_buttons = {}
+
+    def render_ui_buttons(self):
+        # buttons on the right side
+        self.gui_buttons["scene1"] = self.render_button("button_music_on", DISPLAY_WIDTH - 40, 40)
+        self.gui_buttons["scene2"] = self.render_button("button_help", DISPLAY_WIDTH - 90, 40)
+
+        # buttons on the left side
+        self.gui_buttons["scene3"] = self.render_button("button_return", 40, 40)
+        self.gui_buttons["scene4"] = self.render_button("button_pause", 90, 40)
+
+        # buttons on the right down corner 
+        self.gui_buttons["scene5"] = self.render_button("button_inventory", DISPLAY_WIDTH - 40, DISPLAY_HEIGHT - 40)
+        self.gui_buttons["scene6"] = self.render_button("button_character", DISPLAY_WIDTH - 90, DISPLAY_HEIGHT - 40)
+
+        # quest's button on the left down corner
+        self.gui_buttons["scene7"] = self.render_button("button_large", 85, DISPLAY_HEIGHT - 40)
+        self.gui_buttons["scene8"] = self.render_text("quests", 85, DISPLAY_HEIGHT - 40, colors['white'])
 
     def render_background(self):
         Scene.display.fill(colors["dark green"])
@@ -132,26 +150,8 @@ class Game(Scene):
         # renders small logo on the screen
         gui.render_logo(30, False)
 
-        # buttons on the right side
-        gui.render_button("button_music_on", DISPLAY_WIDTH - 40, 40)
-        gui.render_button("button_help", DISPLAY_WIDTH - 90, 40)
-
-        # buttons on the left side
-        gui.render_button("button_return", 40, 40)
-        gui.render_button("button_pause", 90, 40)
-
-        # buttons on the right down corner 
-        gui.render_button("button_inventory", DISPLAY_WIDTH - 40, DISPLAY_HEIGHT - 40)
-        gui.render_button("button_character", DISPLAY_WIDTH - 90, DISPLAY_HEIGHT - 40)
-
-        # quest's button on the left down corner
-        gui.render_button("button_large", 85, DISPLAY_HEIGHT - 40)
-        gui.render_text("quests", 85, DISPLAY_HEIGHT - 40, colors['white'])
-
-
-
-
-
+        # render ui common buttons
+        gui.render_ui_buttons()   
 
 class Controle: 
     def __init__(self):
