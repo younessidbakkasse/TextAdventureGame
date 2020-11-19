@@ -24,7 +24,6 @@ class Scene:
     display = pygame.display.set_mode((DISPLAY_WIDTH, DISPLAY_HEIGHT), display = 7)
     clock = pygame.time.Clock()
     pygame.mouse.set_cursor(*pygame.cursors.tri_left)
-    pygame.mouse.set_visible(False)
 
     def __init__(self, scene_name):
         """ Constructor method runs when I creat an object using the Scene class """
@@ -90,11 +89,11 @@ class Gui:
             self.render_text("runner", DISPLAY_WIDTH/2, y + 22, colors["white"], 30)
 
     def render_button(self, name, x, y):
-        path = f"./assets/buttons/{name}.png"
+        path = f"./assets/buttons/buttons_normal/{name}.png"
         button = self.render_image(path, x, y)
         mx, my = pygame.mouse.get_pos()
         if button.collidepoint((mx, my)):
-            path = f"./assets/buttons/{name}_pressed.png"
+            path = f"./assets/buttons/buttons_pressed/{name}.png"
             button_pressed = self.render_image(path, x, y)
             return button_pressed
 
@@ -116,25 +115,53 @@ class Gui:
 
 class Start(Scene):
     """ This is a sub class from scene base class """
-    def __init__(self, scene_name, size):
+    def __init__(self, scene_name):
         super().__init__(scene_name)
-        self.size = size
         
     def render_template(self):
         # Logo
-        gui.render_logo(150, self.size)
+        gui.render_logo(150, True)
         # start game button
-        self.buttons[controle.previous_scene] = gui.render_button("button_game", DISPLAY_WIDTH/2, DISPLAY_HEIGHT- 160)       
+        self.buttons[controle.previous_scene] = gui.render_button("button_game", DISPLAY_WIDTH/2, DISPLAY_HEIGHT- 160) 
+
+class Game(Scene):
+    def __init__(self, scene_name):
+        super().__init__(scene_name)
+
+    def render_template(self):
+        # renders small logo on the screen
+        gui.render_logo(30, False)
+
+        # buttons on the right side
+        gui.render_button("button_music_on", DISPLAY_WIDTH - 40, 40)
+        gui.render_button("button_help", DISPLAY_WIDTH - 90, 40)
+
+        # buttons on the left side
+        gui.render_button("button_return", 40, 40)
+        gui.render_button("button_pause", 90, 40)
+
+        # buttons on the right down corner 
+        gui.render_button("button_inventory", DISPLAY_WIDTH - 40, DISPLAY_HEIGHT - 40)
+        gui.render_button("button_character", DISPLAY_WIDTH - 90, DISPLAY_HEIGHT - 40)
+
+        # quest's button on the left down corner
+        gui.render_button("button_large", 85, DISPLAY_HEIGHT - 40)
+        gui.render_text("quests", 85, DISPLAY_HEIGHT - 40, colors['white'])
+
+
+
+
+
 
 class Controle: 
     def __init__(self):
         self.previous_scene = "main_game"
         self.scenes_keys = ["start", "main_game"]
-        self.scenes_values = [Start("start", True), Start("main_game", False)]
+        self.scenes_values = [Start("start"), Game("main_game")]
         self.scenes = {key:value for key, value in zip(self.scenes_keys, self.scenes_values)}
-
+    
     def run_game(self):
-        self.scenes["start"].run_scene()
+        self.scenes["main_game"].run_scene()
         
 gui = Gui()
 controle = Controle()
