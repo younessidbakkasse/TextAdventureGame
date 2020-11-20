@@ -87,7 +87,7 @@ class Gui:
 
         # quest's button on the left down corner
         self.gui_buttons["scene7"] = self.render_button("button_large", 85, DISPLAY_HEIGHT - 40)
-        self.gui_buttons["scene8"] = self.render_text("quests", 85, DISPLAY_HEIGHT - 40, colors['white'])
+        self.render_text("quests", 85, DISPLAY_HEIGHT - 39, colors['white'])
 
     def render_background(self):
         Scene.display.fill(colors["dark green"])
@@ -140,7 +140,7 @@ class Start(Scene):
         # Logo
         gui.render_logo(150, True)
         # start game button
-        self.buttons[controle.previous_scene] = gui.render_button("button_game", DISPLAY_WIDTH/2, DISPLAY_HEIGHT- 160) 
+        self.buttons["main_game"] = gui.render_button("button_game", DISPLAY_WIDTH/2, DISPLAY_HEIGHT- 160) 
 
 class Game(Scene):
     def __init__(self, scene_name):
@@ -161,11 +161,48 @@ class Controle:
         self.scenes = {key:value for key, value in zip(self.scenes_keys, self.scenes_values)}
     
     def run_game(self):
-        self.scenes["main_game"].run_scene()
+        self.scenes["start"].run_scene()
         
 gui = Gui()
 controle = Controle()
 controle.run_game()
+
+
+class Entity:
+    def __init__(self, health = 250, level = 1, attack = 10, defence = 2):
+        self.health = health
+        self.level = level
+        self.attack = attack
+        self.defence = defence
+        self.inventory = list()
+
+    def death(self):
+        pass
+
+    def attack(self):
+        pass
+
+    def defend(self):
+        pass
+
+    
+class Player(Entity):
+    def __init__(self):
+        super().__init__()
+
+    def heal(self):
+        pass
+
+class Monster(Entity):
+    def __init__(self):
+        super().__init__()
+
+    def 
+
+    
+
+
+    
 
     
        
