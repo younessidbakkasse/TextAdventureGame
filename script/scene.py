@@ -1,5 +1,5 @@
 import sys
-from gui import *
+from gui import Gui, pygame
 
 # Eng : creating gui object
 # Fr : 
@@ -12,6 +12,8 @@ class Scene:
 
     """ Fr: """
 
+    # Eng : making list to store scenes upon creation 
+    # Fr : 
     scenes = []
     previous_scene = None
 
@@ -75,10 +77,10 @@ class Scene:
                         self.buttons.popitem()
                         scene.run_scene()
 
-scene1 = Scene("splash_sceen")
-scene2 = Scene("Home_screen")
+scene_names = ["splash_scene", "game"]
 
-Scene.scenes.append(scene1)
-Scene.scenes.append(scene2)
+for name in scene_names:
+    scene = Scene(name)
+    Scene.scenes.append(scene)
 
-scene2.run_scene()
+Scene.scenes[0].run_scene()
