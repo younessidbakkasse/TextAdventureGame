@@ -5,9 +5,7 @@ for more informations and licence please check README file attached to the folde
 # Importing modules: pygame is a module that allows us to draw on screen
 import pygame, sys
 from entity import Entity, Player
-from gui import Gui, Scene
-
-gui = Gui()
+from gui import Gui
 
 class Start(Scene):
     """ This is a sub class from scene base class """
@@ -42,7 +40,7 @@ class Controle:
         self.scenes["start"].run_scene()
 
 player = Player()
-
+gui = Gui()
 controle = Controle()
 controle.run_game()
 

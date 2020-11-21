@@ -9,13 +9,13 @@ class Entity:
     def death(self):
         pass
 
-    def attack(self):
+    def attacking(self):
         pass
 
-    def defend(self):
+    def defending(self):
         pass
 
-    def run(self):
+    def running(self):
         pass
 
     
@@ -23,5 +23,5 @@ class Player(Entity):
     def __init__(self):
         super().__init__()
 
-    def heal(self):
+    def healing(self):
         pass

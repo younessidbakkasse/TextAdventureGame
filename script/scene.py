@@ -1,5 +1,5 @@
+import pygame, sys
 from gui import *
-import sys
 
 class Scene:
     # Set up the game display

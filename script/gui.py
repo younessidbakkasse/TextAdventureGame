@@ -1,16 +1,26 @@
 import pygame, random
 
+# global variables
 DISPLAY_HEIGHT = 500
 DISPLAY_WIDTH = 400
 
 class Gui:
+    """ this class takes care of everything that has to do with rendering content and gui
+    elements such as buttons, hover effect, text.."""
+
+    # initialising the pygame display and module it's a must
     pygame.init()
     display = pygame.display.set_mode((DISPLAY_WIDTH, DISPLAY_HEIGHT))
     clock = pygame.time.Clock()
     pygame.mouse.set_cursor(*pygame.cursors.tri_left)
+
+    # the following loop generates random white squares
     stars = [pygame.Rect(random.randint(0, DISPLAY_WIDTH), random.randint(0, DISPLAY_HEIGHT), 3, 3) for i in range(35)]
     
+    # constructed a dict object for gui common button
     gui_buttons = dict()
+
+    # game color palette
     colors = {
         "dark green" : (14, 43, 35),
         "dark blue" : (2, 17, 29),
@@ -21,6 +31,7 @@ class Gui:
     }
 
     def render_ui_buttons(self):
+        """ renders the same user interface buttons acroos all the scenes and stores them on list"""
         # buttons on the right side
         self.gui_buttons["scene1"] = self.render_button("button_music_on", DISPLAY_WIDTH - 40, 40)
         self.gui_buttons["scene2"] = self.render_button("button_help", DISPLAY_WIDTH - 90, 40)
@@ -38,11 +49,13 @@ class Gui:
         self.render_text("quests", 85, DISPLAY_HEIGHT - 39, Gui.colors['white'])
 
     def render_background(self):
-        Gui.display.fill(colors["dark green"])
+        """ renders a dark green background with random white stars """
+        Gui.display.fill(Gui.colors["dark green"])
         for star in self.stars:
             pygame.draw.rect(Gui.display, Gui.colors["white"], star)
 
     def render_logo(self, y, big_logo = True):
+        """ renders the two versions of game logo : small & big """
         if big_logo:
             self.render_text("woods", DISPLAY_WIDTH/2 + 7, y + 7, Gui.colors["dark blue"], 80)
             self.render_text("runner", DISPLAY_WIDTH/2 + 7, y + 67, Gui.colors["dark blue"], 80)
@@ -55,6 +68,7 @@ class Gui:
             self.render_text("runner", DISPLAY_WIDTH/2, y + 22, Gui.colors["white"], 30)
 
     def render_button(self, name, x, y):
+        """ this function draw buttons from the asset/button file and checks hover effect """
         path = f"./assets/buttons/buttons_normal/{name}.png"
         button = self.render_image(path, x, y)
         mx, my = pygame.mouse.get_pos()
@@ -78,5 +92,3 @@ class Gui:
         image_rect = image.get_rect(center = (int(x), int(y)))
         Gui.display.blit(image, image_rect)
         return image_rect
-
-gui = Gui()
