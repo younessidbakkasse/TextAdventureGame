@@ -1,9 +1,5 @@
 import sys
-from gui import Gui, pygame
-
-# Eng : creating gui object
-# Fr : 
-gui = Gui()
+from story import *
 
 class Scene:
     """ Eng : This the Scene Class its a blueprint for every scene for exemple the starting scene

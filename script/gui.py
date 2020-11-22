@@ -120,3 +120,5 @@ class Gui:
         image_rect = image.get_rect(center = (int(x), int(y)))
         Gui.display.blit(image, image_rect)
         return image_rect
+
+
