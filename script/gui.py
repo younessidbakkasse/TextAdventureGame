@@ -17,7 +17,16 @@ class Gui:
     pygame.init()
     display = pygame.display.set_mode((DISPLAY_WIDTH, DISPLAY_HEIGHT))
     clock = pygame.time.Clock()
+
+    # Eng : display set up
+    # FR :
     pygame.mouse.set_cursor(*pygame.cursors.tri_left)
+    pygame.display.set_caption("Wood Runner", "favicon")
+
+    # Eng : set up game favicon
+    # Fr : 
+    favicon = pygame.image.load("./assets/icons/favicon.png")
+    pygame.display.set_icon(favicon)
 
     # Eng : the following loop generates random white squares
     # Fr :
