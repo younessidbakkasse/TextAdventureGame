@@ -1,5 +1,6 @@
 import sys
 from story import *
+from entities import Entity
 
 class Scene:
     """ Eng : This the Scene Class its a blueprint for every scene for exemple the starting scene
