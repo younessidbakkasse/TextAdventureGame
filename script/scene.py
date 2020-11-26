@@ -11,8 +11,8 @@ class Scene:
 
     # Eng : making list to store scenes upon creation 
     # Fr : 
-    scenes = []
     previous_scene = None
+    i, j = 0, 0
 
     def __init__(self, scene_name):
         """ Eng: Constructor method runs every time I create a new scene or page. """
@@ -31,6 +31,9 @@ class Scene:
         # Fr : mouse coords
         self.mx, self.my = 0, 0
 
+    def __del__(self): 
+        print("Object was deleted.")
+
     def run_scene(self):
         """ Eng : scene's main loop : basicly each scene has its own loop """
         """ Fr : scene's main loop : basicly each scene has its own loop """
@@ -40,6 +43,11 @@ class Scene:
             self.get_events()
             pygame.display.flip()
             Gui.clock.tick(60)
+    
+    def close_scene(self):
+        """ Eng : """
+        """ Fr : """
+        self.running = False
 
     def render_template(self):
         """ Eng : """
@@ -57,7 +65,16 @@ class Scene:
                 sys.exit()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button: 
-                    self.transition(Scene.scenes)
+                    # self.transition(Scene.scenes)
+                    pass
+
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RIGHT:
+                    Scene.j += 1
+                    self.close_scene()
+                if event.key == pygame.K_DOWN:
+                    Scene.i += 1
+                    self.close_scene()
     
     def transition(self, scenes):
         """ Eng : One hell of an importante method it checks if mouse points to a text or 
@@ -74,10 +91,11 @@ class Scene:
                         self.buttons.popitem()
                         scene.run_scene()
 
-scene_names = ["splash_scene", "game"]
 
-for name in scene_names:
-    scene = Scene(name)
-    Scene.scenes.append(scene)
 
-Scene.scenes[0].run_scene()
+scene_matrix = [[Scene(str(y) + "-" + str(x)) for y in range(10)] for x in range(10)]
+while True:
+    scene_matrix[Scene.i][Scene.j].run_scene()
+    print(Scene.i, Scene.j, sep = "")
+        
+
