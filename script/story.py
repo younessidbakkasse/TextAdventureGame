@@ -38,32 +38,7 @@ You * * * * * * * * * * *
         way we insure story consistency and story flow.
 
     Fr : 
-
 """
 
-story = {
-    "scene1" : {
-        "text" : "Washed ashore, you have only vague recollections of what happened. The past seems unimportant now. Shivering, you watch the bodies float among the debris. No ships can be seen on the horizon.",
-        "choices" : ["Explore the beach"] 
-    },
-
-    "scene2" : {
-        "text" : "There is nothing here but sand and gravel. Or so it may seem. You feel a painful sensation in your left foot, causing you to take a step backawards. Glimmering in the sun, a sharp object is revealed.",
-        "choices" : ["Examine the object"] 
-    },
-
-    "scene3" : {
-        "text" : "You discover footprints in the sand, leading north. it's late in the afternoon. If there's another survivor out there , you should find this person before it gets dark.",
-        "choices" : ["Follow the footprints", "Study the footprints"]
-    },
-
-    "scene4" : {
-        "sub_scene4" : "test",
-        "choices" : "fight"
-    }
-
-}
-
-
-
+# todo : 
 

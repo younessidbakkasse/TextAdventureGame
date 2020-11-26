@@ -18,6 +18,16 @@ class Entity:
     def running(self):
         pass
 
+class Object:
+    def __init__(self):
+        self.name = None
+        self.type = None
+
+    def __str__(self):
+        print(self.name, self.type)
+
+
+
     
 class Player(Entity):
     def __init__(self):

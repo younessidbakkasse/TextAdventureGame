@@ -12,7 +12,6 @@ class Scene:
     # Eng : making list to store scenes upon creation 
     # Fr : 
     previous_scene = None
-    i, j = 0, 0
 
     def __init__(self, scene_name):
         """ Eng: Constructor method runs every time I create a new scene or page. """
@@ -30,9 +29,6 @@ class Scene:
         # Eng : mouse coords
         # Fr : mouse coords
         self.mx, self.my = 0, 0
-
-    def __del__(self): 
-        print("Object was deleted.")
 
     def run_scene(self):
         """ Eng : scene's main loop : basicly each scene has its own loop """
@@ -91,11 +87,22 @@ class Scene:
                         self.buttons.popitem()
                         scene.run_scene()
 
+class Game:
+    def __init__(self):
+        self.scene_matrix = [[Scene(str(y) + "-" + str(x)) for y in range(10)] for x in range(10)]
+        self.i, self.j = 0, 0
+    
+    def __str__(self):
+        print("Game created")
+
+    def run(self):
+        while True:
+            self.scene_matrix[self.i][self.j].run_scene()
+
+    def deploy_scenes(self):
+        pass
 
 
-scene_matrix = [[Scene(str(y) + "-" + str(x)) for y in range(10)] for x in range(10)]
-while True:
-    scene_matrix[Scene.i][Scene.j].run_scene()
-    print(Scene.i, Scene.j, sep = "")
-        
+game = Game()
+game.run()
 
