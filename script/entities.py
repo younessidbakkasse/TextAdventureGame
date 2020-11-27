@@ -17,6 +17,7 @@ class Entity:
 
     def running(self):
         pass
+    
 
 class Object:
     def __init__(self):

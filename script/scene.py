@@ -19,6 +19,7 @@ class Scene:
 
         self.scene_name = scene_name
         self.running = True 
+        self.template = template()
 
         """ Eng : every scene has it's own button (besides the gui_buttons) in order to navigate
         the game story """
@@ -48,7 +49,7 @@ class Scene:
     def render_template(self):
         """ Eng : """
         """ Fr : """
-        pass
+        self.template()
 
     def get_events(self):
         """ Eng : This function collects Mouse clicks (events) from the user """
@@ -102,6 +103,12 @@ class Game:
     def deploy_scenes(self):
         pass
 
+
+def template():
+    def render():
+        gui.render_ui_buttons()
+        gui.render_logo(30, False)
+    return render
 
 game = Game()
 game.run()
