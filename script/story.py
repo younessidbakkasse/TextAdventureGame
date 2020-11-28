@@ -1,9 +1,6 @@
-from gui import Gui, pygame
-
-# Eng : creating gui object
-# Fr : 
-gui = Gui()
-
+""" This game is made by Youness ID BAKKASSE; https://github.com/younessidbakkasse/
+its a school project to initiat with Python programming 
+for more informations and licence please check README file attached to the folder."""
 
 # Eng : the game map each point corresponds to a diffrent scene
 # FR : 
