@@ -1,4 +1,4 @@
-from script.entities import Entity
+from entities import Entity
 import pygame, random, sys
 
 # Eng : global variables
@@ -104,7 +104,7 @@ class Gui:
             button_pressed = self.render_image(path, x, y)
             return button_pressed
 
-    def render_text(self, text, x, y, color, size = 20):
+    def render_text(self, text, x, y, color = colors['white'], size = 16):
         """ Eng : Draws any text on the scene window and also returns a rectangle object wich have 
         coord attributes and collide methode """
         """ Fr : """
@@ -142,10 +142,10 @@ class Scene:
     # Fr : 
     previous_scene = None
 
-    def __init__(self, scene_name):
+    def __init__(self, scene_name, template_closure):
         """ Eng: Constructor method runs every time I create a new scene or page. """
         """ Fr: Constructor method runs every time I create a new scene or page. """
-
+        self.template = template_closure
         self.scene_name = scene_name
         self.running = True 
 
@@ -177,7 +177,7 @@ class Scene:
     def render_template(self):
         """ Eng : """
         """ Fr : """
-        pass
+        self.template()
 
     def get_events(self):
         """ Eng : This function collects Mouse clicks (events) from the user """
@@ -211,15 +211,87 @@ class Scene:
 
 
 
-###########################
+##########################
 #CREATING FONCTIONS AS TEMPLATES
 ###########################
 
+def story_template():
+    def template():
+        # render big centered logo
+        gui.render_logo(30, False)
+        # render UI buttons
+        gui.render_ui_buttons()
+        #story text
+        gui.render_text('Chose a direction ?', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2- 80), size = 20)
+        # render left direction buttons
+        game.story_scenes[0][0].buttons['left'] = gui.render_button('button_large', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + 30))
+        gui.render_text('Left', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + 30))
+
+        # render left direction buttons
+        game.story_scenes[0][0].buttons['right'] = gui.render_button('button_large', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + 80))
+        gui.render_text('Right', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + 80))
+
+    return template
+
 def home_template():
-    # render big centered logo
-    gui.render_logo(150, True)
-    # start game button
-    game.ux_scenes['home'].buttons["main_game"] = gui.render_button("button_game", DISPLAY_WIDTH/2, DISPLAY_HEIGHT- 160) 
+    def template():
+        # render big centered logo
+        gui.render_logo(150, True)
+        # start game button
+        game.ux_scenes['home'].buttons["main_game"] = gui.render_button("button_game", DISPLAY_WIDTH/2, DISPLAY_HEIGHT- 160) 
+    return template
+
+def menu_template():
+    def template():
+        # render big centered logo
+        gui.render_logo(150, True)
+        # start game button
+        game.ux_scenes['home'].buttons["main_game"] = gui.render_button("button_game", DISPLAY_WIDTH/2, DISPLAY_HEIGHT- 160) 
+    return template
+
+def fight_template():
+    def template():
+        # render big centered logo
+        gui.render_logo(150, True)
+        # start game button
+        game.ux_scenes['home'].buttons["main_game"] = gui.render_button("button_game", DISPLAY_WIDTH/2, DISPLAY_HEIGHT- 160) 
+    return template
+
+def inventory_template():
+    def template():
+        # render big centered logo
+        gui.render_logo(150, True)
+        # start game button
+        game.ux_scenes['home'].buttons["main_game"] = gui.render_button("button_game", DISPLAY_WIDTH/2, DISPLAY_HEIGHT- 160) 
+    return template
+
+def credit_template():
+    def template():
+        # render big centered logo
+        gui.render_logo(150, True)
+        # start game button
+        game.ux_scenes['home'].buttons["main_game"] = gui.render_button("button_game", DISPLAY_WIDTH/2, DISPLAY_HEIGHT- 160) 
+    return template
+
+def howtoplay_template():
+    def template():
+        # render big centered logo
+        gui.render_logo(150, True)
+        # start game button
+        game.ux_scenes['home'].buttons["main_game"] = gui.render_button("button_game", DISPLAY_WIDTH/2, DISPLAY_HEIGHT- 160) 
+    return template
+
+def stats_template():
+    def template():
+        # render big centered logo
+        gui.render_logo(150, True)
+        # start game button
+        game.ux_scenes['home'].buttons["main_game"] = gui.render_button("button_game", DISPLAY_WIDTH/2, DISPLAY_HEIGHT- 160) 
+    return template
+
+
+
+
 
 
 
@@ -231,21 +303,22 @@ class Game:
     def __init__(self):
         # constructing user expercience scenes 
         self.ux_scenes = {
-            'home' : Scene('home'),
-            'menu' : Scene('menu'),
-            'fight' : Scene('fight'),
-            'inventory' : Scene('inventory'),
-            'credit' : Scene('credit'),
-            'how to play' : Scene('how to play'),
-            'stats' : Scene('stats')
+            'home' : Scene('home', home_template()),
+            'menu' : Scene('menu', menu_template()),
+            'fight' : Scene('fight', fight_template()),
+            'inventory' : Scene('inventory', inventory_template()),
+            'credit' : Scene('credit', credit_template()),
+            'how to play' : Scene('how to play', howtoplay_template()),
+            'stats' : Scene('stats', stats_template())
         }
 
         # constructing mean game scenes 
-        self.stroy_scenes = [[Scene(str(y) + "-" + str(x)) for y in range(10)] for x in range(10)]
+        self.story_scenes = [[Scene(str(y) + "-" + str(x), story_template()) for y in range(1)] for x in range(1)]
         self.i, self.j = 0, 0
 
     def run(self):
-        pass
+        # self.ux_scenes['credit'].run_scene()
+        self.story_scenes[0][0].run_scene()        
 
     def deploy_scenes(self):
         pass
