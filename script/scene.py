@@ -32,10 +32,6 @@ class Gui:
     # Eng : the following loop generates random white squares
     # Fr :
     stars = [pygame.Rect(random.randint(0, DISPLAY_WIDTH), random.randint(0, DISPLAY_HEIGHT), 3, 3) for i in range(35)]
-    
-    # Eng : constructed a dict object for gui common button
-    # Fr :
-    gui_buttons = dict()
 
     # Eng : game color palette
     # Fr :
@@ -47,6 +43,8 @@ class Gui:
         "red" : (255, 0, 69),
         "yellow" : (250, 200, 50)
     }
+    def __init__(self):
+        self.gui_buttons = {}
 
     def render_ui_buttons(self):
         """ Eng : renders the same user interface buttons acroos all the scenes and stores them on list"""
@@ -60,7 +58,7 @@ class Gui:
         # Eng : buttons on the left side
         # Fr :
         self.gui_buttons["scene3"] = self.render_button("button_return", 40, 40)
-        self.gui_buttons["scene4"] = self.render_button("button_pause", 90, 40)
+        self.gui_buttons["menu"] = self.render_button("button_pause", 90, 40)
 
         # Eng : buttons on the right down corner 
         # Fr :
@@ -190,8 +188,7 @@ class Scene:
                 sys.exit()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button: 
-                    # self.transition(Scene.scenes)
-                    pass
+                    self.transition(game.ux_scenes)
     
     def transition(self, scenes):
         """ Eng : One hell of an importante method it checks if mouse points to a text or 
@@ -209,85 +206,90 @@ class Scene:
                         scene.run_scene()
 
 
+        for button_name, button in gui.gui_buttons.items():
+            self.mx, self.my = pygame.mouse.get_pos()   
+            if button != None and button.collidepoint((self.mx, self.my)):
+                for scene_key, scene in scenes.items():
+                    if scene_key == button_name:
+                        Scene.previous_scene = self.scene_name
+                        # This may cause bugs in futur if it didn't ur a lucky mothafucka
+                        scene.run_scene()
+
+
 
 
 ##########################
 #CREATING FONCTIONS AS TEMPLATES
 ###########################
-
-def story_template():
-    def template():
+def layout(template):
+    def render_gui():
         # render big centered logo
         gui.render_logo(30, False)
         # render UI buttons
         gui.render_ui_buttons()
-        #story text
-        gui.render_text('Chose a direction ?', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2- 80), size = 20)
-        # render left direction buttons
-        game.story_scenes[0][0].buttons['left'] = gui.render_button('button_large', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + 30))
-        gui.render_text('Left', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + 30))
+        template()
+    return render_gui
 
-        # render left direction buttons
-        game.story_scenes[0][0].buttons['right'] = gui.render_button('button_large', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + 80))
-        gui.render_text('Right', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + 80))
+################################# Story Template #################################
+@layout
+def story_template():
+    #story text
+    gui.render_text('Hi there, this is a story game.', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2- 80), size = 18)
+    gui.render_text('are you sure you wanna play its', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2- 58), size = 18)
+    gui.render_text('scary out there !', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2- 36), size = 18)
+    # render left direction buttons
+    game.story_scenes[0][0].buttons['left'] = gui.render_button('button_large', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + 30))
+    gui.render_text('Play', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + 30))
 
-    return template
 
-def home_template():
-    def template():
-        # render big centered logo
-        gui.render_logo(150, True)
-        # start game button
-        game.ux_scenes['home'].buttons["main_game"] = gui.render_button("button_game", DISPLAY_WIDTH/2, DISPLAY_HEIGHT- 160) 
-    return template
-
+################################# Menu Template #################################
+@layout
 def menu_template():
-    def template():
-        # render big centered logo
-        gui.render_logo(150, True)
-        # start game button
-        game.ux_scenes['home'].buttons["main_game"] = gui.render_button("button_game", DISPLAY_WIDTH/2, DISPLAY_HEIGHT- 160) 
-    return template
+    # render frame
+    gui.render_image('./assets/frames/small.png', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2))
+    # render close button
+    game.ux_scenes['menu'].buttons["fight"] = gui.render_button('button_close', 355, 155)
+    # render menu pause title
+    gui.render_text('Pause', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 - 80))
+    # render menu options
+    game.ux_scenes['menu'].buttons["new_game"] = gui.render_text('New Game', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 - 30), size = 30)
+    game.ux_scenes['menu'].buttons["exit_game"] = gui.render_text('Exit Game', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + 10), size = 30)
+    game.ux_scenes['menu'].buttons["credit"] = gui.render_text('Credit', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + 50), size = 30)
+    
 
+################################# Monster Fight Template #################################
+@layout
 def fight_template():
-    def template():
-        # render big centered logo
-        gui.render_logo(150, True)
-        # start game button
-        game.ux_scenes['home'].buttons["main_game"] = gui.render_button("button_game", DISPLAY_WIDTH/2, DISPLAY_HEIGHT- 160) 
-    return template
+    pass
 
-def inventory_template():
-    def template():
-        # render big centered logo
-        gui.render_logo(150, True)
-        # start game button
-        game.ux_scenes['home'].buttons["main_game"] = gui.render_button("button_game", DISPLAY_WIDTH/2, DISPLAY_HEIGHT- 160) 
-    return template
-
+################################# Game Credit Template #################################
+@layout
 def credit_template():
-    def template():
-        # render big centered logo
-        gui.render_logo(150, True)
-        # start game button
-        game.ux_scenes['home'].buttons["main_game"] = gui.render_button("button_game", DISPLAY_WIDTH/2, DISPLAY_HEIGHT- 160) 
-    return template
+    pass
 
-def howtoplay_template():
-    def template():
-        # render big centered logo
-        gui.render_logo(150, True)
-        # start game button
-        game.ux_scenes['home'].buttons["main_game"] = gui.render_button("button_game", DISPLAY_WIDTH/2, DISPLAY_HEIGHT- 160) 
-    return template
-
+################################# Stats Template #################################
+@layout
 def stats_template():
-    def template():
-        # render big centered logo
-        gui.render_logo(150, True)
-        # start game button
-        game.ux_scenes['home'].buttons["main_game"] = gui.render_button("button_game", DISPLAY_WIDTH/2, DISPLAY_HEIGHT- 160) 
-    return template
+    pass
+
+################################# HomeTemplate #################################
+def home_template():
+    # render big centered logo
+    gui.render_logo(150, True)
+    # start game button
+    game.ux_scenes['home'].buttons["fight"] = gui.render_button("button_game", DISPLAY_WIDTH/2, DISPLAY_HEIGHT- 160) 
+
+################################# How to play Template #################################
+def howtoplay_template():
+    pass
+
+################################# Inventory Template #################################
+def inventory_template():
+    pass
+
+
+
+
 
 
 
@@ -303,25 +305,21 @@ class Game:
     def __init__(self):
         # constructing user expercience scenes 
         self.ux_scenes = {
-            'home' : Scene('home', home_template()),
-            'menu' : Scene('menu', menu_template()),
-            'fight' : Scene('fight', fight_template()),
-            'inventory' : Scene('inventory', inventory_template()),
-            'credit' : Scene('credit', credit_template()),
-            'how to play' : Scene('how to play', howtoplay_template()),
-            'stats' : Scene('stats', stats_template())
+            'home' : Scene('home', home_template),
+            'menu' : Scene('menu', menu_template),
+            'fight' : Scene('fight', story_template),
+            'inventory' : Scene('inventory', inventory_template),
+            'credit' : Scene('credit', credit_template),
+            'how to play' : Scene('how to play', howtoplay_template),
+            'stats' : Scene('stats', stats_template)
         }
 
         # constructing mean game scenes 
-        self.story_scenes = [[Scene(str(y) + "-" + str(x), story_template()) for y in range(1)] for x in range(1)]
+        self.story_scenes = [[Scene(str(y) + "-" + str(x), story_template) for y in range(1)] for x in range(1)]
         self.i, self.j = 0, 0
 
     def run(self):
-        # self.ux_scenes['credit'].run_scene()
-        self.story_scenes[0][0].run_scene()        
-
-    def deploy_scenes(self):
-        pass
+        self.ux_scenes['home'].run_scene()  
 
 game = Game()
 game.run()
