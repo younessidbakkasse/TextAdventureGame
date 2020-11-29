@@ -53,7 +53,7 @@ class Gui:
         # Eng : buttons on the right side
         # Fr :
         self.gui_buttons["scene1"] = self.render_button("button_music_on", DISPLAY_WIDTH - 40, 40)
-        self.gui_buttons["scene2"] = self.render_button("button_help", DISPLAY_WIDTH - 90, 40)
+        self.gui_buttons["how to play"] = self.render_button("button_help", DISPLAY_WIDTH - 90, 40)
 
         # Eng : buttons on the left side
         # Fr :
@@ -62,12 +62,12 @@ class Gui:
 
         # Eng : buttons on the right down corner 
         # Fr :
-        self.gui_buttons["scene5"] = self.render_button("button_inventory", DISPLAY_WIDTH - 40, DISPLAY_HEIGHT - 40)
-        self.gui_buttons["scene6"] = self.render_button("button_character", DISPLAY_WIDTH - 90, DISPLAY_HEIGHT - 40)
+        self.gui_buttons["inventory"] = self.render_button("button_inventory", DISPLAY_WIDTH - 40, DISPLAY_HEIGHT - 40)
+        self.gui_buttons["stats"] = self.render_button("button_character", DISPLAY_WIDTH - 90, DISPLAY_HEIGHT - 40)
 
         # Eng : quest's button on the left down corner
         # Fr :
-        self.gui_buttons["scene7"] = self.render_button("button_large", 85, DISPLAY_HEIGHT - 40)
+        self.gui_buttons["quests"] = self.render_button("button_large", 85, DISPLAY_HEIGHT - 40)
         self.render_text("quests", 85, DISPLAY_HEIGHT - 39, Gui.colors['white'])
 
     def render_background(self):
@@ -76,6 +76,20 @@ class Gui:
         Gui.display.fill(Gui.colors["dark green"])
         for star in self.stars:
             pygame.draw.rect(Gui.display, Gui.colors["white"], star)
+
+    def render_frame(self, frame_type, frame_name):
+        # render frame
+        self.render_image(f'./assets/frames/{frame_type}.png', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2))
+        if frame_type == 'normal':
+            # render close button
+            self.gui_buttons["previous"] = self.render_button('button_close', 355, 155)
+            # render menu pause title
+            self.render_text(frame_name, int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 - 80))
+        if frame_type == 'big':
+            # render close button
+            self.gui_buttons["previous"] = self.render_button('button_close', 355, 45)
+            # render menu pause title
+            self.render_text(frame_name, int(DISPLAY_WIDTH/2), 60)
 
     def render_logo(self, y, big_logo = True):
         """ Eng : renders the two versions of game logo : small & big """
@@ -122,6 +136,9 @@ class Gui:
 
 # create a gui
 gui = Gui()
+
+# create a player 
+player = Entity(level = 20)
 
 
 
@@ -230,6 +247,8 @@ def layout(template):
         template()
     return render_gui
 
+    
+
 ################################# Story Template #################################
 @layout
 def story_template():
@@ -246,7 +265,7 @@ def story_template():
 @layout
 def menu_template():
     # render frame
-    gui.render_image('./assets/frames/small.png', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2))
+    gui.render_image('./assets/frames/normal.png', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2))
     # render close button
     game.ux_scenes['menu'].buttons["fight"] = gui.render_button('button_close', 355, 155)
     # render menu pause title
@@ -265,12 +284,40 @@ def fight_template():
 ################################# Game Credit Template #################################
 @layout
 def credit_template():
-    pass
+    # render frame
+    gui.render_image('./assets/frames/big.png', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2))
+    # render credit
+    gui.render_text('Made by Youness Id bakkasse', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 - 80), size = 22)
+
+    
 
 ################################# Stats Template #################################
 @layout
 def stats_template():
-    pass
+    # render frame
+    gui.render_frame('normal', 'stats')
+
+    # render stats
+    gui.render_text(f'Gold {player.gold}', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 - 40))
+    gui.render_text(f'Attack {player.attack}', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 - 20))
+    gui.render_text(f'Diffence {player.defence}', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2))
+    
+    # render player's health bar
+    gui.render_image('./assets/frames/bar.png', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + 30))
+    # render player's armor bar
+    gui.render_image('./assets/frames/bar.png', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + 65))
+
+    # render icons
+    gui.render_image('./assets/icons/heart_icon.png', int(DISPLAY_WIDTH/2 - 65), int(DISPLAY_HEIGHT/2 + 30))
+    # render player's armor bar
+    gui.render_image('./assets/icons/level_icon.png', int(DISPLAY_WIDTH/2 - 65), int(DISPLAY_HEIGHT/2 + 65))
+
+    # render stats on bars
+    gui.render_text(f'{int(player.health)}/{int(player.max_health)}', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + 30), size = 13)
+    gui.render_text(f'Level {int(player.level)}', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + 65), size = 13)
+
+
+
 
 ################################# HomeTemplate #################################
 def home_template():
@@ -281,10 +328,15 @@ def home_template():
 
 ################################# How to play Template #################################
 def howtoplay_template():
-    pass
+    # render big centered logo
+    gui.render_logo(30, True)
 
 ################################# Inventory Template #################################
 def inventory_template():
+    pass
+
+################################# Quests Template #################################
+def quests_template():
     pass
 
 
@@ -311,7 +363,8 @@ class Game:
             'inventory' : Scene('inventory', inventory_template),
             'credit' : Scene('credit', credit_template),
             'how to play' : Scene('how to play', howtoplay_template),
-            'stats' : Scene('stats', stats_template)
+            'stats' : Scene('stats', stats_template),
+            'quests' : Scene('quests', quests_template)
         }
 
         # constructing mean game scenes 
