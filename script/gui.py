@@ -31,10 +31,6 @@ class Gui:
     # Eng : the following loop generates random white squares
     # Fr :
     stars = [pygame.Rect(random.randint(0, DISPLAY_WIDTH), random.randint(0, DISPLAY_HEIGHT), 3, 3) for i in range(35)]
-    
-    # Eng : constructed a dict object for gui common button
-    # Fr :
-    gui_buttons = dict()
 
     # Eng : game color palette
     # Fr :
@@ -46,6 +42,8 @@ class Gui:
         "red" : (255, 0, 69),
         "yellow" : (250, 200, 50)
     }
+    def __init__(self):
+        self.gui_buttons = {}
 
     def render_ui_buttons(self):
         """ Eng : renders the same user interface buttons acroos all the scenes and stores them on list"""
@@ -54,21 +52,21 @@ class Gui:
         # Eng : buttons on the right side
         # Fr :
         self.gui_buttons["scene1"] = self.render_button("button_music_on", DISPLAY_WIDTH - 40, 40)
-        self.gui_buttons["scene2"] = self.render_button("button_help", DISPLAY_WIDTH - 90, 40)
+        self.gui_buttons["how to play"] = self.render_button("button_help", DISPLAY_WIDTH - 90, 40)
 
         # Eng : buttons on the left side
         # Fr :
         self.gui_buttons["scene3"] = self.render_button("button_return", 40, 40)
-        self.gui_buttons["scene4"] = self.render_button("button_pause", 90, 40)
+        self.gui_buttons["menu"] = self.render_button("button_pause", 90, 40)
 
         # Eng : buttons on the right down corner 
         # Fr :
-        self.gui_buttons["scene5"] = self.render_button("button_inventory", DISPLAY_WIDTH - 40, DISPLAY_HEIGHT - 40)
-        self.gui_buttons["scene6"] = self.render_button("button_character", DISPLAY_WIDTH - 90, DISPLAY_HEIGHT - 40)
+        self.gui_buttons["inventory"] = self.render_button("button_inventory", DISPLAY_WIDTH - 40, DISPLAY_HEIGHT - 40)
+        self.gui_buttons["stats"] = self.render_button("button_character", DISPLAY_WIDTH - 90, DISPLAY_HEIGHT - 40)
 
         # Eng : quest's button on the left down corner
         # Fr :
-        self.gui_buttons["scene7"] = self.render_button("button_large", 85, DISPLAY_HEIGHT - 40)
+        self.gui_buttons["quests"] = self.render_button("button_large", 85, DISPLAY_HEIGHT - 40)
         self.render_text("quests", 85, DISPLAY_HEIGHT - 39, Gui.colors['white'])
 
     def render_background(self):
@@ -77,6 +75,20 @@ class Gui:
         Gui.display.fill(Gui.colors["dark green"])
         for star in self.stars:
             pygame.draw.rect(Gui.display, Gui.colors["white"], star)
+
+    def render_frame(self, frame_type, frame_name):
+        # render frame
+        self.render_image(f'./assets/frames/{frame_type}.png', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2))
+        if frame_type == 'normal':
+            # render close button
+            self.gui_buttons["previous"] = self.render_button('button_close', 355, 155)
+            # render menu pause title
+            self.render_text(frame_name, int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 - 80))
+        if frame_type == 'big':
+            # render close button
+            self.gui_buttons["previous"] = self.render_button('button_close', 355, 45)
+            # render menu pause title
+            self.render_text(frame_name, int(DISPLAY_WIDTH/2), 60)
 
     def render_logo(self, y, big_logo = True):
         """ Eng : renders the two versions of game logo : small & big """
@@ -103,7 +115,7 @@ class Gui:
             button_pressed = self.render_image(path, x, y)
             return button_pressed
 
-    def render_text(self, text, x, y, color, size = 20):
+    def render_text(self, text, x, y, color = colors['white'], size = 16):
         """ Eng : Draws any text on the scene window and also returns a rectangle object wich have 
         coord attributes and collide methode """
         """ Fr : """
@@ -121,4 +133,5 @@ class Gui:
         Gui.display.blit(image, image_rect)
         return image_rect
 
-
+    def render_rect(self, x, y, width, height, color):
+        pygame.draw.rect(Gui.display, color, pygame.Rect(int(x), int(y), width, height))
