@@ -134,11 +134,15 @@ class Gui:
         Gui.display.blit(image, image_rect)
         return image_rect
 
+    def render_rect(self, x, y, width, height, color):
+        pygame.draw.rect(Gui.display, color, pygame.Rect(int(x), int(y), width, height))
+
+
 # create a gui
 gui = Gui()
 
 # create a player 
-player = Entity(level = 20)
+player = Entity()
 
 
 
@@ -298,9 +302,9 @@ def stats_template():
     gui.render_frame('normal', 'stats')
 
     # render stats
-    gui.render_text(f'Gold {player.gold}', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 - 40))
-    gui.render_text(f'Attack {player.attack}', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 - 20))
-    gui.render_text(f'Diffence {player.defence}', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2))
+    gui.render_text(f'Gold {int(player.gold)}', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 - 40))
+    gui.render_text(f'Attack {int(player.attack)}', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 - 20))
+    gui.render_text(f'Diffence {int(player.defence)}', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2))
     
     # render player's health bar
     gui.render_image('./assets/frames/bar.png', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + 30))
@@ -308,15 +312,16 @@ def stats_template():
     gui.render_image('./assets/frames/bar.png', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + 65))
 
     # render icons
-    gui.render_image('./assets/icons/heart_icon.png', int(DISPLAY_WIDTH/2 - 65), int(DISPLAY_HEIGHT/2 + 30))
-    # render player's armor bar
-    gui.render_image('./assets/icons/level_icon.png', int(DISPLAY_WIDTH/2 - 65), int(DISPLAY_HEIGHT/2 + 65))
+    gui.render_image('./assets/icons/heart.png', int(DISPLAY_WIDTH/2 - 65), int(DISPLAY_HEIGHT/2 + 30))
+    gui.render_image('./assets/icons/level.png', int(DISPLAY_WIDTH/2 - 65), int(DISPLAY_HEIGHT/2 + 65))
+
+    # render dynamique bar for both health and levels
+    gui.render_rect(int(DISPLAY_WIDTH/2 - 50), int(DISPLAY_HEIGHT/2 + 20), int(125 * player.health/player.max_health), 20, Gui.colors['red'])
+    gui.render_rect(int(DISPLAY_WIDTH/2 - 50), int(DISPLAY_HEIGHT/2 + 55), int(125 * player.current_xp/player.max_xp), 20, Gui.colors['yellow'])
 
     # render stats on bars
-    gui.render_text(f'{int(player.health)}/{int(player.max_health)}', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + 30), size = 13)
-    gui.render_text(f'Level {int(player.level)}', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + 65), size = 13)
-
-
+    gui.render_text(f'{int(player.health)}/{int(player.max_health)}', int(DISPLAY_WIDTH/2 + 10), int(DISPLAY_HEIGHT/2 + 32), size = 13)
+    gui.render_text(f'Level {int(player.level)}', int(DISPLAY_WIDTH/2 + 10), int(DISPLAY_HEIGHT/2 + 67), size = 13)
 
 
 ################################# HomeTemplate #################################
