@@ -81,7 +81,7 @@ class Gui:
         self.render_image(f'./assets/frames/{frame_type}.png', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2))
         if frame_type == 'normal':
             # render close button
-            self.gui_buttons["previous"] = self.render_button('button_close', 355, 155)
+            self.gui_buttons[Scene.previous_scene] = self.render_button('button_close', 355, 155)
             # render menu pause title
             self.render_text(frame_name, int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 - 80))
         if frame_type == 'big':
