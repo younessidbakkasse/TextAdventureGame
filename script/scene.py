@@ -67,9 +67,9 @@ class Scene:
                 sys.exit()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button: 
-                    self.transition(game.ux_scenes)
+                    self.transition(game.ux_scenes, game.story_scenes)
     
-    def transition(self, scenes):
+    def transition(self, ux_scenes, story_scenes):
         """ Eng : One hell of an importante method it checks if mouse points to a text or 
         button (rect) and also allows scene transitions from self to another depending 
         on the button's name"""
@@ -77,27 +77,42 @@ class Scene:
         for button_name, button in self.buttons.items():
             self.mx, self.my = pygame.mouse.get_pos()   
             if button != None and button.collidepoint((self.mx, self.my)):
-                for scene_key, scene in scenes.items():
+                for scene_key, scene in ux_scenes.items():
                     if scene_key == button_name:
                         Scene.previous_scene = self.scene_name
                         # This may cause bugs in futur if it didn't ur a lucky mothafucka
                         self.buttons.popitem()
                         scene.run_scene()
                     # when we click exit game menu option 
-                    if button_name == 'exit':
+                    elif button_name == 'game':
+                        story_scenes[0][0].run_scene()
+                    elif button_name == 'exit':
                         pygame.quit()
                         sys.exit()
-                    elif button_name == 'game':
-                        game.story_scenes[0][0].run_scene()
-
+        
+        # check for story scene that have keys '01' as exemple
+        for button_name, button in self.buttons.items():
+            self.mx, self.my = pygame.mouse.get_pos()   
+            if button != None and button.collidepoint((self.mx, self.my)):
+                for scene_key, scene in enumerate(story_scenes):
+                    if scene_key == button_name:
+                        scene.run_scene()
+                    
+        # this is to check for gui buttons
         for button_name, button in gui.gui_buttons.items():
             self.mx, self.my = pygame.mouse.get_pos()   
             if button != None and button.collidepoint((self.mx, self.my)):
-                for scene_key, scene in scenes.items():
+                for scene_key, scene in ux_scenes.items():
                     if scene_key == button_name:
                         Scene.previous_scene = self.scene_name
                         # This may cause bugs in futur if it didn't ur a lucky mothafucka
                         scene.run_scene()
+        
+        
+
+        
+            
+
 
 class Gui:
     """ Eng : this class takes care of everything that has to do with rendering content and gui
@@ -154,7 +169,8 @@ class Gui:
             self.gui_buttons["menu"] = self.render_button("button_pause", 40, 40)
         else:
             # todo : there is a bug here
-            self.gui_buttons['menu'] = self.render_button("button_start", 40, 40)
+            self.gui_buttons.pop('menu', 'key not found')
+            self.gui_buttons['pause'] = self.render_button("button_start", 40, 40)
 
         # Eng : buttons on the right down corner 
         # Fr :
@@ -275,10 +291,7 @@ def before_game_template():
     game.ux_scenes['before game'].buttons['game'] = gui.render_button('button_large', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + 30))
     gui.render_text('Play', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + 30))
 
-################################# Menu Template #################################
-@layout
-def story_template():
-    pass
+
 ################################# Menu Template #################################
 @layout_paused
 def menu_template():
@@ -378,6 +391,12 @@ def store_template():
     gui.render_text('this is the store', int(DISPLAY_WIDTH/2), 250)
 
 
+################################# Game Story Template  (important) #################################
+@layout
+def game_template():
+    pass
+
+
 
 
 
@@ -404,7 +423,7 @@ class Game:
         }
 
         # constructing mean game scenes 
-        self.story_scenes = [[Scene(str(y) + "-" + str(x), story_template) for y in range(1)] for x in range(1)]
+        self.story_scenes = [[Scene(str(y) + "-" + str(x), game_template) for y in range(10)] for x in range(10)]
         self.i, self.j = 0, 0
 
     def run(self):
