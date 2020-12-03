@@ -1,0 +1,16 @@
+{
+    "people": [
+        {
+            "name": "Youness",
+            "age": 22,
+            "email": "std.youness@gmail.com",
+            "single": true
+        },
+        {
+            "name": "Yassine",
+            "age": 19,
+            "email": "yassingermany@gmail.com",
+            "single": null
+        }
+    ]
+}

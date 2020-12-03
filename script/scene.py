@@ -83,12 +83,12 @@ class Scene:
                         # This may cause bugs in futur if it didn't ur a lucky mothafucka
                         self.buttons.popitem()
                         scene.run_scene()
-
                     # when we click exit game menu option 
                     if button_name == 'exit':
                         pygame.quit()
                         sys.exit()
-
+                    elif button_name == 'game':
+                        game.story_scenes[0][0].run_scene()
 
         for button_name, button in gui.gui_buttons.items():
             self.mx, self.my = pygame.mouse.get_pos()   
@@ -138,7 +138,7 @@ class Gui:
     def __init__(self):
         self.gui_buttons = {}
 
-    def render_ui_buttons(self):
+    def render_ui_buttons(self, pause = False):
         """ Eng : renders the same user interface buttons acroos all the scenes and stores them on list"""
         """ Fr : """
 
@@ -150,7 +150,11 @@ class Gui:
         # Eng : buttons on the left side
         # Fr :
         self.gui_buttons["store"] = self.render_button("button_cart", 90, 40)
-        self.gui_buttons["menu"] = self.render_button("button_pause", 40, 40)
+        if not pause:
+            self.gui_buttons["menu"] = self.render_button("button_pause", 40, 40)
+        else:
+            # todo : there is a bug here
+            self.gui_buttons['menu'] = self.render_button("button_start", 40, 40)
 
         # Eng : buttons on the right down corner 
         # Fr :
@@ -249,29 +253,37 @@ def layout(template):
         template()
     return render_gui
 
+def layout_paused(template):
+    def render_gui():
+        # render big centered logo
+        gui.render_logo(30, False)
+        # render UI buttons
+        gui.render_ui_buttons(pause=True)
+        template()
+    return render_gui
+
     
 
 ################################# Story Template #################################
 @layout
-def story_template():
+def before_game_template():
     #story text
     gui.render_text('Hi there, this is a story game.', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2- 80), size = 18)
     gui.render_text('are you sure you wanna play its', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2- 58), size = 18)
     gui.render_text('scary out there !', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2- 36), size = 18)
     # render left direction buttons
-    game.story_scenes[0][0].buttons['left'] = gui.render_button('button_large', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + 30))
+    game.ux_scenes['before game'].buttons['game'] = gui.render_button('button_large', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + 30))
     gui.render_text('Play', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + 30))
-
 
 ################################# Menu Template #################################
 @layout
+def story_template():
+    pass
+################################# Menu Template #################################
+@layout_paused
 def menu_template():
-    # render frame
-    gui.render_image('./assets/frames/normal.png', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2))
-    # render close button
-    game.ux_scenes['menu'].buttons["fight"] = gui.render_button('button_close', 355, 155)
-    # render menu pause title
-    gui.render_text('Pause', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 - 80))
+    # render frame 
+    gui.render_frame('normal', 'pause')
     # render menu options
     game.ux_scenes['menu'].buttons["home"] = gui.render_text('New Game', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 - 30), size = 30)
     game.ux_scenes['menu'].buttons["exit"] = gui.render_text('Exit Game', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + 10), size = 30)
@@ -282,7 +294,7 @@ def menu_template():
 @layout
 def fight_template():
     # render frame
-    gui.render_frame('normal', 'stats')
+    gui.render_frame('normal', 'fight')
 
 ################################# Game Credit Template #################################
 def credit_template():
@@ -296,7 +308,7 @@ def credit_template():
 
 
 ################################# Stats Template #################################
-@layout
+@layout_paused
 def stats_template():
     # render frame
     gui.render_frame('normal', 'stats')
@@ -329,7 +341,7 @@ def home_template():
     # render big centered logo
     gui.render_logo(150, True)
     # start game button
-    game.ux_scenes['home'].buttons["fight"] = gui.render_button("button_game", DISPLAY_WIDTH/2, DISPLAY_HEIGHT- 160) 
+    game.ux_scenes['home'].buttons["before game"] = gui.render_button("button_game", DISPLAY_WIDTH/2, DISPLAY_HEIGHT- 160) 
 
 ################################# How to play Template #################################
 def howtoplay_template():
@@ -351,7 +363,7 @@ def inventory_template():
 
 
 ################################# Quests Template #################################
-@layout
+@layout_paused
 def quests_template():
     # render frame
     gui.render_frame('normal', 'quests')
@@ -382,7 +394,7 @@ class Game:
         self.ux_scenes = {
             'home' : Scene('home', home_template),
             'menu' : Scene('menu', menu_template),
-            'fight' : Scene('fight', story_template),
+            'before game' : Scene('before game', before_game_template),
             'inventory' : Scene('inventory', inventory_template),
             'credit' : Scene('credit', credit_template),
             'how to play' : Scene('how to play', howtoplay_template),
@@ -396,7 +408,8 @@ class Game:
         self.i, self.j = 0, 0
 
     def run(self):
-        self.ux_scenes['menu'].run_scene()  
+        self.ux_scenes['home'].run_scene()  
+
 
 game = Game()
 game.run()

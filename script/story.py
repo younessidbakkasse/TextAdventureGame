@@ -26,7 +26,7 @@ You * * * * * * * * * * *
     you can no longer go back to the previous scene but How ?
         - Take for example the first scene (0, 0), it has two direction choices, once we chose (1, 0) 
         or (0, 1), we can no longer go back to the previous scene (0, 0). 
-        Also one we choose a scene ex (1, 0) a whole scene column is deleted since we will never
+        Also once we choose a scene ex (1, 0) a whole scene column is deleted since we will never
         pass by those scenes.
         - Also if we made some choices that lead us to a scene that is connected to the first 
         scene (0, 0), the choice leading to that first will be deleted to prevent player from 
