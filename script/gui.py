@@ -31,7 +31,6 @@ class Gui:
     # Eng : the following loop generates random white squares
     # Fr :
     stars = [pygame.Rect(random.randint(0, DISPLAY_WIDTH), random.randint(0, DISPLAY_HEIGHT), 3, 3) for i in range(35)]
-
     # Eng : game color palette
     # Fr :
     colors = {
@@ -42,22 +41,28 @@ class Gui:
         "red" : (255, 0, 69),
         "yellow" : (250, 200, 50)
     }
+    
     def __init__(self):
         self.gui_buttons = {}
 
-    def render_ui_buttons(self):
+    def render_ui_buttons(self, pause = False):
         """ Eng : renders the same user interface buttons acroos all the scenes and stores them on list"""
         """ Fr : """
 
         # Eng : buttons on the right side
         # Fr :
-        self.gui_buttons["scene1"] = self.render_button("button_music_on", DISPLAY_WIDTH - 40, 40)
+        self.gui_buttons["music"] = self.render_button('button_music_on', DISPLAY_WIDTH - 40, 40)
         self.gui_buttons["how to play"] = self.render_button("button_help", DISPLAY_WIDTH - 90, 40)
 
         # Eng : buttons on the left side
         # Fr :
-        self.gui_buttons["scene3"] = self.render_button("button_return", 40, 40)
-        self.gui_buttons["menu"] = self.render_button("button_pause", 90, 40)
+        self.gui_buttons["store"] = self.render_button("button_cart", 90, 40)
+        if not pause:
+            self.gui_buttons["menu"] = self.render_button("button_pause", 40, 40)
+        else:
+            # todo : there is a bug here
+            self.gui_buttons.pop('menu', 'key not found')
+            self.gui_buttons['pause'] = self.render_button("button_start", 40, 40)
 
         # Eng : buttons on the right down corner 
         # Fr :
@@ -68,7 +73,7 @@ class Gui:
         # Fr :
         self.gui_buttons["quests"] = self.render_button("button_large", 85, DISPLAY_HEIGHT - 40)
         self.render_text("quests", 85, DISPLAY_HEIGHT - 39, Gui.colors['white'])
-
+        
     def render_background(self):
         """ Eng : renders a dark green background with random white stars """
         """ Fr : """
@@ -81,12 +86,13 @@ class Gui:
         self.render_image(f'./assets/frames/{frame_type}.png', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2))
         if frame_type == 'normal':
             # render close button
-            self.gui_buttons[Scene.previous_scene] = self.render_button('button_close', 355, 155)
+            # todo Scene.previous_scene is undefined
+            self.gui_buttons['Scene.previous_scene'] = self.render_button('button_close', 355, 155)
             # render menu pause title
             self.render_text(frame_name, int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 - 80))
         if frame_type == 'big':
             # render close button
-            self.gui_buttons["previous"] = self.render_button('button_close', 355, 45)
+            self.gui_buttons['Scene.previous_scene'] = self.render_button('button_close', 355, 45)
             # render menu pause title
             self.render_text(frame_name, int(DISPLAY_WIDTH/2), 60)
 
@@ -110,11 +116,12 @@ class Gui:
         path = f"./assets/buttons/buttons_normal/{name}.png"
         button = self.render_image(path, x, y)
         mx, my = pygame.mouse.get_pos()
-        if button.collidepoint((mx, my)):
+        if button.collidepoint(mx, my):
             path = f"./assets/buttons/buttons_pressed/{name}.png"
             button_pressed = self.render_image(path, x, y)
             return button_pressed
-
+        return button
+        
     def render_text(self, text, x, y, color = colors['white'], size = 16):
         """ Eng : Draws any text on the scene window and also returns a rectangle object wich have 
         coord attributes and collide methode """
