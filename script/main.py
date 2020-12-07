@@ -148,7 +148,8 @@ class Gui:
         "white" : (251, 251, 251),
         "green": (18, 168, 113),
         "red" : (255, 0, 69),
-        "yellow" : (250, 200, 50)
+        "yellow" : (250, 200, 50),
+        "transparent" : (12, 38, 31, 190)
     }
     def __init__(self):
         self.gui_buttons = {}
@@ -188,6 +189,13 @@ class Gui:
         Gui.display.fill(Gui.colors["dark green"])
         for star in self.stars:
             pygame.draw.rect(Gui.display, Gui.colors["white"], star)
+    
+    def render_transparent_background(self):
+        """ Eng : renders a dark green transparent background """
+        """ Fr : """
+        s = pygame.Surface((DISPLAY_WIDTH, DISPLAY_HEIGHT), pygame.SRCALPHA)   
+        s.fill(Gui.colors['transparent'])                       
+        Gui.display.blit(s, (0,0))
 
     def render_frame(self, frame_type, frame_name):
         # render frame
@@ -257,6 +265,15 @@ gui = Gui()
 # create a player 
 player = Entity()
 
+
+
+
+
+
+
+
+
+
 ##########################
 #CREATING FONCTIONS AS TEMPLATES
 ###########################
@@ -278,6 +295,9 @@ def layout_paused(template):
         template()
     return render_gui
 
+
+
+
     
 
 ################################# Story Template #################################
@@ -295,6 +315,7 @@ def before_game_template():
 ################################# Menu Template #################################
 @layout_paused
 def menu_template():
+    gui.render_transparent_background()
     # render frame 
     gui.render_frame('normal', 'pause')
     # render menu options
@@ -323,9 +344,9 @@ def credit_template():
 ################################# Stats Template #################################
 @layout_paused
 def stats_template():
+    gui.render_transparent_background()
     # render frame
     gui.render_frame('normal', 'stats')
-
     # render stats
     gui.render_text(f'Gold {int(player.gold)}', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 - 40))
     gui.render_text(f'Attack {int(player.attack)}', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 - 20))
@@ -347,7 +368,6 @@ def stats_template():
     # render stats on bars
     gui.render_text(f'{int(player.health)}/{int(player.max_health)}', int(DISPLAY_WIDTH/2 + 10), int(DISPLAY_HEIGHT/2 + 32), size = 13)
     gui.render_text(f'Level {int(player.level)}', int(DISPLAY_WIDTH/2 + 10), int(DISPLAY_HEIGHT/2 + 67), size = 13)
-
 
 ################################# HomeTemplate #################################
 def home_template():
@@ -378,6 +398,7 @@ def inventory_template():
 ################################# Quests Template #################################
 @layout_paused
 def quests_template():
+    gui.render_transparent_background()
     # render frame
     gui.render_frame('normal', 'quests')
     # render how to play content
