@@ -6,8 +6,6 @@ import sys, pygame, random
 DISPLAY_HEIGHT = 500
 DISPLAY_WIDTH = 400
 
-
-
 class Scene:
     """ Eng : This the Scene Class its a blueprint for every scene for exemple the starting scene
     has its own loop, its own get event loop, its own template or elements and using this Class 
@@ -85,6 +83,7 @@ class Scene:
                         scene.run_scene()
                     # when we click exit game menu option 
                     elif button_name == 'game':
+                        # enters the 2d maze story scenes 
                         story_scenes[0][0].run_scene()
                     elif button_name == 'exit':
                         pygame.quit()
@@ -107,12 +106,41 @@ class Scene:
                         Scene.previous_scene = self.scene_name
                         # This may cause bugs in futur if it didn't ur a lucky mothafucka
                         scene.run_scene()
-        
-        
 
-        
-            
+class UxScene(Scene):
+    pass
 
+class StoryScene(Scene):
+    def __init__(self, choices, story_text, scene_name, template_closure):
+        """ Eng : """
+        """ Fr : """
+        super().__init__(scene_name, template_closure)
+        self.story_text = story_text
+        self.choices = choices
+    
+    def render_story_text(self):
+        """ Eng : """
+        """ Fr : """
+        for i, line in enumerate(self.story_text):
+            gui.render_text(line, int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2- 80 - i * 20), size = 18)
+
+    def render_choices(self):
+        """ Eng : """
+        """ Fr : """
+        for i, choice in enumerate(self.choices):
+            self.buttons['choice' + str(i)] = gui.render_button('button_large', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + i * 45))
+            gui.render_text(choice, int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + i * 45))
+    
+    def render_template(self):
+        """ Eng : """
+        """ Fr : """
+        # render big centered logo
+        gui.render_logo(30, False)
+        # render UI buttons
+        gui.render_ui_buttons()
+        self.template()
+        self.render_story_text()
+        self.render_choices()
 
 class Gui:
     """ Eng : this class takes care of everything that has to do with rendering content and gui
@@ -268,12 +296,6 @@ player = Entity()
 
 
 
-
-
-
-
-
-
 ##########################
 #CREATING FONCTIONS AS TEMPLATES
 ###########################
@@ -295,10 +317,7 @@ def layout_paused(template):
         template()
     return render_gui
 
-
-
-
-    
+  
 
 ################################# Story Template #################################
 @layout
@@ -413,20 +432,49 @@ def store_template():
 
 
 ################################# Game Story Template  (important) #################################
-@layout
 def game_template():
     pass
 
 
 
+""" This game is made by Youness ID BAKKASSE; https://github.com/younessidbakkasse/
+    its a school project to initiat with Python programming 
+  more informations and licence please check README file attached to the folder."""
 
+# Eng : the game map each point corresponds to a diffrent scene
+# FR : 
 
+""" 
+                                You * * * * * * * * * * * 
+                                    * * * * * * * * * * *
+                                    * * * * * * * * * * *
+                                    * * * * * * * * * * *
+                                    * * * * * * * * * * *
+                                    * * * * * * * * * * *
+                                    * * * * * * * * * * *
+                                    * * * * * * * * * * *
+                                    * * * * * * * * * * * 
+                                    * * * * * * * * * * * Boss
+    
+    # Rules
+    Eng : monsters and loots will be deployed randomly, monsters level will increase as you get close to the 
+    boss. each scene will have maximum 2 direction choices but there will 
+    be other choices depending on the scene, if it contains monsters or objects. Once you passed a scene
+    you can no longer go back to the previous scene but How ?
+        - Take for example the first scene (0, 0), it has two direction choices, once we chose (1, 0) 
+        or (0, 1), we can no longer go back to the previous scene (0, 0). 
+        Also one we choose a scene ex (1, 0) a whole scene column is deleted since we will never
+        pass by those scenes.
+        - Also if we made some choices that lead us to a scene that is connected to the first 
+        scene (0, 0), the choice leading to that first will be deleted to prevent player from 
+        stating from the beginning.
+        - One column or a row will be deleted each time a player choses one direction. This 
+        way we insure story consistency and story flow.
+    Fr : 
+"""
 
-
-
-
-
-
+# scene type 1 : decision scene 
+# scene type 2 : 
 
 class Game:
     def __init__(self):
@@ -444,12 +492,12 @@ class Game:
         }
 
         # constructing mean game scenes 
-        self.story_scenes = [[Scene(str(y) + "-" + str(x), game_template) for y in range(10)] for x in range(10)]
+        self.story_scenes = [[StoryScene(['play', 'kill him'], ['i love eating gorillas', 'but its not like what u think'], str(y) + '-' + str(x), game_template) for y in range(11)] for x in range(11)]
         self.i, self.j = 0, 0
 
     def run(self):
         self.ux_scenes['home'].run_scene()  
-
+        # self.story_scenes[0][0].run_scene()
 
 game = Game()
 game.run()

@@ -1,9 +1,9 @@
 {
-    "people": [
+    "scenes": [
         {
-            "name": "Youness",
-            "age": 22,
-            "email": "std.youness@gmail.com",
+            "text": "I love you.",
+            "choices": [],
+            "type": "decision",
             "single": true
         },
         {
