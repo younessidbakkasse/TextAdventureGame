@@ -33,17 +33,6 @@ class Entity:
         self.defence = defence + defence * self.level/3
 
 
-
-class Object:
-    def __init__(self):
-        self.name = None
-        self.type = None
-
-    def __str__(self):
-        print(self.name, self.type)
-
-
-
 class Player(Entity):
     def __init__(self):
         super().__init__()
@@ -56,4 +45,14 @@ class Player(Entity):
             self.current_xp -= self.max_xp
             self.update_levels()
             self.level += 1
-            
+
+class Object:
+    def __init__(self):
+        self.name = None
+        self.type = None
+
+    def __str__(self):
+        print(self.name, self.type)
+
+# create a player 
+player = Entity()

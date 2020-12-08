@@ -1,10 +1,10 @@
 {
     "scenes": [
         {
-            "text": "I love you.",
-            "choices": [],
-            "type": "decision",
-            "single": true
+            "name": "game",
+            "text": ["Washed ashore, you have only vague", "recollections of what happened."],
+            "choices": ["Explore the forest"],
+            "buttons": [""]
         },
         {
             "name": "Yassine",
