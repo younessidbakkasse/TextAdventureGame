@@ -1,5 +1,11 @@
-from scene import gui, player, DISPLAY_HEIGHT, DISPLAY_WIDTH
-from main import game
+import manager
+from scene import (
+    Gui,
+    gui, 
+    player, 
+    DISPLAY_HEIGHT, 
+    DISPLAY_WIDTH,
+)
 
 ################################# Story Template #################################
 # todo: needs to be a StoryScene
@@ -10,7 +16,7 @@ def before_game_template():
     gui.render_text('are you sure you wanna play its', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2- 58), size = 18)
     gui.render_text('scary out there !', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2- 36), size = 18)
     # render left direction buttons
-    game.scenes['before game'].buttons['game'] = gui.render_button('button_large', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + 30))
+    manager.game.scenes['before game'].buttons['game'] = gui.render_button('button_large', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + 30))
     gui.render_text('Play', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + 30))
 
 
@@ -21,9 +27,9 @@ def menu_template():
     # render frame 
     gui.render_frame('normal', 'pause')
     # render menu options
-    game.scenes['menu'].buttons["home"] = gui.render_text('New Game', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 - 30), size = 30)
-    game.scenes['menu'].buttons["exit"] = gui.render_text('Exit Game', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + 10), size = 30)
-    game.scenes['menu'].buttons["credit"] = gui.render_text('Credit', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + 50), size = 30)
+    manager.game.scenes['menu'].buttons["home"] = gui.render_text('New Game', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 - 30), size = 30)
+    manager.game.scenes['menu'].buttons["exit"] = gui.render_text('Exit Game', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + 10), size = 30)
+    manager.game.scenes['menu'].buttons["credit"] = gui.render_text('Credit', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + 50), size = 30)
     
 
 ################################# Monster Fight Template #################################
@@ -77,7 +83,7 @@ def home_template():
     # render big centered logo
     gui.render_logo(150, True)
     # start game button
-    game.scenes['home'].buttons["before game"] = gui.render_button("button_game", DISPLAY_WIDTH/2, DISPLAY_HEIGHT- 160) 
+    manager.game.scenes['home'].buttons["before game"] = gui.render_button("button_game", DISPLAY_WIDTH/2, DISPLAY_HEIGHT- 160) 
 
 ################################# How to play Template #################################
 def howtoplay_template():
@@ -113,3 +119,10 @@ def store_template():
     gui.render_frame('big', 'store')
     # render how to play content
     gui.render_text('this is the store', int(DISPLAY_WIDTH/2), 250)
+
+
+
+
+
+
+

@@ -1,13 +1,5 @@
-""" This game is made by Youness ID BAKKASSE; https://github.com/younessidbakkasse/
-    its a school project to initiat with Python programming 
-  more informations and licence please check README file attached to the folder.
-
-# Eng : the game map each point corresponds to a diffrent scene
-# FR : 
-
-"""
-
 from entities import player
+import manager
 import sys, pygame, random
 
 # Eng : global variables
@@ -227,7 +219,7 @@ class Scene:
                 sys.exit()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button: 
-                    self.transition(game.scenes)
+                    self.transition(manager.game.scenes)
     
     def transition(self, scenes):
         """ Eng : One hell of an importante method it checks if mouse points to a text or 
@@ -285,7 +277,6 @@ class StoryScene(Scene):
         self.template()
         self.render_story_text()
         self.render_choices()
-
 
 
 
