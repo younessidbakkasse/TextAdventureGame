@@ -26,8 +26,8 @@ class Game:
             'quests' : Scene('quests', quests_template),
             'store' : Scene('store', store_template),
 
-            'game' : StoryScene(['play'], ['you are about to meet him'], 'game')
-
+            'game' : StoryScene('game', ['play', 'go back'], ['you are about to meet him']),
+            'play' : StoryScene('play', ['read map', 'kill the dragon'], ['you just fall in forest', 'but you found out'])
         }
 
     def run(self):

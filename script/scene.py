@@ -42,6 +42,7 @@ class Gui:
         "green": (18, 168, 113),
         "red" : (255, 0, 69),
         "yellow" : (250, 200, 50),
+        "grey" : (20, 55, 45),
         "transparent" : (12, 38, 31, 190)
     }
     def __init__(self):
@@ -251,24 +252,24 @@ class Scene:
 
 
 class StoryScene(Scene):
-    def __init__(self, choices, story_text, scene_name, template_closure = gui.render_gui):
+    def __init__(self, scene_name, choices, story_text, template_closure = gui.render_gui):
         """ Eng : """
         """ Fr : """
         super().__init__(scene_name, template_closure)
         self.story_text = story_text
         self.choices = choices
-       
+
     def render_story_text(self):
         """ Eng : """
         """ Fr : """
         for i, line in enumerate(self.story_text):
-            gui.render_text(line, int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2- 80 - i * 20), size = 18)
-
+            gui.render_text(line, int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 - 80 - i * 20), size = 18)
+        
     def render_choices(self):
         """ Eng : """
         """ Fr : """
         for i, choice in enumerate(self.choices):
-            self.buttons['choice' + str(i)] = gui.render_button('button_large', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + i * 45))
+            self.buttons[choice] = gui.render_button('button_large', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + i * 45))
             gui.render_text(choice, int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + i * 45))
     
     def render_template(self):
