@@ -269,7 +269,7 @@ class StoryScene(Scene):
         """ Eng : """
         """ Fr : """
         for i, choice in enumerate(self.choices):
-            self.buttons[choice] = gui.render_button('button_large', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + i * 45))
+            self.buttons[choice] = gui.render_button('button_xl', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + i * 45))
             gui.render_text(choice, int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + i * 45))
     
     def render_template(self):

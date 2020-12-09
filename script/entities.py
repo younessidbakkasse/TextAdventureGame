@@ -7,6 +7,8 @@ class Entity:
         self.max_health = 150 + (15 * self.level)
         self.health = self.max_health
 
+        #todo use setters and getters for this
+
         self.attack = attack + attack * self.level/2 
         self.defence = defence + defence * self.level/3
         self.gold = gold
