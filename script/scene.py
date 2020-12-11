@@ -157,6 +157,9 @@ class Gui:
         gui.render_logo(30, False)
         gui.render_ui_buttons(pause)
 
+    def render_char(self):
+        pass
+    
 # create a gui
 gui = Gui()
 
