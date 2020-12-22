@@ -102,11 +102,18 @@ class Gui:
             self.render_text(frame_name, int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 - 110))
         if frame_type == 'big':
             # render frame
-            self.render_image(f'./assets/frames/{frame_type}.png', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + 25))
+            self.render_image(f'./assets/frames/{frame_type}.png', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + 20))
             # render close button
-            self.gui_buttons[Scene.previous_scene] = self.render_button('button_close', int(DISPLAY_WIDTH) - 55,  145)
+            self.gui_buttons[Scene.previous_scene] = self.render_button('button_close', int(DISPLAY_WIDTH) - 55,  int(DISPLAY_HEIGHT/2) - 165)
             # render menu pause title
-            self.render_text(frame_name, int(DISPLAY_WIDTH/2), 165)
+            self.render_text(frame_name, int(DISPLAY_WIDTH/2), 160)
+        if frame_type == 'huge':
+            # render frame
+            self.render_image(f'./assets/frames/{frame_type}.png', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + 10))
+            # render close button
+            self.gui_buttons[Scene.previous_scene] = self.render_button('button_close', int(DISPLAY_WIDTH) - 55, 58)
+            # render menu pause title
+            self.render_text(frame_name, int(DISPLAY_WIDTH/2), 77)
 
     def render_logo(self, y, big_logo = True):
         """ Eng : renders the two versions of game logo : small & big """
