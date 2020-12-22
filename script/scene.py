@@ -152,7 +152,7 @@ class Gui:
         """ Eng : this function draw buttons from the asset/button file and checks hover effect """
         """ Fr : """
         path = f"./assets/buttons/buttons_normal/{name}.png"
-        button = self.render_image(path, x, y + 4)
+        button = self.render_image(path, x, y + 3)
         mx, my = pygame.mouse.get_pos()
         if button.collidepoint(mx, my):
             path = f"./assets/buttons/buttons_pressed/{name}.png"
