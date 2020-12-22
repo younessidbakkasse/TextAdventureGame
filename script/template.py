@@ -81,9 +81,9 @@ def stats_template():
 ################################# HomeTemplate #################################
 def home_template():
     # render big centered logo
-    gui.render_logo(150, True)
+    gui.render_logo(160, True)
     # start game button
-    manager.game.scenes['home'].buttons["before game"] = gui.render_button("button_game", DISPLAY_WIDTH/2, DISPLAY_HEIGHT- 160) 
+    manager.game.scenes['home'].buttons["before game"] = gui.render_button("button_game", DISPLAY_WIDTH/2, DISPLAY_HEIGHT- 170) 
 
 ################################# How to play Template #################################
 def howtoplay_template():
