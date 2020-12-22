@@ -27,9 +27,9 @@ def menu_template():
     # render frame 
     gui.render_frame('normal', 'pause')
     # render menu options
-    manager.game.scenes['menu'].buttons["home"] = gui.render_text('New Game', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 - 30), size = 30)
-    manager.game.scenes['menu'].buttons["exit"] = gui.render_text('Exit Game', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + 10), size = 30)
-    manager.game.scenes['menu'].buttons["credit"] = gui.render_text('Credit', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + 50), size = 30)
+    manager.game.scenes['menu'].buttons["home"] = gui.render_text('New Game', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 - 40), size = 35, Regular=True)
+    manager.game.scenes['menu'].buttons["exit"] = gui.render_text('Exit Game', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + 10), size = 35, Regular=True)
+    manager.game.scenes['menu'].buttons["credit"] = gui.render_text('Credit', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + 60), size = 35, Regular=True)
     
 
 ################################# Monster Fight Template #################################
@@ -40,14 +40,15 @@ def fight_template():
 
 ################################# Game Credit Template #################################
 def credit_template():
-
+    gui.render_gui(pause=True)
+    gui.render_transparent_background()
     ## render frame
     gui.render_frame('big', 'credit')
     # render credit
-    gui.render_text('Game design & production', int(DISPLAY_WIDTH/2), 160, size = 15)
-    gui.render_text('Youness Id bakkasse', int(DISPLAY_WIDTH/2), 200, size = 25)
-    gui.render_text('Sound effects', int(DISPLAY_WIDTH/2), 250, size = 15)
-    gui.render_text('Soundhound.com', int(DISPLAY_WIDTH/2), 290, size = 25)
+    gui.render_text('Game design & production', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 - 40), size = 16, Regular=True)
+    gui.render_text('Youness Id bakkasse', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 - 10), size = 25, Regular=True)
+    gui.render_text('Sound effects', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + 50), size = 16, Regular=True)
+    gui.render_text('Soundhound.com', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + 80), size = 25, Regular=True)
 
 
 ################################# Stats Template #################################
@@ -87,10 +88,12 @@ def home_template():
 
 ################################# How to play Template #################################
 def howtoplay_template():
+    gui.render_gui()
+    gui.render_transparent_background()
     # render frame
     gui.render_frame('big', 'how to play')
     # render how to play content
-    gui.render_text('Use your mouse to play', int(DISPLAY_WIDTH/2), 120, size = 15)
+    gui.render_text('Use your mouse to play', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2), size = 22, Regular=True)
 
 
 ################################# Inventory Template #################################
@@ -111,14 +114,21 @@ def quests_template():
     # render frame
     gui.render_frame('normal', 'quests')
     # render how to play content
-    gui.render_text('current quest: Kill the boss', int(DISPLAY_WIDTH/2), 250)
+    gui.render_text('Current quest: Kill the boss', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2), size=22, Regular=True)
 
-################################# Quests Template #################################
+################################# Store Template #################################
 def store_template():
+    gui.render_gui()
+    gui.render_transparent_background()
     # render frame
-    gui.render_frame('big', 'store')
+    gui.render_frame('normal', 'store')
+    # render left and right buttons
+    gui.render_button("button_left", 40, int(DISPLAY_HEIGHT/2)) 
+    gui.render_button("button_right", DISPLAY_WIDTH - 40, int(DISPLAY_HEIGHT/2)) 
     # render how to play content
-    gui.render_text('this is the store', int(DISPLAY_WIDTH/2), 250)
+    gui.render_text("Store is available only", int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 - 10), Regular=True, size=19)
+    gui.render_text("for Pro members.", int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + 10), Regular=True, size=19)
+    # render store elements
 
 
 

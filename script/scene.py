@@ -43,7 +43,7 @@ class Gui:
         "red" : (255, 0, 69),
         "yellow" : (250, 200, 50),
         "grey" : (20, 55, 45),
-        "transparent" : (0, 44, 74, 130)
+        "transparent" : (0, 44, 74, 150)
     }
     
     def __init__(self):
@@ -93,18 +93,20 @@ class Gui:
         Gui.display.blit(s, (0,0))
 
     def render_frame(self, frame_type, frame_name):
-        # render frame
-        self.render_image(f'./assets/frames/{frame_type}.png', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2))
         if frame_type == 'normal':
+            # render frame
+            self.render_image(f'./assets/frames/{frame_type}.png', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2))
             # render close button
-            self.gui_buttons[Scene.previous_scene] = self.render_button('button_close', 355, 155)
+            self.gui_buttons[Scene.previous_scene] = self.render_button('button_close', int(DISPLAY_WIDTH) - 55, int(DISPLAY_HEIGHT/2) - 135)
             # render menu pause title
-            self.render_text(frame_name, int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 - 80))
+            self.render_text(frame_name, int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 - 110))
         if frame_type == 'big':
+            # render frame
+            self.render_image(f'./assets/frames/{frame_type}.png', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + 25))
             # render close button
-            self.gui_buttons[Scene.previous_scene] = self.render_button('button_close', 355, 45)
+            self.gui_buttons[Scene.previous_scene] = self.render_button('button_close', int(DISPLAY_WIDTH) - 55,  145)
             # render menu pause title
-            self.render_text(frame_name, int(DISPLAY_WIDTH/2), 60)
+            self.render_text(frame_name, int(DISPLAY_WIDTH/2), 165)
 
     def render_logo(self, y, big_logo = True):
         """ Eng : renders the two versions of game logo : small & big """
