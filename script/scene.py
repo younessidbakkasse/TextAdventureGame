@@ -49,7 +49,31 @@ class Gui:
     def __init__(self):
         self.gui_buttons = {}
 
-    def render_ui_buttons(self, pause = False):
+    def render_unfunctionel_ui_buttons(self):
+        """ Eng : renders the same user interface buttons acroos all the scenes and stores them on list"""
+        """ Fr : """
+
+        # Eng : buttons on the right side
+        # Fr :
+        self.render_button('button_music_on', DISPLAY_WIDTH - 45, 50)
+        self.render_button("button_help", DISPLAY_WIDTH - 110, 50)
+
+        # Eng : buttons on the left side
+        # Fr :
+        self.render_button("button_cart", 110, 50)
+        self.render_button("button_start", 45, 50)
+
+        # Eng : buttons on the right down corner 
+        # Fr :
+        self.render_button("button_inventory", DISPLAY_WIDTH - 45, DISPLAY_HEIGHT - 50)
+        self.render_button("button_character", DISPLAY_WIDTH - 110, DISPLAY_HEIGHT - 50)
+
+        # Eng : quest's button on the left down corner
+        # Fr :
+        self.render_button("button_quests", 85, DISPLAY_HEIGHT - 50)
+        self.render_text("quests", 85, DISPLAY_HEIGHT - 50, Gui.colors['white'], size=18)
+
+    def render_ui_buttons(self):
         """ Eng : renders the same user interface buttons acroos all the scenes and stores them on list"""
         """ Fr : """
 
@@ -61,12 +85,7 @@ class Gui:
         # Eng : buttons on the left side
         # Fr :
         self.gui_buttons["store"] = self.render_button("button_cart", 110, 50)
-        if not pause:
-            self.gui_buttons["menu"] = self.render_button("button_pause", 45, 50)
-        else:
-            # todo : there is a bug here
-            self.gui_buttons.pop('menu', 'key not found')
-            self.gui_buttons['pause'] = self.render_button("button_start", 45, 50)
+        self.gui_buttons["menu"] = self.render_button("button_pause", 45, 50)
 
         # Eng : buttons on the right down corner 
         # Fr :
@@ -111,7 +130,7 @@ class Gui:
             # render frame
             self.render_image(f'./assets/frames/{frame_type}.png', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + 10))
             # render close button
-            self.gui_buttons[Scene.previous_scene] = self.render_button('button_close', int(DISPLAY_WIDTH) - 55, 58)
+            self.gui_buttons[Scene.previous_scene] = self.render_button('button_close', int(DISPLAY_WIDTH) - 55, 50)
             # render menu pause title
             self.render_text(frame_name, int(DISPLAY_WIDTH/2), 77)
 
@@ -167,7 +186,10 @@ class Gui:
 
     def render_gui(self, pause = False):
         gui.render_logo(40, False)
-        gui.render_ui_buttons(pause)
+        if pause:
+            gui.render_unfunctionel_ui_buttons()
+        else:
+            gui.render_ui_buttons()
 
     def render_char(self):
         pass

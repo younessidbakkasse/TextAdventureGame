@@ -88,7 +88,7 @@ def home_template():
 
 ################################# How to play Template #################################
 def howtoplay_template():
-    gui.render_gui()
+    gui.render_gui(pause=True)
     gui.render_transparent_background()
     # render frame
     gui.render_frame('big', 'how to play')
@@ -98,13 +98,17 @@ def howtoplay_template():
 
 ################################# Inventory Template #################################
 def inventory_template():
+    gui.render_gui(pause=True)
     gui.render_transparent_background()
     # render frame
-    gui.render_frame('huge', 'inventory')
-    # #render inventory boxes
-    # for i in range(3):
-    #     for j in range(4):
-    #         gui.render_image('./assets/frames/tall.png', int(80 * j + 80), int(150 + i * 120))
+    gui.render_frame('big', 'inventory')
+    # render left and right buttons
+    gui.render_button("button_left", 45, int(DISPLAY_HEIGHT/2)) 
+    gui.render_button("button_right", DISPLAY_WIDTH - 45, int(DISPLAY_HEIGHT/2)) 
+    # render how to play content
+    gui.render_text("There's no items", int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 - 3), Regular=True, size=19)
+    gui.render_text("in your inventory.", int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + 21), Regular=True, size=19)
+    # render store elements
 
 
 ################################# Quests Template #################################
@@ -114,7 +118,8 @@ def quests_template():
     # render frame
     gui.render_frame('normal', 'quests')
     # render how to play content
-    gui.render_text('Current quest: Kill the boss', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2), size=22, Regular=True)
+    gui.render_text('Current quest:', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 - 30), size=22, Regular=True)
+    gui.render_text('Kill the boss', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + 10), size=30, Regular=True)
 
 ################################# Store Template #################################
 def store_template():
