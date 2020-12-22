@@ -38,7 +38,7 @@ class Gui:
     colors = {
         "dark green" : (14, 43, 35),
         "dark blue" : (3, 15, 38),
-        "white" : (251, 251, 251),
+        "white" : (253, 253, 253),
         "green": (18, 168, 113),
         "red" : (255, 0, 69),
         "yellow" : (250, 200, 50),
@@ -54,28 +54,28 @@ class Gui:
 
         # Eng : buttons on the right side
         # Fr :
-        self.gui_buttons["music"] = self.render_button('button_music_on', DISPLAY_WIDTH - 40, 40)
-        self.gui_buttons["how to play"] = self.render_button("button_help", DISPLAY_WIDTH - 90, 40)
+        self.gui_buttons["music"] = self.render_button('button_music_on', DISPLAY_WIDTH - 45, 50)
+        self.gui_buttons["how to play"] = self.render_button("button_help", DISPLAY_WIDTH - 110, 50)
 
         # Eng : buttons on the left side
         # Fr :
-        self.gui_buttons["store"] = self.render_button("button_cart", 90, 40)
+        self.gui_buttons["store"] = self.render_button("button_cart", 110, 50)
         if not pause:
-            self.gui_buttons["menu"] = self.render_button("button_pause", 40, 40)
+            self.gui_buttons["menu"] = self.render_button("button_pause", 45, 50)
         else:
             # todo : there is a bug here
             self.gui_buttons.pop('menu', 'key not found')
-            self.gui_buttons['pause'] = self.render_button("button_start", 40, 40)
+            self.gui_buttons['pause'] = self.render_button("button_start", 45, 50)
 
         # Eng : buttons on the right down corner 
         # Fr :
-        self.gui_buttons["inventory"] = self.render_button("button_inventory", DISPLAY_WIDTH - 40, DISPLAY_HEIGHT - 40)
-        self.gui_buttons["stats"] = self.render_button("button_character", DISPLAY_WIDTH - 90, DISPLAY_HEIGHT - 40)
+        self.gui_buttons["inventory"] = self.render_button("button_inventory", DISPLAY_WIDTH - 45, DISPLAY_HEIGHT - 50)
+        self.gui_buttons["stats"] = self.render_button("button_character", DISPLAY_WIDTH - 110, DISPLAY_HEIGHT - 50)
 
         # Eng : quest's button on the left down corner
         # Fr :
-        self.gui_buttons["quests"] = self.render_button("button_large", 85, DISPLAY_HEIGHT - 40)
-        self.render_text("quests", 85, DISPLAY_HEIGHT - 39, Gui.colors['white'])
+        self.gui_buttons["quests"] = self.render_button("button_quests", 85, DISPLAY_HEIGHT - 50)
+        self.render_text("quests", 85, DISPLAY_HEIGHT - 50, Gui.colors['white'], size=18)
 
     def render_background(self):
         """ Eng : renders a dark green background with random white stars """
@@ -114,16 +114,16 @@ class Gui:
             self.render_text("DEAD", DISPLAY_WIDTH/2, y, Gui.colors["white"], 110)
             self.render_text("ISLAND", DISPLAY_WIDTH/2, y + 80, Gui.colors["white"], 110)
         else:
-            self.render_text("DEAD", DISPLAY_WIDTH/2 + 4, y + 4, Gui.colors["dark blue"], 30)
-            self.render_text("ISLAND", DISPLAY_WIDTH/2 + 4, y + 26, Gui.colors["dark blue"], 30)
-            self.render_text("DEAD", DISPLAY_WIDTH/2, y, Gui.colors["white"], 30)
-            self.render_text("ISLAND", DISPLAY_WIDTH/2, y + 22, Gui.colors["white"], 30)
+            self.render_text("DEAD", DISPLAY_WIDTH/2, y - 4, Gui.colors["dark green"], 40)
+            self.render_text("ISLAND", DISPLAY_WIDTH/2, y + 26, Gui.colors["dark green"], 40)
+            self.render_text("DEAD", DISPLAY_WIDTH/2, y, Gui.colors["white"], 40)
+            self.render_text("ISLAND", DISPLAY_WIDTH/2, y + 30, Gui.colors["white"], 40)
 
     def render_button(self, name, x, y):
         """ Eng : this function draw buttons from the asset/button file and checks hover effect """
         """ Fr : """
         path = f"./assets/buttons/buttons_normal/{name}.png"
-        button = self.render_image(path, x, y)
+        button = self.render_image(path, x, y + 4)
         mx, my = pygame.mouse.get_pos()
         if button.collidepoint(mx, my):
             path = f"./assets/buttons/buttons_pressed/{name}.png"
@@ -156,7 +156,7 @@ class Gui:
         pygame.draw.rect(Gui.display, color, pygame.Rect(int(x), int(y), width, height))
 
     def render_gui(self, pause = False):
-        gui.render_logo(30, False)
+        gui.render_logo(40, False)
         gui.render_ui_buttons(pause)
 
     def render_char(self):

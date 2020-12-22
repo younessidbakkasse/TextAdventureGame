@@ -12,12 +12,12 @@ from scene import (
 def before_game_template():
     gui.render_gui()
     #story text
-    gui.render_text('Hi there, this is a story game.', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2- 80), size = 18)
-    gui.render_text('are you sure you wanna play its', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2- 58), size = 18)
-    gui.render_text('scary out there !', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2- 36), size = 18)
+    gui.render_text('Hi there, this is a story game.', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2- 80), size = 22, Regular=True)
+    gui.render_text('are you sure you wanna play its', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2- 50), size = 22, Regular=True)
+    gui.render_text('scary out there !', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2- 20), size = 22, Regular=True)
     # render left direction buttons
-    manager.game.scenes['before game'].buttons['game'] = gui.render_button('button_large', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + 30))
-    gui.render_text('Play', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + 30))
+    manager.game.scenes['before game'].buttons['game'] = gui.render_button('button_small', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + 70))
+    gui.render_text('Play', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + 70))
 
 
 ################################# Menu Template #################################
