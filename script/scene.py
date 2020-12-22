@@ -43,8 +43,9 @@ class Gui:
         "red" : (255, 0, 69),
         "yellow" : (250, 200, 50),
         "grey" : (20, 55, 45),
-        "transparent" : (12, 38, 31, 210)
+        "transparent" : (0, 44, 74, 130)
     }
+    
     def __init__(self):
         self.gui_buttons = {}
 

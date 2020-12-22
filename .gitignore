@@ -1,2 +1,6 @@
+### env repo ###
 /venv
-/.vscode
+
+### VisualStudioCode ###
+.vscode/*
+!.vscode/settings.json
