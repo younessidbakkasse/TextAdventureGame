@@ -76,7 +76,7 @@ class Gui:
         # Eng : quest's button on the left down corner
         # Fr :
         self.gui_buttons["quests"] = self.render_button("button_quests", 85, DISPLAY_HEIGHT - 50)
-        self.render_text("quests", 85, DISPLAY_HEIGHT - 50, Gui.colors['white'], size=18)
+        self.render_text("Quests", 85, DISPLAY_HEIGHT - 50, Gui.colors['white'], size=20, Regular=True)
 
     def render_background(self):
         """ Eng : renders a dark green background with random white stars """
@@ -287,8 +287,9 @@ class StoryScene(Scene):
     def render_story_text(self):
         """ Eng : """
         """ Fr : """
-        for i, line in enumerate(self.story_text.splitlines()):
-            gui.render_text(line, int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 - 120 + i * 28), size = 21, Regular=True)
+        self.process_story_text()
+        for i, line in enumerate(self.process_story_text()):
+            gui.render_text(line, int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 - 135 + i * 28), size = 21, Regular=True)
             self.last_line = int(DISPLAY_HEIGHT/2 - 120 + i * 28) + 70
         
     def render_choices(self):
@@ -311,10 +312,17 @@ class StoryScene(Scene):
         self.render_choices()
 
     def process_story_text(self):
-        pass 
-        # to do 
-
-
+        """ Eng : """
+        """ Fr : """
+        processed_text, line = '', ''
+        words = self.story_text.split()
+        for i, word in enumerate(words):
+            processed_text += word + ' '
+            line += word + ' '
+            if (i % 7 == 0 or i % 6 == 0 or i % 5 == 0) and len(line) > 26:
+                processed_text += '\n'
+                line= ''
+        return processed_text.splitlines()
 
 
 
