@@ -282,25 +282,26 @@ class StoryScene(Scene):
         super().__init__(scene_name, template_closure)
         self.story_text = story_text
         self.choices = choices
+        self.last_line = 0
 
     def render_story_text(self):
         """ Eng : """
         """ Fr : """
-        for i, line in enumerate(self.story_text):
-            gui.render_text(line, int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 - 80 - i * 28), size = 21, Regular=True)
+        for i, line in enumerate(self.story_text.splitlines()):
+            gui.render_text(line, int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 - 120 + i * 28), size = 21, Regular=True)
+            self.last_line = int(DISPLAY_HEIGHT/2 - 120 + i * 28) + 70
         
     def render_choices(self):
         """ Eng : """
         """ Fr : """
         for i, choice in enumerate(self.choices):
             if len(choice) < 10:
-                self.buttons[choice] = gui.render_button('button_small', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + i * 60))
+                self.buttons[choice] = gui.render_button('button_small', int(DISPLAY_WIDTH/2), self.last_line + i * 60)
             elif len(choice) < 20:
-                self.buttons[choice] = gui.render_button('button_large', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + i * 60))
+                self.buttons[choice] = gui.render_button('button_large', int(DISPLAY_WIDTH/2), self.last_line + i * 60)
             else:
-                self.buttons[choice] = gui.render_button('button_really_large', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + i * 60))
-
-            gui.render_text(choice, int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + i * 60), Regular=True, size=20)
+                self.buttons[choice] = gui.render_button('button_really_large', int(DISPLAY_WIDTH/2), self.last_line + i * 60)
+            gui.render_text(choice, int(DISPLAY_WIDTH/2), self.last_line + i * 60, Regular=True, size=20)
     
     def render_template(self):
         """ Eng : """
@@ -308,6 +309,10 @@ class StoryScene(Scene):
         self.template()
         self.render_story_text()
         self.render_choices()
+
+    def process_story_text(self):
+        pass 
+        # to do 
 
 
 

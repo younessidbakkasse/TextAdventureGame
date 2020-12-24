@@ -25,10 +25,8 @@ class Game:
             'store' : Scene('store',store_template, scene_type='pause'),
 
             # Creating main game scenes
-            'pregame' : StoryScene('pregame', ['Start playing'], ['Hi there, this is a story game.', 'are you sure you wanna play its', 'scary out there !']),
-            'Start playing' : StoryScene('beach', ['Explore the beach'], ['Washed ashore, you have only vague', 
-                                            'recollections of what happened. The past']),
-            'play' : StoryScene('play', ['read map', 'kill the dragon'], ['you just fall in forest', 'but you found out'])
+            'pregame' : StoryScene('pregame', ['Start playing'], 'Hi there, this is a story game. \nare you sure you wanna play. \nits scary out there !'),
+            'Start playing' : StoryScene('beach', ['Explore the beach'], 'Washed ashore, you have only \nvague recollections of what happened. \nThe past seems unimportant now. \nShivering, you watch the bodies \nfloat among the debris. \nNo ships can be seen on the horizon.'),
 
         }
 
