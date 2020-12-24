@@ -271,7 +271,6 @@ class Scene:
                     if scene_key == button_name:
                         if self.scene_type == 'game':
                             Scene.previous_scene = self.scene_name
-                            # This may cause bugs in futur if it didn't ur a lucky mothafucka
                             scene.run_scene()
 
 
