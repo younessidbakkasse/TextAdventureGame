@@ -57,7 +57,7 @@ class Gui:
         if Scene.sound:
             self.gui_buttons["music on"] = self.render_button('button_music_on', DISPLAY_WIDTH - 45, 50)
         else:
-            self.gui_buttons["music on"] = self.render_button('button_music_off', DISPLAY_WIDTH - 45, 50)
+            self.gui_buttons["music off"] = self.render_button('button_music_off', DISPLAY_WIDTH - 45, 50)
         self.gui_buttons["how to play"] = self.render_button("button_help", DISPLAY_WIDTH - 110, 50)
 
         # Eng : buttons on the left side
@@ -255,26 +255,27 @@ class Scene:
                         pygame.quit()
                         sys.exit()
         
-                    
         # this is to check for gui buttons
         for button_name, button in list(gui.gui_buttons.items()):
             self.mx, self.my = pygame.mouse.get_pos()   
             if button != None and button.collidepoint((self.mx, self.my)):
-                if button_name == 'music on':
-                    print('There should not be sound')
-                    Scene.sound = False
-                    gui.gui_buttons.pop('music on')
-                elif button_name == 'music off':
-                    print('There should be sound')
-                    Scene.sound = True
-                    gui.gui_buttons.pop('music off')
+                # Change sound button from on to off
+                if self.scene_type == 'game':
+                    if button_name == 'music on':
+                        Scene.sound = False
+                        del gui.gui_buttons['music on']
+                        print(Scene.sound)
+                    elif button_name == 'music off':
+                        Scene.sound = True
+                        del gui.gui_buttons['music off']
+                        print(Scene.sound)
                 for scene_key, scene in scenes.items():
                     if scene_key == button_name:
                         if self.scene_type == 'game':
                             Scene.previous_scene = self.scene_name
                             # This may cause bugs in futur if it didn't ur a lucky mothafucka
                             scene.run_scene()
-        print(len(gui.gui_buttons))
+
 
 class StoryScene(Scene):
     def __init__(self, scene_name, choices, story_text, template_closure = gui.render_gui):
