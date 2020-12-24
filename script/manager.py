@@ -14,7 +14,7 @@ from template import (
 
 class Game:
     def __init__(self):
-        # constructing user expercience scenes 
+        # constructing GUI scenes 
         self.scenes = {
             'home' : Scene('home', home_template),
             'menu' : Scene('menu', menu_template, scene_type='pause'),
@@ -26,6 +26,7 @@ class Game:
             'quests' : Scene('quests', quests_template, scene_type='pause'),
             'store' : Scene('store',store_template, scene_type='pause'),
 
+            # Creating main game scenes
             'game' : StoryScene('game', ['play', 'go back'], ['you are about to meet him']),
             'play' : StoryScene('play', ['read map', 'kill the dragon'], ['you just fall in forest', 'but you found out'])
         }

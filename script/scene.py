@@ -264,11 +264,9 @@ class Scene:
                     if button_name == 'music on':
                         Scene.sound = False
                         del gui.gui_buttons['music on']
-                        print(Scene.sound)
                     elif button_name == 'music off':
                         Scene.sound = True
                         del gui.gui_buttons['music off']
-                        print(Scene.sound)
                 for scene_key, scene in scenes.items():
                     if scene_key == button_name:
                         if self.scene_type == 'game':
@@ -289,13 +287,13 @@ class StoryScene(Scene):
         """ Eng : """
         """ Fr : """
         for i, line in enumerate(self.story_text):
-            gui.render_text(line, int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 - 80 - i * 20), size = 18)
+            gui.render_text(line, int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 - 80 - i * 28), size = 21, Regular=True)
         
     def render_choices(self):
         """ Eng : """
         """ Fr : """
         for i, choice in enumerate(self.choices):
-            self.buttons[choice] = gui.render_button('button_xl', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + i * 45))
+            self.buttons[choice] = gui.render_button('button_small', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + i * 45))
             gui.render_text(choice, int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + i * 45))
     
     def render_template(self):
