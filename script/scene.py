@@ -49,34 +49,9 @@ class Gui:
     def __init__(self):
         self.gui_buttons = {}
 
-    def render_unfunctionel_ui_buttons(self):
+    def render_ui_buttons(self, pause):
         """ Eng : renders the same user interface buttons acroos all the scenes and stores them on list"""
         """ Fr : """
-
-        # Eng : buttons on the right side
-        # Fr :
-        self.render_button('button_music_on', DISPLAY_WIDTH - 45, 50)
-        self.render_button("button_help", DISPLAY_WIDTH - 110, 50)
-
-        # Eng : buttons on the left side
-        # Fr :
-        self.render_button("button_cart", 110, 50)
-        self.render_button("button_start", 45, 50)
-
-        # Eng : buttons on the right down corner 
-        # Fr :
-        self.render_button("button_inventory", DISPLAY_WIDTH - 45, DISPLAY_HEIGHT - 50)
-        self.render_button("button_character", DISPLAY_WIDTH - 110, DISPLAY_HEIGHT - 50)
-
-        # Eng : quest's button on the left down corner
-        # Fr :
-        self.render_button("button_quests", 85, DISPLAY_HEIGHT - 50)
-        self.render_text("quests", 85, DISPLAY_HEIGHT - 50, Gui.colors['white'], size=18)
-
-    def render_ui_buttons(self):
-        """ Eng : renders the same user interface buttons acroos all the scenes and stores them on list"""
-        """ Fr : """
-
         # Eng : buttons on the right side
         # Fr :
         self.gui_buttons["music"] = self.render_button('button_music_on', DISPLAY_WIDTH - 45, 50)
@@ -85,7 +60,10 @@ class Gui:
         # Eng : buttons on the left side
         # Fr :
         self.gui_buttons["store"] = self.render_button("button_cart", 110, 50)
-        self.gui_buttons["menu"] = self.render_button("button_pause", 45, 50)
+        if pause: 
+            self.render_button("button_start", 45, 50)
+        else:
+            self.gui_buttons["menu"] = self.render_button("button_pause", 45, 50)
 
         # Eng : buttons on the right down corner 
         # Fr :
@@ -115,8 +93,6 @@ class Gui:
         if frame_type == 'normal':
             # render frame
             self.render_image(f'./assets/frames/{frame_type}.png', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2))
-            # render close button
-            self.gui_buttons[Scene.previous_scene] = self.render_button('button_close', int(DISPLAY_WIDTH) - 55, int(DISPLAY_HEIGHT/2) - 135)
             # render menu pause title
             self.render_text(frame_name, int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 - 110))
         if frame_type == 'big':
@@ -129,8 +105,6 @@ class Gui:
         if frame_type == 'huge':
             # render frame
             self.render_image(f'./assets/frames/{frame_type}.png', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + 10))
-            # render close button
-            self.gui_buttons[Scene.previous_scene] = self.render_button('button_close', int(DISPLAY_WIDTH) - 55, 50)
             # render menu pause title
             self.render_text(frame_name, int(DISPLAY_WIDTH/2), 77)
 
@@ -186,10 +160,7 @@ class Gui:
 
     def render_gui(self, pause = False):
         gui.render_logo(40, False)
-        if pause:
-            gui.render_unfunctionel_ui_buttons()
-        else:
-            gui.render_ui_buttons()
+        gui.render_ui_buttons(pause)
 
     def render_char(self):
         pass
@@ -289,11 +260,6 @@ class Scene:
                             Scene.previous_scene = self.scene_name
                             # This may cause bugs in futur if it didn't ur a lucky mothafucka
                             scene.run_scene()
-                        else:
-                            if button_name == 'button_close':
-                                Scene.previous_scene = self.scene_name
-                                # This may cause bugs in futur if it didn't ur a lucky mothafucka
-                                scene.run_scene()
 
 
 

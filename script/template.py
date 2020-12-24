@@ -1,5 +1,6 @@
 import manager
 from scene import (
+    Scene,
     Gui,
     gui, 
     player, 
@@ -26,6 +27,8 @@ def menu_template():
     gui.render_transparent_background()
     # render frame 
     gui.render_frame('normal', 'pause')
+    # render close button
+    manager.game.scenes['menu'].buttons[Scene.previous_scene] = gui.render_button('button_close', int(DISPLAY_WIDTH) - 55, int(DISPLAY_HEIGHT/2) - 135)
     # render menu options
     manager.game.scenes['menu'].buttons["home"] = gui.render_text('New Game', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 - 40), size = 35, Regular=True)
     manager.game.scenes['menu'].buttons["exit"] = gui.render_text('Exit Game', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + 10), size = 35, Regular=True)
@@ -37,13 +40,15 @@ def fight_template():
     gui.render_gui()
     # render frame
     gui.render_frame('normal', 'fight')
-
+    
 ################################# Game Credit Template #################################
 def credit_template():
     gui.render_gui(pause=True)
     gui.render_transparent_background()
     ## render frame
     gui.render_frame('big', 'credit')
+    # render close button
+    manager.game.scenes['credit'].buttons[Scene.previous_scene] = gui.render_button('button_close', int(DISPLAY_WIDTH) - 55,  int(DISPLAY_HEIGHT/2) - 165)
     # render credit
     gui.render_text('Game design & production', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 - 40), size = 16, Regular=True)
     gui.render_text('Youness Id bakkasse', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 - 10), size = 25, Regular=True)
@@ -57,6 +62,8 @@ def stats_template():
     gui.render_transparent_background()
     # render frame
     gui.render_frame('normal', 'stats')
+    # render close button
+    manager.game.scenes['stats'].buttons[Scene.previous_scene] = gui.render_button('button_close', int(DISPLAY_WIDTH) - 55, int(DISPLAY_HEIGHT/2) - 135)
     # render stats
     gui.render_text(f'Gold {int(player.gold)}', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 - 70), size=22, Regular=True)
     gui.render_text(f'Attack {int(player.attack)}', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 - 40), size=22, Regular=True)
@@ -92,6 +99,8 @@ def howtoplay_template():
     gui.render_transparent_background()
     # render frame
     gui.render_frame('big', 'how to play')
+    # render close button
+    manager.game.scenes['how to play'].buttons[Scene.previous_scene] = gui.render_button('button_close', int(DISPLAY_WIDTH) - 55,  int(DISPLAY_HEIGHT/2) - 165)
     # render how to play content
     gui.render_text('Use your mouse to play', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2), size = 22, Regular=True)
 
@@ -102,6 +111,8 @@ def inventory_template():
     gui.render_transparent_background()
     # render frame
     gui.render_frame('big', 'inventory')
+    # render close button
+    manager.game.scenes['inventory'].buttons[Scene.previous_scene] = gui.render_button('button_close', int(DISPLAY_WIDTH) - 55,  int(DISPLAY_HEIGHT/2) - 165)
     # render left and right buttons
     gui.render_button("button_left", 45, int(DISPLAY_HEIGHT/2)) 
     gui.render_button("button_right", DISPLAY_WIDTH - 45, int(DISPLAY_HEIGHT/2)) 
@@ -117,6 +128,8 @@ def quests_template():
     gui.render_transparent_background()
     # render frame
     gui.render_frame('normal', 'quests')
+    # render close button
+    manager.game.scenes['quests'].buttons[Scene.previous_scene] = gui.render_button('button_close', int(DISPLAY_WIDTH) - 55, int(DISPLAY_HEIGHT/2) - 135)
     # render how to play content
     gui.render_text('Current quest:', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 - 30), size=22, Regular=True)
     gui.render_text('Kill the boss', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + 10), size=30, Regular=True)
@@ -127,6 +140,8 @@ def store_template():
     gui.render_transparent_background()
     # render frame
     gui.render_frame('normal', 'store')
+    # render close button
+    manager.game.scenes['store'].buttons[Scene.previous_scene] = gui.render_button('button_close', int(DISPLAY_WIDTH) - 55, int(DISPLAY_HEIGHT/2) - 135)
     # render left and right buttons
     gui.render_button("button_left", 40, int(DISPLAY_HEIGHT/2)) 
     gui.render_button("button_right", DISPLAY_WIDTH - 40, int(DISPLAY_HEIGHT/2)) 
