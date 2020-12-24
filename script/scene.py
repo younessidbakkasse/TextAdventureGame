@@ -293,8 +293,14 @@ class StoryScene(Scene):
         """ Eng : """
         """ Fr : """
         for i, choice in enumerate(self.choices):
-            self.buttons[choice] = gui.render_button('button_small', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + i * 45))
-            gui.render_text(choice, int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + i * 45))
+            if len(choice) < 10:
+                self.buttons[choice] = gui.render_button('button_small', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + i * 60))
+            elif len(choice) < 20:
+                self.buttons[choice] = gui.render_button('button_large', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + i * 60))
+            else:
+                self.buttons[choice] = gui.render_button('button_really_large', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + i * 60))
+
+            gui.render_text(choice, int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + i * 60), Regular=True, size=20)
     
     def render_template(self):
         """ Eng : """
