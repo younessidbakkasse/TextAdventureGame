@@ -17,14 +17,14 @@ class Game:
         # constructing user expercience scenes 
         self.scenes = {
             'home' : Scene('home', home_template),
-            'menu' : Scene('menu', menu_template),
+            'menu' : Scene('menu', menu_template, scene_type='pause'),
             'before game' : Scene('before game', before_game_template),
             'inventory' : Scene('inventory', inventory_template),
-            'credit' : Scene('credit', credit_template),
-            'how to play' : Scene('how to play', howtoplay_template),
-            'stats' : Scene('stats', stats_template),
-            'quests' : Scene('quests', quests_template),
-            'store' : Scene('store', store_template),
+            'credit' : Scene('credit', credit_template, scene_type='pause'),
+            'how to play' : Scene('how to play', howtoplay_template, scene_type='pause'),
+            'stats' : Scene('stats', stats_template, scene_type='pause'),
+            'quests' : Scene('quests', quests_template, scene_type='pause'),
+            'store' : Scene('store',store_template, scene_type='pause'),
 
             'game' : StoryScene('game', ['play', 'go back'], ['you are about to meet him']),
             'play' : StoryScene('play', ['read map', 'kill the dragon'], ['you just fall in forest', 'but you found out'])

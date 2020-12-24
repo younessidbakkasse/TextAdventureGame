@@ -23,7 +23,7 @@ class Gui:
     # Eng : display set up
     # FR :
     pygame.mouse.set_cursor(*pygame.cursors.tri_left)
-    pygame.display.set_caption("Wood Runner", "favicon")
+    pygame.display.set_caption("Dead Island", "favicon")
 
     # Eng : set up game favicon
     # Fr : 
@@ -209,11 +209,12 @@ class Scene:
     # Fr : 
     previous_scene = None
 
-    def __init__(self, scene_name, template_closure):
+    def __init__(self, scene_name, template_closure, scene_type = 'game'):
         """ Eng: Constructor method runs every time I create a new scene or page. """
         """ Fr: Constructor method runs every time I create a new scene or page. """
         self.template = template_closure
         self.scene_name = scene_name
+        self.scene_type = scene_type
         self.running = True 
 
         """ Eng : every scene has it's own button (besides the gui_buttons) in order to navigate
@@ -272,10 +273,11 @@ class Scene:
                         Scene.previous_scene = self.scene_name
                         # This may cause bugs in futur if it didn't ur a lucky mothafucka
                         self.buttons.popitem()
-                        scene.run_scene()
+                        scene.run_scene()                        
                     elif button_name == 'exit':
                         pygame.quit()
                         sys.exit()
+                    
                     
         # this is to check for gui buttons
         for button_name, button in gui.gui_buttons.items():
@@ -283,9 +285,16 @@ class Scene:
             if button != None and button.collidepoint((self.mx, self.my)):
                 for scene_key, scene in scenes.items():
                     if scene_key == button_name:
-                        Scene.previous_scene = self.scene_name
-                        # This may cause bugs in futur if it didn't ur a lucky mothafucka
-                        scene.run_scene()
+                        if self.scene_type == 'game':
+                            Scene.previous_scene = self.scene_name
+                            # This may cause bugs in futur if it didn't ur a lucky mothafucka
+                            scene.run_scene()
+                        else:
+                            if button_name == 'button_close':
+                                Scene.previous_scene = self.scene_name
+                                # This may cause bugs in futur if it didn't ur a lucky mothafucka
+                                scene.run_scene()
+
 
 
 class StoryScene(Scene):
