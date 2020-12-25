@@ -181,7 +181,6 @@ class Scene:
     # Fr : 
     previous_scene = None
     previous_story_scene = None
-
     # Eng : game music 
     # Fr :
     sound = True
@@ -249,6 +248,8 @@ class Scene:
                 for scene_key, scene in scenes.items():
                     if scene_key == button_name:
                         Scene.previous_scene = self.scene_name
+                        if isinstance(manager.game.scenes[self.scene_name], StoryScene):
+                            Scene.previous_story_scene = self.scene_name
                         self.buttons.popitem()
                         scene.run_scene()                        
                     elif button_name == 'exit':
@@ -270,6 +271,8 @@ class Scene:
                 for scene_key, scene in scenes.items():
                     if scene_key == button_name:
                         if self.scene_type == 'game':
+                            if isinstance(manager.game.scenes[self.scene_name], StoryScene):
+                                Scene.previous_story_scene = self.scene_name
                             Scene.previous_scene = self.scene_name
                             scene.run_scene()
 
@@ -291,10 +294,9 @@ class StoryScene(Scene):
             self.last_line = int(DISPLAY_HEIGHT/2 - 120 + i * 26) + 80
 
     def render_previous_story(self):
-        if self.scene_name == 'Pregame':
-            return None
-        for i, line in enumerate(manager.game.scenes[Scene.previous_scene].process_story_text()):
-            gui.render_text(line, int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 - 180 + i * 14), size = 13, Regular=True, color=Gui.colors['grey'])
+        if self.scene_name != 'Pregame':
+            for i, line in enumerate(manager.game.scenes[Scene.previous_story_scene].process_story_text()):
+                gui.render_text(line, int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 - 180 + i * 14), size = 13, Regular=True, color=Gui.colors['grey'])
         
     def render_choices(self):
         """ Eng : """
@@ -330,7 +332,6 @@ class StoryScene(Scene):
             elif(i % 9 == 0 or i % 4 == 0) and len(line) > 30:
                 processed_text += '\n'
                 line= ''
-
         return processed_text.splitlines()
 
 
