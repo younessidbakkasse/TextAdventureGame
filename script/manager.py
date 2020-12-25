@@ -26,7 +26,7 @@ class Game:
 
             # Creating main game scenes
             'Pregame' : StoryScene('Pregame', ['Start playing'], 'Hi there, this is a story game. are you sure you wanna play. its scary out there !'),
-            'Start playing' : StoryScene('Start playing', ['Explore the beach'], 'Washed ashore, you have only vague recollections of what happened. The past seems unimportant now. Shivering, you watch the bodies float among the debris. No ships can be seen on the horizon.'),
+            'Startplaying' : StoryScene('Start playing', ['Explore the beach'], 'Washed ashore, you have only vague recollections of what happened. The past seems unimportant now. Shivering, you watch the bodies float among the debris. No ships can be seen on the horizon.'),
             'Explore the beach' : StoryScene('Explore the beach', ['Examine the object'], 'There is nothing but sand and gravel. Or so it may seem. You feel a painful sensation in your left foot, causing you to take a step backwards. Glimmering in the sun, a sharp object is revealed.'),
             'Examine the object' : StoryScene('Examine the object', ['Continue exploring'], "At first, you are unable to make sense of it. You pick it to get a closer look. it's a silver coin. Something about the unusual coin seems familiar."),
             'Continue exploring' : StoryScene('Continue exploring', ['Study the footprints', 'Follow the footprints'], "You discover footprints in the sand, leading north. it's late in the afternoon. If there's another survivor out there, you should find this person before it gets dark."),

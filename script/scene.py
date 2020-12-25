@@ -236,7 +236,7 @@ class Scene:
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button: 
                     self.transition(manager.game.scenes)
-    
+
     def transition(self, scenes):
         """ Eng : One hell of an importante method it checks if mouse points to a text or 
         button (rect) and also allows scene transitions from self to another depending 
@@ -248,8 +248,8 @@ class Scene:
                 for scene in manager.game.scenes.values():
                     if scene.scene_name == button_name:
                         Scene.previous_scene = self.scene_name
-                        if isinstance(manager.game.scenes[self.scene_name], StoryScene):
-                            Scene.previous_story_scene = self.scene_name
+                        if isinstance(manager.game.scenes[self.current_scene_key()], StoryScene):
+                            Scene.previous_story_scene = self.current_scene_key()
                         self.buttons.popitem()
                         scene.run_scene()                        
                     elif button_name == 'exit':
@@ -270,11 +270,18 @@ class Scene:
                         del gui.gui_buttons['music off']
                 for scene in manager.game.scenes.values():
                     if scene.scene_name == button_name and self.scene_type == 'game':
-                        if isinstance(manager.game.scenes[self.scene_name], StoryScene):
-                            Scene.previous_story_scene = self.scene_name
+                        if isinstance(manager.game.scenes[self.current_scene_key()], StoryScene):
+                            Scene.previous_story_scene = self.current_scene_key()
                         Scene.previous_scene = self.scene_name
                         print(Scene.previous_scene)
                         scene.run_scene()
+
+    def current_scene_key(self):
+        """ Eng : This function return current scene key in game manager dict """
+        """ Fr : """
+        for key, scene in manager.game.scenes.items():
+            if scene.scene_name == self.scene_name:
+                return key
 
 
 class StoryScene(Scene):
