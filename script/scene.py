@@ -245,8 +245,8 @@ class Scene:
         for button_name, button in self.buttons.items():
             self.mx, self.my = pygame.mouse.get_pos()   
             if button != None and button.collidepoint((self.mx, self.my)):
-                for scene_key, scene in scenes.items():
-                    if scene_key == button_name:
+                for scene in manager.game.scenes.values():
+                    if scene.scene_name == button_name:
                         Scene.previous_scene = self.scene_name
                         if isinstance(manager.game.scenes[self.scene_name], StoryScene):
                             Scene.previous_story_scene = self.scene_name
@@ -268,13 +268,13 @@ class Scene:
                     elif button_name == 'music off':
                         Scene.sound = True
                         del gui.gui_buttons['music off']
-                for scene_key, scene in scenes.items():
-                    if scene_key == button_name:
-                        if self.scene_type == 'game':
-                            if isinstance(manager.game.scenes[self.scene_name], StoryScene):
-                                Scene.previous_story_scene = self.scene_name
-                            Scene.previous_scene = self.scene_name
-                            scene.run_scene()
+                for scene in manager.game.scenes.values():
+                    if scene.scene_name == button_name and self.scene_type == 'game':
+                        if isinstance(manager.game.scenes[self.scene_name], StoryScene):
+                            Scene.previous_story_scene = self.scene_name
+                        Scene.previous_scene = self.scene_name
+                        print(Scene.previous_scene)
+                        scene.run_scene()
 
 
 class StoryScene(Scene):
