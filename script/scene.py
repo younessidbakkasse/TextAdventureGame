@@ -42,7 +42,7 @@ class Gui:
         "green": (18, 168, 113),
         "red" : (255, 0, 69),
         "yellow" : (250, 200, 50),
-        "grey" : (20, 55, 45),
+        "grey" : (35, 30, 60),
         "transparent" : (0, 44, 74, 150)
     }
     
@@ -180,6 +180,7 @@ class Scene:
     # Eng : making list to store scenes upon creation 
     # Fr : 
     previous_scene = None
+    previous_story_scene = None
 
     # Eng : game music 
     # Fr :
@@ -248,7 +249,6 @@ class Scene:
                 for scene_key, scene in scenes.items():
                     if scene_key == button_name:
                         Scene.previous_scene = self.scene_name
-                        # This may cause bugs in futur if it didn't ur a lucky mothafucka
                         self.buttons.popitem()
                         scene.run_scene()                        
                     elif button_name == 'exit':
@@ -286,10 +286,15 @@ class StoryScene(Scene):
     def render_story_text(self):
         """ Eng : """
         """ Fr : """
-        self.process_story_text()
         for i, line in enumerate(self.process_story_text()):
-            gui.render_text(line, int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 - 135 + i * 28), size = 21, Regular=True)
-            self.last_line = int(DISPLAY_HEIGHT/2 - 120 + i * 28) + 70
+            gui.render_text(line, int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 - 130 + i * 26), size = 20, Regular=True)
+            self.last_line = int(DISPLAY_HEIGHT/2 - 120 + i * 26) + 80
+
+    def render_previous_story(self):
+        if self.scene_name == 'Pregame':
+            return None
+        for i, line in enumerate(manager.game.scenes[Scene.previous_scene].process_story_text()):
+            gui.render_text(line, int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 - 180 + i * 14), size = 13, Regular=True, color=Gui.colors['grey'])
         
     def render_choices(self):
         """ Eng : """
@@ -307,6 +312,7 @@ class StoryScene(Scene):
         """ Eng : """
         """ Fr : """
         self.template()
+        self.render_previous_story()
         self.render_story_text()
         self.render_choices()
 
