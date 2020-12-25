@@ -313,15 +313,26 @@ class StoryScene(Scene):
     def process_story_text(self):
         """ Eng : """
         """ Fr : """
-        processed_text, line = '', ''
-        words = self.story_text.split()
-        for i, word in enumerate(words):
-            processed_text += word + ' '
-            line += word + ' '
-            if (i % 7 == 0 or i % 6 == 0 or i % 5 == 0) and len(line) > 26:
-                processed_text += '\n'
-                line= ''
+        processed_text, last_pos = '', 0
+        num_lines = int(len(self.story_text)/35 + 1)
+        for i in range(num_lines):
+            line = self.story_text[last_pos:(i + 1) * 35]
+            new_pos = line.rfind(' ')
+            line = self.story_text[last_pos:new_pos] 
+            last_pos = new_pos + 1
+            if i == num_lines:
+                processed_text += self.story_text[last_pos:]
+                break
+            processed_text += line + '\n'
         return processed_text.splitlines()
 
+        # processed_text, line = '', ''
+        # words = self.story_text.split()
+        # for i, word in enumerate(words):
+        #     processed_text += word + ' '
+        #     line += word + ' '
+        #     if (i % 7 == 0 or i % 6 == 0 or i % 5 == 0) and len(line) > 26:
+        #         processed_text += '\n'
+        #         line= ''
 
 
