@@ -242,22 +242,8 @@ class Scene:
         button (rect) and also allows scene transitions from self to another depending 
         on the button's name"""
         """ Fr : """
-        for button_name, button in self.buttons.items():
-            self.mx, self.my = pygame.mouse.get_pos()   
-            if button != None and button.collidepoint((self.mx, self.my)):
-                for scene in manager.game.scenes.values():
-                    if scene.scene_name == button_name:
-                        Scene.previous_scene = self.scene_name
-                        if isinstance(manager.game.scenes[self.current_scene_key()], StoryScene):
-                            Scene.previous_story_scene = self.current_scene_key()
-                        self.buttons.popitem()
-                        scene.run_scene()                        
-                    elif button_name == 'exit':
-                        pygame.quit()
-                        sys.exit()
-        
-        # this is to check for gui buttons
-        for button_name, button in list(gui.gui_buttons.items()):
+        buttons = gui.gui_buttons | self.buttons
+        for button_name, button in buttons.items():
             self.mx, self.my = pygame.mouse.get_pos()   
             if button != None and button.collidepoint((self.mx, self.my)):
                 # Change sound button from on to off
@@ -269,12 +255,20 @@ class Scene:
                         Scene.sound = True
                         del gui.gui_buttons['music off']
                 for scene in manager.game.scenes.values():
-                    if scene.scene_name == button_name and self.scene_type == 'game':
+                    if scene.scene_name == button_name:
+                        Scene.previous_scene = self.scene_name
+                        print(self.scene_name)
                         if isinstance(manager.game.scenes[self.current_scene_key()], StoryScene):
                             Scene.previous_story_scene = self.current_scene_key()
-                        Scene.previous_scene = self.scene_name
-                        print(Scene.previous_scene)
-                        scene.run_scene()
+                        self.buttons.popitem()
+                        scene.run_scene()                        
+                    elif button_name == 'exit':
+                        pygame.quit()
+                        sys.exit()
+
+        # todo: problem with gui buttons working on pause
+        # todo: problem with previous scenes 
+        # todo: problem with 
 
     def current_scene_key(self):
         """ Eng : This function return current scene key in game manager dict """
