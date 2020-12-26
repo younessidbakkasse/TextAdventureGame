@@ -241,13 +241,17 @@ class Scene:
         button (rect) and also allows scene transitions from self to another depending 
         on the button's name"""
         """ Fr : """
-        buttons = gui.gui_buttons | self.buttons
+        
         scene_key = self.get_current_scene_key()
-        scene_type = isinstance(manager.game.scenes[scene_key], StoryScene)
+        is_scene_type_game = isinstance(manager.game.scenes[scene_key], StoryScene)
+        buttons = gui.gui_buttons | self.buttons
+        if not is_scene_type_game:
+            buttons = self.buttons
+
         for button_key, button in buttons.items():   
             if button.collidepoint((self.mx, self.my)):
                 # Change sound button from on to off
-                if scene_type:
+                if is_scene_type_game:
                     if button_key == 'music on':
                         Scene.sound = False
                         del gui.gui_buttons['music on']
@@ -262,9 +266,9 @@ class Scene:
       
                 for scene in manager.game.scenes.values():
                     if scene.scene_name == button_key:
-                        if scene_type:
+                        if is_scene_type_game:
                             Scene.previous_story_scene = scene_key
-                        if not scene_type and self.scene_name != 'home':
+                        if not is_scene_type_game and self.scene_name != 'home':
                             self.buttons.pop(Scene.previous_scene)
                         Scene.previous_scene = self.scene_name
                         scene.run_scene()                                
