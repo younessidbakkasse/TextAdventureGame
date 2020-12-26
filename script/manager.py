@@ -15,13 +15,13 @@ class Game:
         # constructing GUI scenes 
         self.scenes = {
             'Home' : Scene('home', home_template),
-            'Menu' : Scene('menu', menu_template, scene_type='pause'),
+            'Menu' : Scene('menu', menu_template),
             'Inventory' : Scene('inventory', inventory_template),
-            'Credit' : Scene('credit', credit_template, scene_type='pause'),
-            'Help' : Scene('how to play', howtoplay_template, scene_type='pause'),
-            'Stats' : Scene('stats', stats_template, scene_type='pause'),
-            'Quests' : Scene('quests', quests_template, scene_type='pause'),
-            'Store' : Scene('store',store_template, scene_type='pause'),
+            'Credit' : Scene('credit', credit_template),
+            'Help' : Scene('how to play', howtoplay_template),
+            'Stats' : Scene('stats', stats_template),
+            'Quests' : Scene('quests', quests_template),
+            'Store' : Scene('store',store_template),
 
             # Creating main game scenes
             'Prologue' : StoryScene('Pregame', ['Start playing'], 'Hi there, this is a story game. are you sure you wanna play. its scary out there !'),
@@ -40,4 +40,3 @@ class Game:
         self.scenes['Home'].run_scene()  
 
 game = Game()
-

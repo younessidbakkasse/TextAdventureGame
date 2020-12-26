@@ -185,12 +185,11 @@ class Scene:
     # Fr :
     sound = True
 
-    def __init__(self, scene_name, template_closure, scene_type = 'game'):
+    def __init__(self, scene_name, template_closure):
         """ Eng: Constructor method runs every time I create a new scene or page. """
         """ Fr: Constructor method runs every time I create a new scene or page. """
         self.template = template_closure
         self.scene_name = scene_name
-        self.scene_type = scene_type
         self.running = True 
 
         """ Eng : every scene has it's own button (besides the gui_buttons) in order to navigate
@@ -243,10 +242,12 @@ class Scene:
         on the button's name"""
         """ Fr : """
         buttons = gui.gui_buttons | self.buttons
+        scene_key = self.get_current_scene_key()
+        scene_type = isinstance(manager.game.scenes[scene_key], StoryScene)
         for button_key, button in buttons.items():   
             if button.collidepoint((self.mx, self.my)):
                 # Change sound button from on to off
-                if self.scene_type == 'game':
+                if scene_type:
                     if button_key == 'music on':
                         Scene.sound = False
                         del gui.gui_buttons['music on']
@@ -261,15 +262,15 @@ class Scene:
       
                 for scene in manager.game.scenes.values():
                     if scene.scene_name == button_key:
-                        if isinstance(manager.game.scenes[self.current_scene_key()], StoryScene):
-                            Scene.previous_story_scene = self.current_scene_key()
-                        if self.scene_type == 'pause':
+                        if scene_type:
+                            Scene.previous_story_scene = scene_key
+                        if not scene_type and self.scene_name != 'home':
                             self.buttons.pop(Scene.previous_scene)
                         Scene.previous_scene = self.scene_name
                         scene.run_scene()                                
         # todo: problem with gui buttons working on pause
 
-    def current_scene_key(self):
+    def get_current_scene_key(self):
         """ Eng : This function return current scene key in game manager dict """
         """ Fr : """
         for key, scene in manager.game.scenes.items():
@@ -333,6 +334,3 @@ class StoryScene(Scene):
                 processed_text += '\n'
                 line= ''
         return processed_text.splitlines()
-
-
-
