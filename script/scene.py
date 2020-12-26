@@ -162,9 +162,6 @@ class Gui:
     def render_gui(self, pause = False):
         gui.render_logo(40, False)
         gui.render_ui_buttons(pause)
-
-    def render_char(self):
-        pass
     
 # create a gui
 gui = Gui()
@@ -241,13 +238,11 @@ class Scene:
         button (rect) and also allows scene transitions from self to another depending 
         on the button's name"""
         """ Fr : """
-        
         scene_key = self.get_current_scene_key()
         is_scene_type_game = isinstance(manager.game.scenes[scene_key], StoryScene)
         buttons = gui.gui_buttons | self.buttons
         if not is_scene_type_game:
             buttons = self.buttons
-
         for button_key, button in buttons.items():   
             if button.collidepoint((self.mx, self.my)):
                 # Change sound button from on to off
@@ -263,7 +258,6 @@ class Scene:
                 elif button_key == 'exit':
                         pygame.quit()
                         sys.exit()
-      
                 for scene in manager.game.scenes.values():
                     if scene.scene_name == button_key:
                         if is_scene_type_game:
@@ -272,7 +266,6 @@ class Scene:
                             self.buttons.pop(Scene.previous_scene)
                         Scene.previous_scene = self.scene_name
                         scene.run_scene()                                
-        # todo: problem with gui buttons working on pause
 
     def get_current_scene_key(self):
         """ Eng : This function return current scene key in game manager dict """
