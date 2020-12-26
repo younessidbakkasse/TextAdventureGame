@@ -10,7 +10,6 @@ from template import (
     quests_template,
 )   
 
-
 class Game:
     def __init__(self):
         # constructing GUI scenes 
@@ -34,6 +33,7 @@ class Game:
             # one step scene
             'Person' : StoryScene('Study the footprints', ['Follow the footprints'], 'They are somewhat small and delicate. You arrive at the concusion that they were made by a person below average height, walking barefoot.'),
             'Something' : StoryScene('Follow the footprints', ['Leave it', 'Take the knife'], "Something near the water has caught your attention, prompting you to take a quick look. Closer scrutiny reveals a rusty knife. While hardly ideal, it's better than nothing."),
+            'Habon de la kaka' : StoryScene('Take the knife', ['mahmoudt', 'walid'], "je  mange le coucous a midi avec Majid"),
         }
 
     def run(self):

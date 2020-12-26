@@ -35,7 +35,7 @@ def credit_template():
     ## render frame
     gui.render_frame('big', 'credit')
     # render close button
-    manager.game.scenes['Credit'].buttons[Scene.previous_scene] = gui.render_button('button_back', DISPLAY_WIDTH - 60,  int(DISPLAY_HEIGHT/2) - 160)
+    manager.game.scenes['Credit'].buttons[Scene.previous_scene] = gui.render_button('button_close', DISPLAY_WIDTH - 60,  int(DISPLAY_HEIGHT/2) - 160)
     # render credit
     gui.render_text('Game design & production', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 - 40), size = 16, Regular=True)
     gui.render_text('Youness Id bakkasse', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 - 10), size = 25, Regular=True)

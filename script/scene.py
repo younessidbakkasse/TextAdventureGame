@@ -42,7 +42,7 @@ class Gui:
         "green": (18, 168, 113),
         "red" : (255, 0, 69),
         "yellow" : (250, 200, 50),
-        "grey" : (35, 30, 60),
+        "grey" : (40, 40, 60),
         "transparent" : (0, 44, 74, 150)
     }
     
@@ -185,7 +185,6 @@ class Scene:
     # Fr :
     sound = True
 
-
     def __init__(self, scene_name, template_closure, scene_type = 'game'):
         """ Eng: Constructor method runs every time I create a new scene or page. """
         """ Fr: Constructor method runs every time I create a new scene or page. """
@@ -235,40 +234,40 @@ class Scene:
                 sys.exit()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button: 
-                    self.transition(manager.game.scenes)
+                    self.mx, self.my = pygame.mouse.get_pos()
+                    self.transition()
 
-    def transition(self, scenes):
+    def transition(self):
         """ Eng : One hell of an importante method it checks if mouse points to a text or 
         button (rect) and also allows scene transitions from self to another depending 
         on the button's name"""
         """ Fr : """
         buttons = gui.gui_buttons | self.buttons
-        for button_name, button in buttons.items():
-            self.mx, self.my = pygame.mouse.get_pos()   
-            if button != None and button.collidepoint((self.mx, self.my)):
+        for button_key, button in buttons.items():   
+            if button.collidepoint((self.mx, self.my)):
                 # Change sound button from on to off
                 if self.scene_type == 'game':
-                    if button_name == 'music on':
+                    if button_key == 'music on':
                         Scene.sound = False
                         del gui.gui_buttons['music on']
-                    elif button_name == 'music off':
+                        break
+                    elif button_key == 'music off':
                         Scene.sound = True
                         del gui.gui_buttons['music off']
-                for scene in manager.game.scenes.values():
-                    if scene.scene_name == button_name:
-                        Scene.previous_scene = self.scene_name
-                        print(self.scene_name)
-                        if isinstance(manager.game.scenes[self.current_scene_key()], StoryScene):
-                            Scene.previous_story_scene = self.current_scene_key()
-                        self.buttons.popitem()
-                        scene.run_scene()                        
-                    elif button_name == 'exit':
+                        break
+                elif button_key == 'exit':
                         pygame.quit()
                         sys.exit()
-
+      
+                for scene in manager.game.scenes.values():
+                    if scene.scene_name == button_key:
+                        if isinstance(manager.game.scenes[self.current_scene_key()], StoryScene):
+                            Scene.previous_story_scene = self.current_scene_key()
+                        if self.scene_type == 'pause':
+                            self.buttons.pop(Scene.previous_scene)
+                        Scene.previous_scene = self.scene_name
+                        scene.run_scene()                                
         # todo: problem with gui buttons working on pause
-        # todo: problem with previous scenes 
-        # todo: problem with 
 
     def current_scene_key(self):
         """ Eng : This function return current scene key in game manager dict """
@@ -297,7 +296,7 @@ class StoryScene(Scene):
     def render_previous_story(self):
         if self.scene_name != 'Pregame':
             for i, line in enumerate(manager.game.scenes[Scene.previous_story_scene].process_story_text()):
-                gui.render_text(line, int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 - 180 + i * 14), size = 13, Regular=True, color=Gui.colors['grey'])
+                gui.render_text(line, int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 - 180 + i * 15), size = 14, Regular=True, color=Gui.colors['grey'])
         
     def render_choices(self):
         """ Eng : """
