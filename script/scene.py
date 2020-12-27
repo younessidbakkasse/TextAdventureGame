@@ -55,27 +55,27 @@ class Gui:
         # Eng : buttons on the right side
         # Fr :
         if Scene.sound:
-            self.gui_buttons["music on"] = self.render_button('button_music_on', DISPLAY_WIDTH - 45, 50)
+            self.gui_buttons["music on"] = Button('button_music_on', DISPLAY_WIDTH - 45, 50, 'music on')
         else:
-            self.gui_buttons["music off"] = self.render_button('button_music_off', DISPLAY_WIDTH - 45, 50)
-        self.gui_buttons["how to play"] = self.render_button("button_help", DISPLAY_WIDTH - 110, 50)
+            self.gui_buttons["music off"] = Button('button_music_off', DISPLAY_WIDTH - 45, 50, 'music off')
+        self.gui_buttons["how to play"] = Button('button_help', DISPLAY_WIDTH - 110, 50, 'how to play')
 
         # Eng : buttons on the left side
         # Fr :
-        self.gui_buttons["store"] = self.render_button("button_cart", 110, 50)
+        self.gui_buttons["store"] = Button("button_cart", 110, 50, 'store')
         if pause: 
-            self.render_button("button_start", 45, 50)
+            self.gui_buttons["start"] = Button("button_start", 45, 50, None)
         else:
-            self.gui_buttons["menu"] = self.render_button("button_pause", 45, 50)
+            self.gui_buttons["menu"] = Button("button_pause", 45, 50, "menu")
 
         # Eng : buttons on the right down corner 
         # Fr :
-        self.gui_buttons["inventory"] = self.render_button("button_inventory", DISPLAY_WIDTH - 45, DISPLAY_HEIGHT - 50)
-        self.gui_buttons["stats"] = self.render_button("button_character", DISPLAY_WIDTH - 110, DISPLAY_HEIGHT - 50)
+        self.gui_buttons["inventory"] = Button("button_inventory", DISPLAY_WIDTH - 45, DISPLAY_HEIGHT - 50, 'inventory')
+        self.gui_buttons["stats"] = Button("button_character", DISPLAY_WIDTH - 110, DISPLAY_HEIGHT - 50, 'stats')
 
         # Eng : quest's button on the left down corner
         # Fr :
-        self.gui_buttons["quests"] = self.render_button("button_quests", 85, DISPLAY_HEIGHT - 50)
+        self.gui_buttons["quests"] = Button("button_quests", 85, DISPLAY_HEIGHT - 50, 'quests')
         self.render_text("Quests", 85, DISPLAY_HEIGHT - 50, Gui.colors['white'], size=20, Regular=True)
 
     def render_background(self):
@@ -157,11 +157,21 @@ class Gui:
         return image_rect
 
     def render_rect(self, x, y, width, height, color):
+        """ Eng :  """
+        """ Fr : """
         pygame.draw.rect(Gui.display, color, pygame.Rect(int(x), int(y), width, height))
 
+    def render_circle(self, x, y, radius, color):
+        """ Eng :  """
+        """ Fr : """
+        pygame.draw.circle(Gui.display, color, (int(x), int(y)), radius)
+
     def render_gui(self, pause = False):
+        """ Eng :  """
+        """ Fr : """
         gui.render_logo(40, False)
         gui.render_ui_buttons(pause)
+        
     
 # create a gui
 gui = Gui()
@@ -181,7 +191,7 @@ class Scene:
     # Eng : game music 
     # Fr :
     sound = True
-
+    
     def __init__(self, scene_name, template_closure):
         """ Eng: Constructor method runs every time I create a new scene or page. """
         """ Fr: Constructor method runs every time I create a new scene or page. """
@@ -243,27 +253,25 @@ class Scene:
         buttons = gui.gui_buttons | self.buttons
         if not is_scene_type_game:
             buttons = self.buttons
-        for button_key, button in buttons.items():   
-            if button.collidepoint((self.mx, self.my)):
+        for button in buttons.values():   
+            if button.rect.collidepoint((self.mx, self.my)):
                 # Change sound button from on to off
                 if is_scene_type_game:
-                    if button_key == 'music on':
+                    if button.destination == 'music on':
                         Scene.sound = False
                         del gui.gui_buttons['music on']
                         break
-                    elif button_key == 'music off':
+                    elif button.destination == 'music off':
                         Scene.sound = True
                         del gui.gui_buttons['music off']
                         break
-                elif button_key == 'exit':
+                elif button.destination == 'exit':
                         pygame.quit()
                         sys.exit()
                 for scene in manager.game.scenes.values():
-                    if scene.scene_name == button_key:
+                    if scene.scene_name == button.destination:
                         if is_scene_type_game:
                             Scene.previous_story_scene = scene_key
-                        if not is_scene_type_game and self.scene_name != 'home':
-                            self.buttons.pop(Scene.previous_scene)
                         Scene.previous_scene = self.scene_name
                         scene.run_scene()                                
 
@@ -301,11 +309,11 @@ class StoryScene(Scene):
         """ Fr : """
         for i, choice in enumerate(self.choices):
             if len(choice) < 10:
-                self.buttons[choice] = gui.render_button('button_small', int(DISPLAY_WIDTH/2), self.last_line + i * 60)
+                self.buttons[choice] = Button('button_small', int(DISPLAY_WIDTH/2), self.last_line + i * 6, choice)
             elif len(choice) < 20:
-                self.buttons[choice] = gui.render_button('button_large', int(DISPLAY_WIDTH/2), self.last_line + i * 60)
+                self.buttons[choice] = Button('button_large', int(DISPLAY_WIDTH/2), self.last_line + i * 60, choice)
             else:
-                self.buttons[choice] = gui.render_button('button_really_large', int(DISPLAY_WIDTH/2), self.last_line + i * 60)
+                self.buttons[choice] = Button('button_really_large', int(DISPLAY_WIDTH/2), self.last_line + i * 60, choice)
             gui.render_text(choice, int(DISPLAY_WIDTH/2), self.last_line + i * 60, Regular=True, size=20)
     
     def render_template(self):
@@ -331,3 +339,17 @@ class StoryScene(Scene):
                 processed_text += '\n'
                 line= ''
         return processed_text.splitlines()
+
+
+class Button():
+    def __init__(self, path, x, y, destination, category = 'normal'):
+        self.path = path
+        self.destination = destination
+        self.category = category
+        if self.category == 'text':
+            self.rect = gui.render_text(path, x, y, size = 35, Regular=True)
+        elif self.category == 'normal':
+            self.rect = gui.render_button(path, x, y)
+
+    
+        

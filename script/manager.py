@@ -8,12 +8,14 @@ from template import (
     stats_template,
     store_template, 
     quests_template,
+    loot_template,
 )   
 
 class Game:
     def __init__(self):
-        # constructing GUI scenes 
+        # Constructing GUI scenes 
         self.scenes = {
+            # Paused scenes 
             'Home' : Scene('home', home_template),
             'Menu' : Scene('menu', menu_template),
             'Inventory' : Scene('inventory', inventory_template),
@@ -22,18 +24,21 @@ class Game:
             'Stats' : Scene('stats', stats_template),
             'Quests' : Scene('quests', quests_template),
             'Store' : Scene('store',store_template),
-
             # Creating main game scenes
             'Prologue' : StoryScene('Pregame', ['Start playing'], 'Hi there, this is a story game. are you sure you wanna play. its scary out there !'),
             'Beach' : StoryScene('Start playing', ['Explore the beach'], 'Washed ashore, you have only vague recollections of what happened. The past seems unimportant now. Shivering, you watch the bodies float among the debris. No ships can be seen on the horizon.'),
             'Nothing' : StoryScene('Explore the beach', ['Examine the object'], 'There is nothing but sand and gravel. Or so it may seem. You feel a painful sensation in your left foot, causing you to take a step backwards. Glimmering in the sun, a sharp object is revealed.'),
             'Coin' : StoryScene('Examine the object', ['Continue exploring'], "At first, you are unable to make sense of it. You pick it to get a closer look. it's a silver coin. Something about the unusual coin seems familiar."),
             'Footprints' : StoryScene('Continue exploring', ['Study the footprints', 'Follow the footprints'], "You discover footprints in the sand, leading north. it's late in the afternoon. If there's another survivor out there, you should find this person before it gets dark."),
-
-            # one step scene
+            # One step scene
             'Person' : StoryScene('Study the footprints', ['Follow the footprints'], 'They are somewhat small and delicate. You arrive at the concusion that they were made by a person below average height, walking barefoot.'),
             'Something' : StoryScene('Follow the footprints', ['Leave it', 'Take the knife'], "Something near the water has caught your attention, prompting you to take a quick look. Closer scrutiny reveals a rusty knife. While hardly ideal, it's better than nothing."),
-            'Habon de la kaka' : StoryScene('Take the knife', ['mahmoudt', 'walid'], "je  mange le coucous a midi avec Majid"),
+            # Lagoon
+            'Lagoon (knife)' : StoryScene('Take the knife', ['Take a look around'], "Further north, the beach gives way to a flourishing wetland. You discover a lagoon, surrounded by red pines. At this point there are no more footprints.", template_closure = loot_template),
+            'Lagoon (no knife)' : StoryScene('Leave it', ['Take a look around'], "Further north, the beach gives way to a flourishing wetland. You discover a lagoon, surrounded by red pines. At this point there are no more footprints."),
+
+            # Fight scene
+            'First enemy' : StoryScene('Take a look around', ['Fight'], "Something is moving through the reeds on the other side. A wild dog emerges. Growling, it runs towards you across the shallows.", template_closure = loot_template),
         }
 
     def run(self):

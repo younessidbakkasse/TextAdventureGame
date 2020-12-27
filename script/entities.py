@@ -13,8 +13,7 @@ class Entity:
         self.defence = defence + defence * self.level/3
         self.gold = gold
 
-
-        self.inventory = list()
+        self.inventory = dict()
 
     def death(self):
         pass
@@ -34,10 +33,10 @@ class Entity:
         self.attack = attack + attack * self.level/2 
         self.defence = defence + defence * self.level/3
 
-
 class Player(Entity):
     def __init__(self):
         super().__init__()
+        self.inventory_checked = False
 
     def healing(self):
         pass
@@ -48,6 +47,9 @@ class Player(Entity):
             self.update_levels()
             self.level += 1
 
+    def add_item_inventory(self, item):
+        self.inventory[item] = item
+
 class Object:
     def __init__(self):
         self.name = None
@@ -57,4 +59,4 @@ class Object:
         print(self.name, self.type)
 
 # create a player 
-player = Entity()
+player = Player()
