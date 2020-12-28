@@ -268,6 +268,8 @@ class Scene:
                     # check for loot buttons
                     if 'loot' in button.category:
                         player.add_item_inventory(button.loot)
+                    elif 'navigate' in button.category:
+                        button.onclick()
 
                 elif button.destination == 'exit':
                         pygame.quit()
@@ -359,8 +361,15 @@ class Button():
         elif 'fight' in self.category:
             self.monster = self.category[6:]
             self.rect = gui.render_button(path, x, y)
+        elif 'navigate' in self.category:
+            self.onclick = None
+            self.rect = gui.render_button(path, x, y)
         else:
             self.rect = gui.render_button(path, x, y)
+
+
+        def navigate_right(self):
+            pass
 
     
         

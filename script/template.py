@@ -97,10 +97,12 @@ def howtoplay_template():
 def inventory_template():
     gui.render_gui(pause=True)
     gui.render_transparent_background()
-    # render frame
-    gui.render_frame('big', 'inventory')
-    # render close button
-    manager.game.scenes['Inventory'].buttons['close'] = Button('button_close', int(DISPLAY_WIDTH) - 55,  int(DISPLAY_HEIGHT/2) - 165, Scene.previous_scene)
+    def frame():
+        # render frame
+        gui.render_frame('big', 'inventory')
+        # render close button
+        manager.game.scenes['Inventory'].buttons['close'] = Button('button_close', int(DISPLAY_WIDTH) - 55,  int(DISPLAY_HEIGHT/2) - 165, Scene.previous_scene)
+    frame()
     if len(player.inventory) == 0:
         # render no item message
         gui.render_text("There's no items", int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 - 3), Regular=True, size=19)
@@ -109,17 +111,19 @@ def inventory_template():
     else:
         # render item holder
         i = 0
+        x = DISPLAY_WIDTH/2
         for item in player.inventory.values():
-            gui.render_image('./assets/frames/holder.png', int(DISPLAY_WIDTH/2 - (-2*i+1)*75), int(DISPLAY_HEIGHT/2))
-            manager.game.scenes['Inventory'].buttons[f'equip {item}'] = Button('button_really_small', int(DISPLAY_WIDTH/2 - (-2*i+1)*75),  int(DISPLAY_HEIGHT/2) + 120, ' ')
-            gui.render_text('Equip', int(DISPLAY_WIDTH/2 - (-2*i+1)*75),  int(DISPLAY_HEIGHT/2) + 120, Regular=True, size=20)
+            gui.render_image('./assets/frames/holder.png', int(x - (-2*i+1)*75), int(DISPLAY_HEIGHT/2))
+            manager.game.scenes['Inventory'].buttons[f'equip {item}'] = Button('button_really_small', int(x - (-2*i+1)*75),  int(DISPLAY_HEIGHT/2) + 120, ' ')
+            gui.render_text('Equip', int(x - (-2*i+1)*75),  int(DISPLAY_HEIGHT/2) + 120, Regular=True, size=20)
             i += 1
+        
+        
+        if i > 2:
+            #gui.render_button("button_left", 45, int(DISPLAY_HEIGHT/2)) 
+            manager.game.scenes['Inventory'].buttons['right arrow'] = Button("button_right", DISPLAY_WIDTH - 45, int(DISPLAY_HEIGHT/2), ' ', category='navigate')
 
-        if len(player.inventory) > 2:
-            gui.render_button("button_left", 45, int(DISPLAY_HEIGHT/2)) 
-            gui.render_button("button_right", DISPLAY_WIDTH - 45, int(DISPLAY_HEIGHT/2)) 
-    
-    
+
     # player checked inventory
     player.inventory_checked = True
 

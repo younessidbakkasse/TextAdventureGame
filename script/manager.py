@@ -37,7 +37,8 @@ class Game:
             'Lagoon' : StoryScene('Lagoon', [['Take a look around', 'First enemy', 'normal']], "Further north, the beach gives way to a flourishing wetland. You discover a lagoon, surrounded by red pines. At this point there are no more footprints.", template_closure = loot_template),
             # Fight scene
             'First enemy' : StoryScene('First enemy', [['Fight', 'Second loot', 'fight-dog']], "Something is moving through the reeds on the other side. A wild dog emerges. Growling, it runs towards you across the shallows.", template_closure = loot_template),
-            'Second loot' : StoryScene('Second loot', [['Collect the goods', ' ', 'loot-campus']], "Something is moving through the reeds on the other side. A wild dog emerges. Growling, it runs towards you across the shallows.", template_closure = loot_template),
+            'Second loot' : StoryScene('Second loot', [['Collect the goods', 'Third loot', 'loot-campus']], "Something is moving through the reeds on the other side. A wild dog emerges. Growling, it runs towards you across the shallows.", template_closure = loot_template),
+            'Third loot' : StoryScene('Third loot', [['Get the book', ' ', 'loot-book']], "Growling, it runs towards you across the shallows.", template_closure = loot_template),
 
         }
 
