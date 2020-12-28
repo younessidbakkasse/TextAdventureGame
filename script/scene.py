@@ -308,13 +308,13 @@ class StoryScene(Scene):
         """ Eng : """
         """ Fr : """
         for i, choice in enumerate(self.choices):
-            if len(choice) < 10:
-                self.buttons[choice] = Button('button_small', int(DISPLAY_WIDTH/2), self.last_line + i * 6, choice)
-            elif len(choice) < 20:
-                self.buttons[choice] = Button('button_large', int(DISPLAY_WIDTH/2), self.last_line + i * 60, choice)
+            if len(choice[0]) < 10:
+                self.buttons[choice[0]] = Button('button_small', int(DISPLAY_WIDTH/2), self.last_line + i * 6, choice[0], category=choice[1])
+            elif len(choice[0]) < 20:
+                self.buttons[choice[0]] = Button('button_large', int(DISPLAY_WIDTH/2), self.last_line + i * 60, choice[0], category=choice[1])
             else:
-                self.buttons[choice] = Button('button_really_large', int(DISPLAY_WIDTH/2), self.last_line + i * 60, choice)
-            gui.render_text(choice, int(DISPLAY_WIDTH/2), self.last_line + i * 60, Regular=True, size=20)
+                self.buttons[choice[0]] = Button('button_really_large', int(DISPLAY_WIDTH/2), self.last_line + i * 60, choice[0], category=choice[1])
+            gui.render_text(choice[0], int(DISPLAY_WIDTH/2), self.last_line + i * 60, Regular=True, size=20)
     
     def render_template(self):
         """ Eng : """
@@ -348,7 +348,7 @@ class Button():
         self.category = category
         if self.category == 'text':
             self.rect = gui.render_text(path, x, y, size = 35, Regular=True)
-        elif self.category == 'normal':
+        else:
             self.rect = gui.render_button(path, x, y)
 
     
