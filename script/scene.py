@@ -268,7 +268,6 @@ class Scene:
                     # check for loot buttons
                     if 'loot' in button.category:
                         player.add_item_inventory(button.loot)
-                        print(player.inventory)
 
                 elif button.destination == 'exit':
                         pygame.quit()

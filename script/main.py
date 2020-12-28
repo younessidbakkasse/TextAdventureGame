@@ -2,7 +2,6 @@
     its a school project to initiat with Python programming 
   more informations and licence please check README file attached to the folder. 
 """
-
 from manager import game
 
 if __name__ == "__main__":

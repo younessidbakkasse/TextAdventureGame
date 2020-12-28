@@ -101,12 +101,25 @@ def inventory_template():
     gui.render_frame('big', 'inventory')
     # render close button
     manager.game.scenes['Inventory'].buttons['close'] = Button('button_close', int(DISPLAY_WIDTH) - 55,  int(DISPLAY_HEIGHT/2) - 165, Scene.previous_scene)
+    if len(player.inventory) == 0:
+        # render no item message
+        gui.render_text("There's no items", int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 - 3), Regular=True, size=19)
+        gui.render_text("in your inventory.", int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + 21), Regular=True, size=19)
     # render left and right buttons
-    gui.render_button("button_left", 45, int(DISPLAY_HEIGHT/2)) 
-    gui.render_button("button_right", DISPLAY_WIDTH - 45, int(DISPLAY_HEIGHT/2)) 
-    # render how to play content
-    gui.render_text("There's no items", int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 - 3), Regular=True, size=19)
-    gui.render_text("in your inventory.", int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + 21), Regular=True, size=19)
+    else:
+        # render item holder
+        i = 0
+        for item in player.inventory.values():
+            gui.render_image('./assets/frames/holder.png', int(DISPLAY_WIDTH/2 - (-2*i+1)*75), int(DISPLAY_HEIGHT/2))
+            manager.game.scenes['Inventory'].buttons[f'equip {item}'] = Button('button_really_small', int(DISPLAY_WIDTH/2 - (-2*i+1)*75),  int(DISPLAY_HEIGHT/2) + 120, ' ')
+            gui.render_text('Equip', int(DISPLAY_WIDTH/2 - (-2*i+1)*75),  int(DISPLAY_HEIGHT/2) + 120, Regular=True, size=20)
+            i += 1
+
+        if len(player.inventory) > 2:
+            gui.render_button("button_left", 45, int(DISPLAY_HEIGHT/2)) 
+            gui.render_button("button_right", DISPLAY_WIDTH - 45, int(DISPLAY_HEIGHT/2)) 
+    
+    
     # player checked inventory
     player.inventory_checked = True
 
