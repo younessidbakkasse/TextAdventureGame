@@ -38,7 +38,8 @@ class Game:
             # Fight scene
             'First enemy' : StoryScene('First enemy', [['Fight', 'Second loot', 'fight-dog']], "Something is moving through the reeds on the other side. A wild dog emerges. Growling, it runs towards you across the shallows.", template_closure = loot_template),
             'Second loot' : StoryScene('Second loot', [['Collect the goods', 'Third loot', 'loot-campus']], "Something is moving through the reeds on the other side. A wild dog emerges. Growling, it runs towards you across the shallows.", template_closure = loot_template),
-            'Third loot' : StoryScene('Third loot', [['Get the book', ' ', 'loot-book']], "Growling, it runs towards you across the shallows.", template_closure = loot_template),
+            'Third loot' : StoryScene('Third loot', [['Get the book', 'Forth loot', 'loot-book']], "Growling, it runs towards you across the shallows.", template_closure = loot_template),
+            'Forth loot' : StoryScene('Forth loot', [['Take it', ' ', 'loot-coin']], "Growling, it runs towards you across the shallows.", template_closure = loot_template),
 
         }
 

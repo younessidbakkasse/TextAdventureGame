@@ -55,9 +55,9 @@ class Gui:
         # Eng : buttons on the right side
         # Fr :
         if Scene.sound:
-            self.gui_buttons["music on"] = Button('button_music_on', DISPLAY_WIDTH - 45, 50, 'music on')
+            self.gui_buttons["music on"] = Button('button_music_on', DISPLAY_WIDTH - 45, 50, 'music on', category='music')
         else:
-            self.gui_buttons["music off"] = Button('button_music_off', DISPLAY_WIDTH - 45, 50, 'music off')
+            self.gui_buttons["music off"] = Button('button_music_off', DISPLAY_WIDTH - 45, 50, 'music off', category='music')
         self.gui_buttons["how to play"] = Button('button_help', DISPLAY_WIDTH - 110, 50, 'how to play')
 
         # Eng : buttons on the left side
@@ -250,6 +250,7 @@ class Scene:
         """ Fr : """
         scene_key = self.get_current_scene_key()
         is_scene_type_game = isinstance(manager.game.scenes[scene_key], StoryScene)
+        # only works in python 3.9 and above
         buttons = gui.gui_buttons | self.buttons
         if not is_scene_type_game:
             buttons = self.buttons
@@ -257,21 +258,27 @@ class Scene:
             if button.rect.collidepoint((self.mx, self.my)):
                 if is_scene_type_game:
                     # Change sound button from on to off
-                    if button.destination == 'music on':
-                        Scene.sound = False
-                        del gui.gui_buttons['music on']
-                        break
-                    elif button.destination == 'music off':
-                        Scene.sound = True
-                        del gui.gui_buttons['music off']
-                        break
+                    if 'music' in button.category:
+                        if button.destination == 'music on':
+                            Scene.sound = False
+                            del gui.gui_buttons['music on']
+                            break
+                        elif button.destination == 'music off':
+                            Scene.sound = True
+                            del gui.gui_buttons['music off']
+                            break
                     # check for loot buttons
-                    if 'loot' in button.category:
+                    elif 'loot' in button.category:
                         player.add_item_inventory(button.loot)
-                    elif 'navigate' in button.category:
-                        button.onclick()
-
-                elif button.destination == 'exit':
+                if button.destination == 'add':
+                        player.n += 1
+                        print(player.n)
+                        break 
+                elif button.destination == 'del':
+                        player.n -= 1
+                        print(player.n)
+                        break 
+                if button.destination == 'exit':
                         pygame.quit()
                         sys.exit()
                 for scene in manager.game.scenes.values():
@@ -361,15 +368,8 @@ class Button():
         elif 'fight' in self.category:
             self.monster = self.category[6:]
             self.rect = gui.render_button(path, x, y)
-        elif 'navigate' in self.category:
-            self.onclick = None
-            self.rect = gui.render_button(path, x, y)
         else:
             self.rect = gui.render_button(path, x, y)
-
-
-        def navigate_right(self):
-            pass
 
     
         

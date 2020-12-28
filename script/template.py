@@ -110,20 +110,24 @@ def inventory_template():
     # render left and right buttons
     else:
         # render item holder
-        i = 0
-        x = DISPLAY_WIDTH/2
-        for item in player.inventory.values():
-            gui.render_image('./assets/frames/holder.png', int(x - (-2*i+1)*75), int(DISPLAY_HEIGHT/2))
-            manager.game.scenes['Inventory'].buttons[f'equip {item}'] = Button('button_really_small', int(x - (-2*i+1)*75),  int(DISPLAY_HEIGHT/2) + 120, ' ')
-            gui.render_text('Equip', int(x - (-2*i+1)*75),  int(DISPLAY_HEIGHT/2) + 120, Regular=True, size=20)
+        for i, item in enumerate(list(player.inventory.items())[player.n:player.n+2]):
+            gui.render_image('./assets/frames/holder.png', int(DISPLAY_WIDTH/2 - (-2*i+1)*75), int(DISPLAY_HEIGHT/2))
+            manager.game.scenes['Inventory'].buttons[f'equip {item[0]}'] = Button('button_really_small', int(DISPLAY_WIDTH/2 - (-2*i+1)*75),  int(DISPLAY_HEIGHT/2) + 120, ' ')
+            gui.render_text(item[0], int(DISPLAY_WIDTH/2 - (-2*i+1)*75),  int(DISPLAY_HEIGHT/2) - 50, Regular=True, size=20)
+            gui.render_text('Equip', int(DISPLAY_WIDTH/2 - (-2*i+1)*75),  int(DISPLAY_HEIGHT/2) + 120, Regular=True, size=20)
             i += 1
-        
-        
-        if i > 2:
-            #gui.render_button("button_left", 45, int(DISPLAY_HEIGHT/2)) 
-            manager.game.scenes['Inventory'].buttons['right arrow'] = Button("button_right", DISPLAY_WIDTH - 45, int(DISPLAY_HEIGHT/2), ' ', category='navigate')
+            
+        # render navigation button for carsuoal
 
-
+        # render right arrow
+        if len(player.inventory) > 2 and not player.n >= len(player.inventory) - 2:
+            manager.game.scenes['Inventory'].buttons['right arrow'] = Button("button_right", DISPLAY_WIDTH - 45, int(DISPLAY_HEIGHT/2), 'add', category='navigate')
+        # render left arrow
+        if len(player.inventory) > 2 and player.n > 0:
+            manager.game.scenes['Inventory'].buttons['left arrow'] = Button("button_left", 45, int(DISPLAY_HEIGHT/2), 'del', category='navigate')
+            
+        print(player.n)
+        #print(len(manager.game.scenes['Inventory'].buttons))
     # player checked inventory
     player.inventory_checked = True
 
@@ -146,7 +150,7 @@ def store_template():
     gui.render_transparent_background()
     # render frame
     gui.render_frame('normal', 'store')
-    # render close button
+    # render close          
     manager.game.scenes['Store'].buttons['close'] = Button('button_close', int(DISPLAY_WIDTH) - 55, int(DISPLAY_HEIGHT/2) - 135, Scene.previous_scene)
     # render left and right buttons
     gui.render_button("button_left", 40, int(DISPLAY_HEIGHT/2)) 

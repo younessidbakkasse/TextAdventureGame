@@ -37,6 +37,7 @@ class Player(Entity):
     def __init__(self):
         super().__init__()
         self.inventory_checked = False
+        self.n = 0
 
     def healing(self):
         pass
