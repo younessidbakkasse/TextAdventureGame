@@ -255,8 +255,8 @@ class Scene:
             buttons = self.buttons
         for button in buttons.values():   
             if button.rect.collidepoint((self.mx, self.my)):
-                # Change sound button from on to off
                 if is_scene_type_game:
+                    # Change sound button from on to off
                     if button.destination == 'music on':
                         Scene.sound = False
                         del gui.gui_buttons['music on']
@@ -265,6 +265,11 @@ class Scene:
                         Scene.sound = True
                         del gui.gui_buttons['music off']
                         break
+                    # check for loot buttons
+                    if 'loot' in button.category:
+                        player.add_item_inventory(button.loot)
+                        print(player.inventory)
+
                 elif button.destination == 'exit':
                         pygame.quit()
                         sys.exit()
@@ -346,8 +351,15 @@ class Button():
         self.path = path
         self.destination = destination
         self.category = category
+
         if self.category == 'text':
             self.rect = gui.render_text(path, x, y, size = 35, Regular=True)
+        elif 'loot' in self.category:
+            self.loot = self.category[5:]
+            self.rect = gui.render_button(path, x, y)
+        elif 'fight' in self.category:
+            self.monster = self.category[6:]
+            self.rect = gui.render_button(path, x, y)
         else:
             self.rect = gui.render_button(path, x, y)
 

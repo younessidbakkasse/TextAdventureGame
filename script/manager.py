@@ -32,10 +32,9 @@ class Game:
             'Footprints' : StoryScene('Footprints', [['Study the footprints', 'Person', 'normal'], ['Follow the footprints', 'Something', 'normal']], "You discover footprints in the sand, leading north. it's late in the afternoon. If there's another survivor out there, you should find this person before it gets dark."),
             # One step scene
             'Person' : StoryScene('Person', [['Follow the footprints', 'Something', 'normal']], 'They are somewhat small and delicate. You arrive at the concusion that they were made by a person below average height, walking barefoot.'),
-            'Something' : StoryScene('Something', [['Leave it', 'Lagoon', 'normal'], ['Take the knife', 'Lagoon', 'loot']], "Something near the water has caught your attention, prompting you to take a quick look. Closer scrutiny reveals a rusty knife. While hardly ideal, it's better than nothing."),
+            'Something' : StoryScene('Something', [['Leave it', 'Lagoon', 'normal'], ['Take the knife', 'Lagoon', 'loot-knife']], "Something near the water has caught your attention, prompting you to take a quick look. Closer scrutiny reveals a rusty knife. While hardly ideal, it's better than nothing."),
             # Lagoon
             'Lagoon' : StoryScene('Lagoon', [['Take a look around', 'First enemy', 'normal']], "Further north, the beach gives way to a flourishing wetland. You discover a lagoon, surrounded by red pines. At this point there are no more footprints.", template_closure = loot_template),
-
             # Fight scene
             'First enemy' : StoryScene('First enemy', [['Fight', ' ', 'normal']], "Something is moving through the reeds on the other side. A wild dog emerges. Growling, it runs towards you across the shallows.", template_closure = loot_template),
         }
