@@ -47,7 +47,7 @@ class Gui:
     }
     
     def __init__(self):
-        self.gui_buttons = list()
+        self.gui_buttons = {}
 
     def render_ui_buttons(self, pause):
         """ Eng : renders the same user interface buttons acroos all the scenes and stores them on list"""
@@ -55,27 +55,27 @@ class Gui:
         # Eng : buttons on the right side
         # Fr :
         if Scene.sound:
-            self.gui_buttons.insert(0, Button('button_music_on', DISPLAY_WIDTH - 45, 50, 'music on', category='music'))
+            self.gui_buttons["music on"] = Button('button_music_on', DISPLAY_WIDTH - 45, 50, 'music on', category='music')
         else:
-            self.gui_buttons.insert(1, Button('button_music_off', DISPLAY_WIDTH - 45, 50, 'music off', category='music'))
-        self.gui_buttons.insert(2, Button('button_help', DISPLAY_WIDTH - 110, 50, 'how to play'))
+            self.gui_buttons["music off"] = Button('button_music_off', DISPLAY_WIDTH - 45, 50, 'music off', category='music')
+        self.gui_buttons["how to play"] = Button('button_help', DISPLAY_WIDTH - 110, 50, 'how to play')
 
         # Eng : buttons on the left side
         # Fr :
-        self.gui_buttons.insert(3, Button("button_cart", 110, 50, 'store'))
+        self.gui_buttons["store"] = Button("button_cart", 110, 50, 'store')
         if pause: 
-            self.gui_buttons.insert(4, Button("button_start", 45, 50, None))
+            self.gui_buttons["start"] = Button("button_start", 45, 50, None)
         else:
-            self.gui_buttons.insert(5, Button("button_pause", 45, 50, "menu"))
+            self.gui_buttons["menu"] = Button("button_pause", 45, 50, "menu")
 
         # Eng : buttons on the right down corner 
         # Fr :
-        self.gui_buttons.insert(6, Button("button_inventory", DISPLAY_WIDTH - 45, DISPLAY_HEIGHT - 50, 'inventory'))
-        self.gui_buttons.insert(7, Button("button_character", DISPLAY_WIDTH - 110, DISPLAY_HEIGHT - 50, 'stats'))
+        self.gui_buttons["inventory"] = Button("button_inventory", DISPLAY_WIDTH - 45, DISPLAY_HEIGHT - 50, 'inventory')
+        self.gui_buttons["stats"] = Button("button_character", DISPLAY_WIDTH - 110, DISPLAY_HEIGHT - 50, 'stats')
 
         # Eng : quest's button on the left down corner
         # Fr :
-        self.gui_buttons.insert(8, Button("button_quests", 85, DISPLAY_HEIGHT - 50, 'quests'))
+        self.gui_buttons["quests"] = Button("button_quests", 85, DISPLAY_HEIGHT - 50, 'quests')
         self.render_text("Quests", 85, DISPLAY_HEIGHT - 50, Gui.colors['white'], size=20, Regular=True)
 
     def render_background(self):
@@ -134,6 +134,7 @@ class Gui:
             button_pressed = self.render_image(path, x, y)
             return button_pressed
         return button
+        
 
     def render_text(self, text, x, y, color = colors['white'], size = 16, Regular = False):
         """ Eng : Draws any text on the scene window and also returns a rectangle object wich have 
@@ -202,7 +203,7 @@ class Scene:
         the game story """
         """ Fr : every scene has it's own button (besides the gui_buttons) in order to navigate
         the game story """
-        self.buttons = list()
+        self.buttons = {}
 
         # Eng : mouse coords
         # Fr : mouse coords
@@ -249,31 +250,31 @@ class Scene:
         """ Fr : """
         scene_key = self.get_current_scene_key()
         is_scene_type_game = isinstance(manager.game.scenes[scene_key], StoryScene)
-        # list of button objects
-        buttons = gui.gui_buttons + self.buttons
+        # only works in python 3.9 and above
+        buttons = gui.gui_buttons | self.buttons
         if not is_scene_type_game:
             buttons = self.buttons
-        for button in buttons:   
+        for button in buttons.values():   
             if button.rect.collidepoint((self.mx, self.my)):
                 if is_scene_type_game:
                     # Change sound button from on to off
                     if 'music' in button.category:
                         if button.destination == 'music on':
                             Scene.sound = False
-                            del gui.gui_buttons[0]
+                            del gui.gui_buttons['music on']
                             break
                         elif button.destination == 'music off':
                             Scene.sound = True
-                            del gui.gui_buttons[1]
+                            del gui.gui_buttons['music off']
                             break
                     # check for loot buttons
                     elif 'loot' in button.category:
                         player.add_item_inventory(button.loot)
-                if button.destination == 'add':
+                if button.destination == 'next':
                         player.n += 1
                         print(player.n)
                         break 
-                elif button.destination == 'del':
+                elif button.destination == 'previous':
                         player.n -= 1
                         print(player.n)
                         break 
@@ -321,11 +322,11 @@ class StoryScene(Scene):
         """ Fr : """
         for i, choice in enumerate(self.choices):
             if len(choice[0]) < 10:
-                self.buttons.append(Button('button_small', int(DISPLAY_WIDTH/2), self.last_line + i * 6, choice[1], category=choice[2]))
+                self.buttons['choice'+str(i)] = Button('button_small', int(DISPLAY_WIDTH/2), self.last_line + i * 6, choice[1], category=choice[2])
             elif len(choice[0]) < 20:
-                self.buttons.append(Button('button_large', int(DISPLAY_WIDTH/2), self.last_line + i * 60, choice[1], category=choice[2]))
+                self.buttons['choice'+str(i)] = Button('button_large', int(DISPLAY_WIDTH/2), self.last_line + i * 60, choice[1], category=choice[2])
             else:
-                self.buttons.append(Button('button_really_large', int(DISPLAY_WIDTH/2), self.last_line + i * 60, choice[1], category=choice[2]))
+                self.buttons['choice'+str(i)] = Button('button_really_large', int(DISPLAY_WIDTH/2), self.last_line + i * 60, choice[1], category=choice[2])
             gui.render_text(choice[0], int(DISPLAY_WIDTH/2), self.last_line + i * 60, Regular=True, size=20)
     
     def render_template(self):
@@ -358,6 +359,7 @@ class Button():
         self.path = path
         self.destination = destination
         self.category = category
+        self.exist = True
 
         if self.category == 'text':
             self.rect = gui.render_text(path, x, y, size = 35, Regular=True)
@@ -369,6 +371,3 @@ class Button():
             self.rect = gui.render_button(path, x, y)
         else:
             self.rect = gui.render_button(path, x, y)
-
-    
-        
