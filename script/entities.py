@@ -51,6 +51,9 @@ class Player(Entity):
     def add_item_inventory(self, item):
         self.inventory[item] = item
 
+    def reset(self):
+        pass
+
 class Object:
     def __init__(self):
         self.name = None
