@@ -171,6 +171,8 @@ class Gui:
         """ Fr : """
         gui.render_logo(40, False)
         gui.render_ui_buttons(pause)
+        if not player.inventory_checked:
+            self.render_circle(DISPLAY_WIDTH - 70, DISPLAY_HEIGHT - 75, 8, Gui.colors['red'])
         
     
 # create a gui
@@ -270,6 +272,8 @@ class Scene:
                     # check for loot buttons
                     elif 'loot' in button.category:
                         player.add_item_inventory(button.loot)
+                        # notification reset
+                        player.inventory_checked = False
                 if button.destination == 'next':
                         player.n += 1
                         print(player.n)

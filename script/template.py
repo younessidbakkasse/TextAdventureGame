@@ -158,11 +158,3 @@ def store_template():
     # render how to play content
     gui.render_text("Store is available only", int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 - 10), Regular=True, size=19)
     gui.render_text("for Pro members.", int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + 10), Regular=True, size=19)
-
-################################# Game Templates #################################
-def loot_template():
-    # only needed for a story game
-    gui.render_gui()
-    # render notification for inventory
-    if not player.inventory_checked:
-        gui.render_circle(DISPLAY_WIDTH - 70, DISPLAY_HEIGHT - 75, 8, Gui.colors['red'])

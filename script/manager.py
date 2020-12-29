@@ -8,7 +8,6 @@ from template import (
     stats_template,
     store_template, 
     quests_template,
-    loot_template,
 )   
 
 class Game:
@@ -34,12 +33,12 @@ class Game:
             'Person' : StoryScene('Person', [['Follow the footprints', 'Something', 'normal']], 'They are somewhat small and delicate. You arrive at the concusion that they were made by a person below average height, walking barefoot.'),
             'Something' : StoryScene('Something', [['Leave it', 'Lagoon', 'normal'], ['Take the knife', 'Lagoon', 'loot-knife']], "Something near the water has caught your attention, prompting you to take a quick look. Closer scrutiny reveals a rusty knife. While hardly ideal, it's better than nothing."),
             # Lagoon
-            'Lagoon' : StoryScene('Lagoon', [['Take a look around', 'First enemy', 'normal']], "Further north, the beach gives way to a flourishing wetland. You discover a lagoon, surrounded by red pines. At this point there are no more footprints.", template_closure = loot_template),
+            'Lagoon' : StoryScene('Lagoon', [['Take a look around', 'First enemy', 'normal']], "Further north, the beach gives way to a flourishing wetland. You discover a lagoon, surrounded by red pines. At this point there are no more footprints."),
             # Fight scene
-            'First enemy' : StoryScene('First enemy', [['Fight', 'Second loot', 'fight-dog']], "Something is moving through the reeds on the other side. A wild dog emerges. Growling, it runs towards you across the shallows.", template_closure = loot_template),
-            'Second loot' : StoryScene('Second loot', [['Collect the goods', 'Third loot', 'loot-campus']], "Something is moving through the reeds on the other side. A wild dog emerges. Growling, it runs towards you across the shallows.", template_closure = loot_template),
-            'Third loot' : StoryScene('Third loot', [['Get the book', 'Forth loot', 'loot-book']], "Growling, it runs towards you across the shallows.", template_closure = loot_template),
-            'Forth loot' : StoryScene('Forth loot', [['Take it', ' ', 'loot-coin']], "Growling, it runs towards you across the shallows.", template_closure = loot_template),
+            'First enemy' : StoryScene('First enemy', [['Fight', 'Second loot', 'fight-dog']], "Something is moving through the reeds on the other side. A wild dog emerges. Growling, it runs towards you across the shallows."),
+            'Second loot' : StoryScene('Second loot', [['Collect the goods', 'Third loot', 'loot-campus']], "Something is moving through the reeds on the other side. A wild dog emerges. Growling, it runs towards you across the shallows."),
+            'Third loot' : StoryScene('Third loot', [['Get the book', 'Forth loot', 'loot-book']], "Growling, it runs towards you across the shallows."),
+            'Forth loot' : StoryScene('Forth loot', [['Take it', ' ', 'loot-coin']], "Growling, it runs towards you across the shallows."),
 
         }
 

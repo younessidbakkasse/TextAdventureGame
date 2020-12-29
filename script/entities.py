@@ -36,7 +36,7 @@ class Entity:
 class Player(Entity):
     def __init__(self):
         super().__init__()
-        self.inventory_checked = False
+        self.inventory_checked = True
         self.n = 0
 
     def healing(self):
