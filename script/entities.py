@@ -49,15 +49,17 @@ class Player(Entity):
             self.level += 1
 
     def add_item_inventory(self, item):
-        self.inventory[item] = item
+        self.inventory[item] = Object(item)
 
     def reset(self):
         pass
 
+# loot items
 class Object:
-    def __init__(self):
-        self.name = None
+    def __init__(self, name):
+        self.name = name
         self.type = None
+        
 
     def __str__(self):
         print(self.name, self.type)

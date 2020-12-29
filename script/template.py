@@ -118,17 +118,13 @@ def inventory_template():
             i += 1
             
         # render navigation button for carsuoal
-
         # render right arrow
         if len(player.inventory) > 2 and not player.n >= len(player.inventory) - 2:
             manager.game.scenes['Inventory'].buttons['right arrow'] = Button("button_right", DISPLAY_WIDTH - 45, int(DISPLAY_HEIGHT/2), 'next', category='navigate')
         # render left arrow
         if len(player.inventory) > 2 and player.n > 0:
-            manager.game.scenes['Inventory'].buttons['left arrow'] = Button("button_left", 45, int(DISPLAY_HEIGHT/2), 'previous', category='navigate')
-            
-        print(len(player.inventory), player.n)
-        #print(len(manager.game.scenes['Inventory'].buttons))
-    # player checked inventory
+            manager.game.scenes['Inventory'].buttons['left arrow'] = Button("button_left", 45, int(DISPLAY_HEIGHT/2), 'previous', category='navigate')   
+    # player checked his inventory
     player.inventory_checked = True
 
 

@@ -363,7 +363,6 @@ class Button():
         self.path = path
         self.destination = destination
         self.category = category
-        self.exist = True
 
         if self.category == 'text':
             self.rect = gui.render_text(path, x, y, size = 35, Regular=True)
