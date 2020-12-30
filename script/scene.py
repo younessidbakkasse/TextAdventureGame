@@ -148,10 +148,12 @@ class Gui:
         Gui.display.blit(text_surface, text_rect)
         return text_rect
 
-    def render_image(self, path, x, y):
+    def render_image(self, path, x, y, scale=False):
         """ Eng : Renders images and icons on the screen and returns a rect object """
         """ Fr : """
         image = pygame.image.load(path).convert_alpha()
+        if scale:
+            image = pygame.transform.scale2x(image)
         image_rect = image.get_rect(center = (int(x), int(y)))
         Gui.display.blit(image, image_rect)
         return image_rect

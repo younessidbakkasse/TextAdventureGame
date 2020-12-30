@@ -68,8 +68,8 @@ class Object:
         'pickaxe' : {'name' : 'Pickaxe', 'atk' : 24, 'def' : 3, 'type' : 'weapon'},
         'hammer' : {'name' : 'Hammer', 'atk' : 30, 'def' : 4, 'type' : 'weapon'},
         'torch' : {'name' : 'Torch', 'atk' : 20, 'def' : 30, 'type' : 'weapon'},
-        'wand' : {'name' : 'Wand', 'atk' : 120, 'def' : 20, 'type' : 'weapon'},
-        'sapphire wand' : {'name' : 'Sapphire Wand', 'atk' : 180, 'def' : 20, 'type' : 'weapon'},
+        'wand' : {'name' : 'Magic Wand', 'atk' : 120, 'def' : 20, 'type' : 'weapon'},
+        'sapphire wand' : {'name' : 'Great Wand', 'atk' : 180, 'def' : 20, 'type' : 'weapon'},
 
         # shields
         'wooden shield' : {'name' : 'Wooden Shield', 'atk' : 0, 'def' : 40, 'type' : 'shield'},
@@ -80,7 +80,7 @@ class Object:
 
         # materials
         'book' : {'name' : 'Book', 'value' : 5, 'type' : 'material'},
-        'coin' : {'name' : 'Silver Coin', 'value' : 1, 'type' : 'material'},
+        'coin' : {'name' : 'Golden Coin', 'value' : 1, 'type' : 'material'},
         'key' : {'name' : 'Golden Key', 'value' : 10, 'type' : 'material'},
         'map' : {'name' : 'Map', 'value' : 3, 'type' : 'material'},
         'gear' :  {'name' : 'Gear', 'value' : 2, 'type' : 'material'},

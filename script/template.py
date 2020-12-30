@@ -128,8 +128,9 @@ def inventory_template():
                 gui.render_text(f'Value', int(DISPLAY_WIDTH/2 - (-2*i+1)*75),  int(DISPLAY_HEIGHT/2) - 64, Regular=True, size=18)
                 gui.render_text(f'+{item[1].value} Gold', int(DISPLAY_WIDTH/2 - (-2*i+1)*75),  int(DISPLAY_HEIGHT/2) - 42, Regular=True, size=18)
                 gui.render_text('Sell', int(DISPLAY_WIDTH/2 - (-2*i+1)*75),  int(DISPLAY_HEIGHT/2) + 120, Regular=True, size=20)
-            
 
+            # render item image
+            gui.render_image(f'./assets/items/{item[0]}.png', int(DISPLAY_WIDTH/2 - (-2*i+1)*75), int(DISPLAY_HEIGHT/2 + 25), scale=True)
             
             i += 1
 
