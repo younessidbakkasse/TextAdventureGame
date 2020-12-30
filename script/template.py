@@ -95,6 +95,8 @@ def howtoplay_template():
 
 ################################# Inventory Template #################################
 def inventory_template():
+    # BUG: there is a bug in inventory why the fuck the equip or use button function on the right side only
+    # BUG: there is another bug in navigation when an item desipears on right all navigating btns desipear too
     gui.render_gui(pause=True)
     gui.render_transparent_background()
     def frame():
