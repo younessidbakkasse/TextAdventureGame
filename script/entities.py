@@ -49,6 +49,7 @@ class Player(Entity):
             self.level += 1
 
     def add_item_inventory(self, item):
+        print(item)
         self.inventory[item] = Object(item)
 
     def reset(self):
@@ -58,61 +59,75 @@ class Player(Entity):
 class Object:
     items_list = {
         # Weapons
-        'axe' : {'atk' : 35, 'def' : 5},
-        'bow' : {'atk' : 55, 'def' : 0},
-        'iron sword' : {'atk' : 38, 'def' : 10},
-        'silver sword' : {'atk' : 49, 'def' : 15},
-        'golden sword' : {'atk' : 90, 'def' : 30},
-        'knife' : {'atk' : 12, 'def' : 0},
-        'pickaxe' : {'atk' : 24, 'def' : 3},
-        'hammer' : {'atk' : 30, 'def' : 4},
-        'torch' : {'atk' : 20, 'def' : 30},
-        'wand' : {'atk' : 120, 'def' : 20},
-        'sapphire wand' : {'atk' : 180, 'def' : 20},
+        'axe' : {'name' : 'Axe', 'atk' : 35, 'def' : 5, 'type' : 'weapon'},
+        'bow' : {'name' : 'Bow', 'atk' : 55, 'def' : 0, 'type' : 'weapon'},
+        'iron sword' : {'name' : 'Iron Sword', 'atk' : 38, 'def' : 10, 'type' : 'weapon'},
+        'silver sword' : {'name' : 'Silver Sword', 'atk' : 49, 'def' : 15, 'type' : 'weapon'},
+        'golden sword' : {'name' : 'Golden Sword', 'atk' : 90, 'def' : 30, 'type' : 'weapon'},
+        'knife' : {'name' : 'Knife', 'atk' : 12, 'def' : 0, 'type' : 'weapon'},
+        'pickaxe' : {'name' : 'Pickaxe', 'atk' : 24, 'def' : 3, 'type' : 'weapon'},
+        'hammer' : {'name' : 'Hammer', 'atk' : 30, 'def' : 4, 'type' : 'weapon'},
+        'torch' : {'name' : 'Torch', 'atk' : 20, 'def' : 30, 'type' : 'weapon'},
+        'wand' : {'name' : 'Wand', 'atk' : 120, 'def' : 20, 'type' : 'weapon'},
+        'sapphire wand' : {'name' : 'Sapphire Wand', 'atk' : 180, 'def' : 20, 'type' : 'weapon'},
 
         # shields
-        'wooden shield' : {'atk' : 0, 'def' : 40},
-        'iron shield' : {'atk' : 2, 'def' : 60},
-        'wooden armor' : {'atk' : 0, 'def' : 50},
-        'iron armor' : {'atk' : 3, 'def' : 80},
-        'wizard hat' : {'atk' : 15, 'def' : 30},
+        'wooden shield' : {'name' : 'Wooden Shield', 'atk' : 0, 'def' : 40, 'type' : 'shield'},
+        'iron shield' : {'name' : 'Iron Shield', 'atk' : 2, 'def' : 60, 'type' : 'shield'},
+        'wooden armor' : {'name' : 'Wooden Armor', 'atk' : 0, 'def' : 50, 'type' : 'shield'},
+        'iron armor' : {'name' : 'Iron Armor', 'atk' : 3, 'def' : 80, 'type' : 'shield'},
+        'wizard hat' : {'name' : 'Wizard Hat', 'atk' : 15, 'def' : 30, 'type' : 'shield'},
 
         # materials
-        'book' : {'name' : 'Book'},
-        'coin' : {'name' : 'Silver Coin'},
-        'key' : {'name' : 'Golden Key'},
-        'map' : {'name' : 'Map'},
-        'gear' :  {'name' : 'Gear'},
+        'book' : {'name' : 'Book', 'value' : 5, 'type' : 'material'},
+        'coin' : {'name' : 'Silver Coin', 'value' : 1, 'type' : 'material'},
+        'key' : {'name' : 'Golden Key', 'value' : 10, 'type' : 'material'},
+        'map' : {'name' : 'Map', 'value' : 3, 'type' : 'material'},
+        'gear' :  {'name' : 'Gear', 'value' : 2, 'type' : 'material'},
 
         # Monster parts
-        'bone' : {'name' : 'Bone'},
-        'monster meat' : {'name' : 'Monster Meat'},
-        'monster eye' : {'name' : 'Monster Eye'},
-        'skull' : {'name' : 'Human Skull'},
+        'bone' : {'name' : 'Bone', 'value' : 3, 'type' : 'material'},
+        'monster meat' : {'name' : 'Monster Meat', 'value' : 8, 'type' : 'material'},
+        'monster eye' : {'name' : 'Monster Eye', 'value' : 15, 'type' : 'material'},
+        'skull' : {'name' : 'Human Skull', 'value' : 20, 'type' : 'material'},
 
         # Gems
-        'gold ingot' : {'name' : 'Gold Ingot', 'value' : 50},
-        'pearl' : {'name' : 'Pearl', 'value' : 100},
-        'emerald' : {'name' : 'Emerald', 'value' : 150},
-        'topaz' : {'name' : 'Topaz', 'value' : 80},
-        'diamond' : {'name' : 'Diamond', 'value' : 250},
-        'obsidian' : {'name' : 'Obsidian', 'value' : 180},
+        'gold ingot' : {'name' : 'Gold Ingot', 'value' : 50, 'type' : 'or'},
+        'pearl' : {'name' : 'Pearl', 'value' : 100, 'type' : 'or'},
+        'emerald' : {'name' : 'Emerald', 'value' : 150, 'type' : 'or'},
+        'topaz' : {'name' : 'Topaz', 'value' : 80, 'type' : 'or'},
+        'diamond' : {'name' : 'Diamond', 'value' : 250, 'type' : 'or'},
+        'obsidian' : {'name' : 'Obsidian', 'value' : 180, 'type' : 'or'},
 
         # potions
-        'blue potion' : {'name' : 'Blue Potion', 'health' : 100},
-        'green potion' : {'name' : 'Green Potion', 'health' : 150},
-        'red potion' : {'name' : 'Red Potion', 'health' : 200},
-        'water' : {'name' : 'Water', 'health' : 50},
-    }
+        'blue potion' : {'name' : 'Blue Potion', 'health' : 100, 'type' : 'potion'},
+        'green potion' : {'name' : 'Green Potion', 'health' : 150, 'type' : 'potion'},
+        'red potion' : {'name' : 'Red Potion', 'health' : 200, 'type' : 'potion'},
+        'water' : {'name' : 'Water', 'health' : 15, 'type' : 'potion'},
 
+        # food
+        'apple' : {'name' : 'Apple', 'health' : 20, 'type' : 'food'},
+        'fish' : {'name' : 'Fish', 'health' : 40, 'type' : 'food'},
+        'meat' : {'name' : 'Meat', 'health' : 50, 'type' : 'food'},
+        'wine' : {'name' : 'Wine', 'health' : 30, 'type' : 'food'},
+        'bread' : {'name' : 'Bread', 'health' : 35, 'type' : 'food'},
+    }
     
     def __init__(self, name):
-        self.name = name
-        
-        
+        for item_key, item in Object.items_list.items():
+            if item_key == name:
+                self.name = item['name']
+                self.type = item['type']
+                if self.type == 'weapon' or self.type == 'shield':
+                    self.attack = item['atk']
+                    self.defence = item['def']
+                elif self.type == 'potion' or self.type == 'food':
+                    self.health = item['health']
+                elif self.type == 'or' or self.type == 'material':
+                    self.value = item['value']
 
     def __str__(self):
-        print(self.name, self.type)
+        return f'{self.name}, {self.type}'
 
 # create a player 
 player = Player()

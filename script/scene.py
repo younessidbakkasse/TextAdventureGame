@@ -276,11 +276,9 @@ class Scene:
                         player.inventory_checked = False
                 if button.destination == 'next':
                         player.n += 1
-                        print(player.n)
                         break 
                 elif button.destination == 'previous':
                         player.n -= 1
-                        print(player.n)
                         break 
                 if button.destination == 'exit':
                         pygame.quit()

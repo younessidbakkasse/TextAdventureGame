@@ -36,8 +36,8 @@ class Game:
             'Lagoon' : StoryScene('Lagoon', [['Take a look around', 'First enemy', 'normal']], "Further north, the beach gives way to a flourishing wetland. You discover a lagoon, surrounded by red pines. At this point there are no more footprints."),
             # Fight scene
             'First enemy' : StoryScene('First enemy', [['Fight', 'Second loot', 'fight-dog']], "Something is moving through the reeds on the other side. A wild dog emerges. Growling, it runs towards you across the shallows."),
-            'Second loot' : StoryScene('Second loot', [['Collect the goods', 'Third loot', 'loot-campus']], "Something is moving through the reeds on the other side. A wild dog emerges. Growling, it runs towards you across the shallows."),
-            'Third loot' : StoryScene('Third loot', [['Get the book', 'Forth loot', 'loot-book']], "Growling, it runs towards you across the shallows."),
+            'Second loot' : StoryScene('Second loot', [['Collect the goods', 'Third loot', 'loot-book']], "Something is moving through the reeds on the other side. A wild dog emerges. Growling, it runs towards you across the shallows."),
+            'Third loot' : StoryScene('Third loot', [['Get the book', 'Forth loot', 'loot-apple']], "Growling, it runs towards you across the shallows."),
             'Forth loot' : StoryScene('Forth loot', [['Take it', ' ', 'loot-coin']], "Growling, it runs towards you across the shallows."),
 
         }
