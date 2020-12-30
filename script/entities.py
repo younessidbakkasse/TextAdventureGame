@@ -46,6 +46,8 @@ class Player(Entity):
         pass
 
     def eat(self, food):
+        """ Eng: this function test if your health is maxed out if not it adds
+        the food to your health bar"""
         if self.health < self.max_health:
             self.health += food.health
             if self.health > self.max_health:
@@ -54,9 +56,33 @@ class Player(Entity):
             manager.game.scenes['Inventory'].buttons.pop(f'use {food.name.casefold()}')
 
     def sell(self, item):
+        """Eng: this function sells your items that can be sold in your inventory"""
         self.gold += item.value
         self.inventory.pop(item.name.casefold())
         manager.game.scenes['Inventory'].buttons.pop(f'sell {item.name.casefold()}')
+
+    def equip(self, item):   
+        """Eng: this function equip items ex shield or weapons when click button equip in inventory""" 
+        # This equips item and adds stats 
+        def equip_item():
+            self.equiped[item.name] = item
+            self.attack += item.attack
+            self.defence += item.defence
+            self.inventory[item.name.casefold()].status = 'Equiped'
+        # This check if there is two same item types in inventory 
+        if len(self.equiped) == 0:
+            equip_item()
+        else:
+            for equiped_item in list(self.equiped.values()):
+                if equiped_item.type != item.type and len(self.equiped) < 2:
+                    equip_item()
+
+    def unequip(self, item):
+        """Eng: this function unequip items ex shield or weapons when click button equiped in inventory""" 
+        self.equiped.pop(item.name)
+        self.attack -= item.attack
+        self.defence -= item.defence
+        self.inventory[item.name.casefold()].status = 'Equip' 
 
     def level_up(self):
         if self.current_xp >= self.max_xp:
@@ -65,12 +91,8 @@ class Player(Entity):
             self.level += 1
 
     def add_item_inventory(self, item):
-        print(item)
+        """Eng: check name"""
         self.inventory[item] = Object(item)
-
-    def equip(self, item):
-        self.equiped[item.name] = item
-
 
     def reset(self):
         pass
@@ -79,6 +101,7 @@ class Player(Entity):
 class Object:
     items_list = {
         # Weapons
+        # here you can only one equip one type of item ex you can equipe only on weapon and one shield
         'axe' : {'name' : 'Axe', 'atk' : 35, 'def' : 5, 'type' : 'weapon'},
         'bow' : {'name' : 'Bow', 'atk' : 55, 'def' : 0, 'type' : 'weapon'},
         'iron sword' : {'name' : 'Iron Sword', 'atk' : 38, 'def' : 10, 'type' : 'weapon'},
@@ -141,6 +164,7 @@ class Object:
                 if self.type == 'weapon' or self.type == 'shield':
                     self.attack = item['atk']
                     self.defence = item['def']
+                    self.status = 'Equip'
                 elif self.type == 'potion' or self.type == 'food':
                     self.health = item['health']
                 elif self.type == 'or' or self.type == 'material':

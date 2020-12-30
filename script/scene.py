@@ -285,6 +285,9 @@ class Scene:
                 elif button.destination == 'equip':
                     player.equip(button.obj)
                     break
+                elif button.destination == 'equiped':
+                    player.unequip(button.obj)
+                    break
                 elif button.destination == 'use':
                     player.eat(button.obj)
                     break
@@ -384,3 +387,5 @@ class Button():
             self.rect = gui.render_button(path, x, y)
         else:
             self.rect = gui.render_button(path, x, y)
+
+
