@@ -1,3 +1,5 @@
+import manager
+
 class Entity:
     def __init__(self, level = 1, attack = 8, defence = 4, gold = 10):
         self.level = level
@@ -5,7 +7,7 @@ class Entity:
         self.current_xp = 0
 
         self.max_health = 150 + (15 * self.level)
-        self.health = self.max_health
+        self.health = 100
 
         #todo use setters and getters for this
 
@@ -38,9 +40,23 @@ class Player(Entity):
         super().__init__()
         self.inventory_checked = True
         self.n = 0
+        self.equiped = dict()
 
     def healing(self):
         pass
+
+    def eat(self, food):
+        if self.health < self.max_health:
+            self.health += food.health
+            if self.health > self.max_health:
+                self.health = self.max_health
+            self.inventory.pop(food.name.casefold())
+            manager.game.scenes['Inventory'].buttons.pop(f'use {food.name.casefold()}')
+
+    def sell(self, item):
+        self.gold += item.value
+        self.inventory.pop(item.name.casefold())
+        manager.game.scenes['Inventory'].buttons.pop(f'sell {item.name.casefold()}')
 
     def level_up(self):
         if self.current_xp >= self.max_xp:
@@ -51,6 +67,10 @@ class Player(Entity):
     def add_item_inventory(self, item):
         print(item)
         self.inventory[item] = Object(item)
+
+    def equip(self, item):
+        self.equiped[item.name] = item
+
 
     def reset(self):
         pass
@@ -69,7 +89,7 @@ class Object:
         'hammer' : {'name' : 'Hammer', 'atk' : 30, 'def' : 4, 'type' : 'weapon'},
         'torch' : {'name' : 'Torch', 'atk' : 20, 'def' : 30, 'type' : 'weapon'},
         'wand' : {'name' : 'Magic Wand', 'atk' : 120, 'def' : 20, 'type' : 'weapon'},
-        'sapphire wand' : {'name' : 'Great Wand', 'atk' : 180, 'def' : 20, 'type' : 'weapon'},
+        'great wand' : {'name' : 'Great Wand', 'atk' : 180, 'def' : 20, 'type' : 'weapon'},
 
         # shields
         'wooden shield' : {'name' : 'Wooden Shield', 'atk' : 0, 'def' : 40, 'type' : 'shield'},
@@ -80,8 +100,8 @@ class Object:
 
         # materials
         'book' : {'name' : 'Book', 'value' : 5, 'type' : 'material'},
-        'coin' : {'name' : 'Golden Coin', 'value' : 1, 'type' : 'material'},
-        'key' : {'name' : 'Golden Key', 'value' : 10, 'type' : 'material'},
+        'golden coin' : {'name' : 'Golden Coin', 'value' : 1, 'type' : 'material'},
+        'golden key' : {'name' : 'Golden Key', 'value' : 10, 'type' : 'material'},
         'map' : {'name' : 'Map', 'value' : 3, 'type' : 'material'},
         'gear' :  {'name' : 'Gear', 'value' : 2, 'type' : 'material'},
 

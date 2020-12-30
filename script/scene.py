@@ -121,7 +121,7 @@ class Gui:
             self.render_text("DEAD", DISPLAY_WIDTH/2, y - 4, Gui.colors["dark green"], 40)
             self.render_text("ISLAND", DISPLAY_WIDTH/2, y + 26, Gui.colors["dark green"], 40)
             self.render_text("DEAD", DISPLAY_WIDTH/2, y, Gui.colors["white"], 40)
-            self.render_text("ISLAND", DISPLAY_WIDTH/2, y + 30, Gui.colors["white"], 40)
+            self.render_text("ISLAND", DISPLAY_WIDTH/2, y + 30, Gui.colors["white"], 40) 
 
     def render_button(self, name, x, y):
         """ Eng : this function draw buttons from the asset/button file and checks hover effect """
@@ -282,7 +282,16 @@ class Scene:
                 elif button.destination == 'previous':
                         player.n -= 1
                         break 
-                if button.destination == 'exit':
+                elif button.destination == 'equip':
+                    player.equip(button.obj)
+                    break
+                elif button.destination == 'use':
+                    player.eat(button.obj)
+                    break
+                elif button.destination == 'sell':
+                    player.sell(button.obj)
+                    break
+                elif button.destination == 'exit':
                         pygame.quit()
                         sys.exit()
                 for scene in manager.game.scenes.values():
@@ -359,10 +368,11 @@ class StoryScene(Scene):
 
 
 class Button():
-    def __init__(self, path, x, y, destination, category = 'normal'):
+    def __init__(self, path, x, y, destination, category = 'normal', obj = None):
         self.path = path
         self.destination = destination
         self.category = category
+        self.obj = obj
 
         if self.category == 'text':
             self.rect = gui.render_text(path, x, y, size = 35, Regular=True)
