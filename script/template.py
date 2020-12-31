@@ -33,31 +33,30 @@ def fight_template():
     # render run/close button
     manager.game.scenes['Fight'].buttons['close'] = Button('button_close', int(DISPLAY_WIDTH) - 55, int(DISPLAY_HEIGHT/2) - 175, Scene.previous_scene)
     # render fight button
-    manager.game.scenes['Fight'].buttons['fight'] = Button('button_small', int(DISPLAY_WIDTH/2), DISPLAY_HEIGHT - 200, ' ')
-    gui.render_text('Fight', int(DISPLAY_WIDTH/2),  DISPLAY_HEIGHT - 200, Regular=True, size=20)
+    manager.game.scenes['Fight'].buttons['fight'] = Button('button_small', int(DISPLAY_WIDTH/2), DISPLAY_HEIGHT - 190, ' ')
+    gui.render_text('Fight', int(DISPLAY_WIDTH/2),  DISPLAY_HEIGHT - 190, Regular=True, size=20)
     # end structure ######################
 
     # render player stats ######################################
-    gui.render_text(f'Gold {int(player.gold)}', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 - 70), size=22, Regular=True)
-    gui.render_text(f'Attack {int(player.attack)}', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 - 40), size=22, Regular=True)
-    gui.render_text(f'Defense {int(player.defence)}', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 - 10), size=22, Regular=True)
-
+    gui.render_text('You', int(DISPLAY_WIDTH/2 - 120), int(DISPLAY_HEIGHT/2 - 110), size=28, Regular=True)
+    # stats
+    gui.render_text(f'Gold {int(player.gold)}', int(DISPLAY_WIDTH/2 - 110), int(DISPLAY_HEIGHT/2 - 70), size=18, Regular=True)
+    gui.render_text(f'Attack {int(player.attack)}', int(DISPLAY_WIDTH/2 - 100), int(DISPLAY_HEIGHT/2 - 50), size=18, Regular=True)
+    gui.render_text(f'Defense {int(player.defence)}', int(DISPLAY_WIDTH/2 - 95), int(DISPLAY_HEIGHT/2 - 30), size=18, Regular=True)
     # render player's health bar
-    gui.render_image('./assets/frames/bar.png', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + 35))
+    gui.render_image('./assets/frames/bar-small.png', int(DISPLAY_WIDTH/2 - 80), int(DISPLAY_HEIGHT/2 + 10))
     # render player's armor bar
-    gui.render_image('./assets/frames/bar.png', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + 80))
-
+    gui.render_image('./assets/frames/bar-small.png', int(DISPLAY_WIDTH/2 - 80), int(DISPLAY_HEIGHT/2 + 45))
     # render icons
-    gui.render_image('./assets/icons/heart.png', int(DISPLAY_WIDTH/2 - 72), int(DISPLAY_HEIGHT/2 + 35))
-    gui.render_image('./assets/icons/level.png', int(DISPLAY_WIDTH/2 - 72), int(DISPLAY_HEIGHT/2 + 80))
-
+    gui.render_image('./assets/icons/heart-small.png', int(DISPLAY_WIDTH/2 - 132), int(DISPLAY_HEIGHT/2 + 10))
+    gui.render_image('./assets/icons/level-small.png', int(DISPLAY_WIDTH/2 - 132), int(DISPLAY_HEIGHT/2 + 43))
     # render dynamique bar for both health and levels
-    gui.render_rect(int(DISPLAY_WIDTH/2 - 55), int(DISPLAY_HEIGHT/2 + 22), int(140 * player.health/player.max_health), 25, Gui.colors['red'])
-    gui.render_rect(int(DISPLAY_WIDTH/2 - 55), int(DISPLAY_HEIGHT/2 + 57), int(140 * player.current_xp/player.max_xp), 25, Gui.colors['yellow'])
+    gui.render_rect(int(DISPLAY_WIDTH/2 - 119), int(DISPLAY_HEIGHT/2+1), int(101 * player.health/player.max_health), 18, Gui.colors['red'])
+    gui.render_rect(int(DISPLAY_WIDTH/2 - 119), int(DISPLAY_HEIGHT/2 + 35), int(101 * player.current_xp/player.max_xp), 18, Gui.colors['yellow'])
 
-     # render stats on bars
-    gui.render_text(f'{int(player.health)}/{int(player.max_health)}', int(DISPLAY_WIDTH/2 + 10), int(DISPLAY_HEIGHT/2 + 35), size = 14)
-    gui.render_text(f'Level {int(player.level)}', int(DISPLAY_WIDTH/2 + 10), int(DISPLAY_HEIGHT/2 + 80), size = 14)
+    # render stats on bars
+    gui.render_text(f'{int(player.health)}/{int(player.max_health)}', int(DISPLAY_WIDTH/2 - 70), int(DISPLAY_HEIGHT/2 + 10), size = 10)
+    gui.render_text(f'Level {int(player.level)}', int(DISPLAY_WIDTH/2 - 70), int(DISPLAY_HEIGHT/2 + 45), size = 10)
     # end player stats #######################################
 
 
@@ -94,7 +93,7 @@ def stats_template():
 
     # render player's health bar
     gui.render_image('./assets/frames/bar.png', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + 35))
-    # render player's armor bar
+    # render player's level bar
     gui.render_image('./assets/frames/bar.png', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + 80))
 
     # render icons
