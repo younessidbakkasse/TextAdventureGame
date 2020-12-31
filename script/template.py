@@ -53,11 +53,34 @@ def fight_template():
     # render dynamique bar for both health and levels
     gui.render_rect(int(DISPLAY_WIDTH/2 - 119), int(DISPLAY_HEIGHT/2+1), int(101 * player.health/player.max_health), 18, Gui.colors['red'])
     gui.render_rect(int(DISPLAY_WIDTH/2 - 119), int(DISPLAY_HEIGHT/2 + 35), int(101 * player.current_xp/player.max_xp), 18, Gui.colors['yellow'])
-
     # render stats on bars
     gui.render_text(f'{int(player.health)}/{int(player.max_health)}', int(DISPLAY_WIDTH/2 - 70), int(DISPLAY_HEIGHT/2 + 10), size = 10)
     gui.render_text(f'Level {int(player.level)}', int(DISPLAY_WIDTH/2 - 70), int(DISPLAY_HEIGHT/2 + 45), size = 10)
     # end player stats #######################################
+
+    #render VS on screen
+    gui.render_text('VS', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 - 40), size = 37)
+
+    # render enemy stats ######################################
+    gui.render_text('Dog', int(DISPLAY_WIDTH/2 + 120), int(DISPLAY_HEIGHT/2 - 110), size=28, Regular=True)
+    # stats
+    gui.render_text(f'Gold {int(player.gold)}', int(DISPLAY_WIDTH/2 + 110), int(DISPLAY_HEIGHT/2 - 70), size=18, Regular=True)
+    gui.render_text(f'Attack {int(player.attack)}', int(DISPLAY_WIDTH/2 + 100), int(DISPLAY_HEIGHT/2 - 50), size=18, Regular=True)
+    gui.render_text(f'Defense {int(player.defence)}', int(DISPLAY_WIDTH/2 + 95), int(DISPLAY_HEIGHT/2 - 30), size=18, Regular=True)
+    # render player's health bar
+    gui.render_image('./assets/frames/bar-small.png', int(DISPLAY_WIDTH/2 + 80), int(DISPLAY_HEIGHT/2 + 10))
+    # render player's armor bar
+    gui.render_image('./assets/frames/bar-small.png', int(DISPLAY_WIDTH/2 + 80), int(DISPLAY_HEIGHT/2 + 45))
+    # render icons
+    gui.render_image('./assets/icons/heart-small.png', int(DISPLAY_WIDTH/2 + 28), int(DISPLAY_HEIGHT/2 + 10))
+    gui.render_image('./assets/icons/level-small.png', int(DISPLAY_WIDTH/2 + 28), int(DISPLAY_HEIGHT/2 + 43))
+    # render dynamique bar for both health and levels
+    gui.render_rect(int(DISPLAY_WIDTH/2 + 40), int(DISPLAY_HEIGHT/2+1), int(101 * player.health/player.max_health), 18, Gui.colors['red'])
+    gui.render_rect(int(DISPLAY_WIDTH/2 + 40), int(DISPLAY_HEIGHT/2 + 35), int(101 * player.current_xp/player.max_xp), 18, Gui.colors['yellow'])
+    # render stats on bars
+    gui.render_text(f'{int(player.health)}/{int(player.max_health)}', int(DISPLAY_WIDTH/2 + 90), int(DISPLAY_HEIGHT/2 + 10), size = 10)
+    gui.render_text(f'Level {int(player.level)}', int(DISPLAY_WIDTH/2 + 90), int(DISPLAY_HEIGHT/2 + 44), size = 10)
+    # end enemy stats #######################################
 
 
 
