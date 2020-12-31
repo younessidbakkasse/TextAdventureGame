@@ -25,9 +25,44 @@ def menu_template():
 
 ################################# Monster Fight Template #################################
 def fight_template():
-    gui.render_gui()
+    # render structure ######################
+    gui.render_gui(pause=True)
+    gui.render_transparent_background()
     # render frame
-    gui.render_frame('normal', 'fight')
+    gui.render_frame('big-up', 'Fight')
+    # render run/close button
+    manager.game.scenes['Fight'].buttons['close'] = Button('button_close', int(DISPLAY_WIDTH) - 55, int(DISPLAY_HEIGHT/2) - 175, Scene.previous_scene)
+    # render fight button
+    manager.game.scenes['Fight'].buttons['fight'] = Button('button_small', int(DISPLAY_WIDTH/2), DISPLAY_HEIGHT - 200, ' ')
+    gui.render_text('Fight', int(DISPLAY_WIDTH/2),  DISPLAY_HEIGHT - 200, Regular=True, size=20)
+    # end structure ######################
+
+    # render player stats ######################################
+    gui.render_text(f'Gold {int(player.gold)}', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 - 70), size=22, Regular=True)
+    gui.render_text(f'Attack {int(player.attack)}', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 - 40), size=22, Regular=True)
+    gui.render_text(f'Defense {int(player.defence)}', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 - 10), size=22, Regular=True)
+
+    # render player's health bar
+    gui.render_image('./assets/frames/bar.png', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + 35))
+    # render player's armor bar
+    gui.render_image('./assets/frames/bar.png', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + 80))
+
+    # render icons
+    gui.render_image('./assets/icons/heart.png', int(DISPLAY_WIDTH/2 - 72), int(DISPLAY_HEIGHT/2 + 35))
+    gui.render_image('./assets/icons/level.png', int(DISPLAY_WIDTH/2 - 72), int(DISPLAY_HEIGHT/2 + 80))
+
+    # render dynamique bar for both health and levels
+    gui.render_rect(int(DISPLAY_WIDTH/2 - 55), int(DISPLAY_HEIGHT/2 + 22), int(140 * player.health/player.max_health), 25, Gui.colors['red'])
+    gui.render_rect(int(DISPLAY_WIDTH/2 - 55), int(DISPLAY_HEIGHT/2 + 57), int(140 * player.current_xp/player.max_xp), 25, Gui.colors['yellow'])
+
+     # render stats on bars
+    gui.render_text(f'{int(player.health)}/{int(player.max_health)}', int(DISPLAY_WIDTH/2 + 10), int(DISPLAY_HEIGHT/2 + 35), size = 14)
+    gui.render_text(f'Level {int(player.level)}', int(DISPLAY_WIDTH/2 + 10), int(DISPLAY_HEIGHT/2 + 80), size = 14)
+    # end player stats #######################################
+
+
+
+
     
 ################################# Game Credit Template #################################
 def credit_template():

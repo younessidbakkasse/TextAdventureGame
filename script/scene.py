@@ -98,16 +98,22 @@ class Gui:
             self.render_image(f'./assets/frames/{frame_type}.png', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2))
             # render menu pause title
             self.render_text(frame_name, int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 - 110))
-        if frame_type == 'big':
+        elif frame_type == 'big':
             # render frame
             self.render_image(f'./assets/frames/{frame_type}.png', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + 20))
             # render menu pause title
             self.render_text(frame_name, int(DISPLAY_WIDTH/2), 160)
-        if frame_type == 'huge':
+        elif frame_type == 'big-up':
+            # render frame
+            self.render_image(f'./assets/frames/big.png', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2))
+            # render menu pause title
+            self.render_text(frame_name, int(DISPLAY_WIDTH/2), 140)
+        elif frame_type == 'huge':
             # render frame
             self.render_image(f'./assets/frames/{frame_type}.png', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + 10))
             # render menu pause title
             self.render_text(frame_name, int(DISPLAY_WIDTH/2), 77)
+
 
     def render_logo(self, y, big_logo = True):
         """ Eng : renders the two versions of game logo : small & big """
@@ -276,6 +282,9 @@ class Scene:
                         player.add_item_inventory(button.loot)
                         # notification reset
                         player.inventory_checked = False
+                    elif 'fight' in button.category:
+                        Scene.previous_scene = self.scene_name
+                        manager.game.scenes['Fight'].run_scene()
                 if button.destination == 'next':
                         player.n += 1
                         break 
