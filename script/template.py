@@ -92,8 +92,6 @@ def fight_template():
         gui.render_text('Fight', int(DISPLAY_WIDTH/2),  DISPLAY_HEIGHT - 190, Regular=True, size=20)
 
     
-
-    
 ################################# Game Credit Template #################################
 def credit_template():
     gui.render_gui(pause=True)
@@ -242,5 +240,16 @@ def store_template():
     gui.render_text("Store is available only", int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 - 10), Regular=True, size=19)
     gui.render_text("for Pro members.", int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + 10), Regular=True, size=19)
 
+################################# Game Over Template #################################
+def gameover_template():
+    gui.render_transparent_background()
+    # render frame
+    gui.render_frame('huge', 'Game Over')
+    # render game over text
+    gui.render_text("You just got killed ", int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 - 60), Regular=True, size=35)
+    gui.render_text(f"by {player.is_fighting.name}.", int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 - 25), Regular=True, size=35)
+    # render new game          
+    manager.game.scenes['Game Over'].buttons['new game'] = Button('button_normal', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + 50), 'home')
+    gui.render_text("New Game", int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + 50), Regular=True, size=22)
 
-
+    

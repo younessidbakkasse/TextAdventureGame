@@ -23,9 +23,6 @@ class Entity:
 
         self.inventory = dict()
 
-    def death(self):
-        pass
-
     def running(self):
         pass
     
@@ -34,6 +31,9 @@ class Entity:
         self.max_health = 150 + (15 * self.level)
         self.attack = attack + attack * self.level/2 
         self.defence = defence + defence * self.level/3
+
+    def reset(self):
+        pass
 
 class Player(Entity):
     def __init__(self):
@@ -101,8 +101,10 @@ class Player(Entity):
         self.is_turn = False
         self.is_fighting.health -= self.attack - self.is_fighting.defence
 
-    def reset(self):
-        pass
+    def gameover(self):
+        if self.health < 1:
+            self.reset()
+            manager.
 
 # create a player 
 player = Player()
