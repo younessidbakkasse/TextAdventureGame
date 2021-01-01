@@ -5,25 +5,25 @@ class Entity:
         self.level = level
         self.max_xp = 5 + (5 * self.level ** 2)
         self.current_xp = 0
+        self.equiped = dict()
+        self.is_fighting = None
+        self.is_turn = False
 
         self.max_health = 150 + (15 * self.level)
         self.health = 100
 
         #todo use setters and getters for this
+        # self.attack = attack + attack * self.level/2 
+        # self.defence = defence + defence * self.level/3
+        
+        self.attack = attack
+        self.defence = defence
 
-        self.attack = attack + attack * self.level/2 
-        self.defence = defence + defence * self.level/3
         self.gold = gold
 
         self.inventory = dict()
 
     def death(self):
-        pass
-
-    def attacking(self):
-        pass
-
-    def defending(self):
         pass
 
     def running(self):
@@ -39,11 +39,9 @@ class Player(Entity):
     def __init__(self):
         super().__init__()
         self.inventory_checked = True
+        self.is_turn = True
+        self.combat = False
         self.n = 0
-        self.equiped = dict()
-
-    def healing(self):
-        pass
 
     def eat(self, food):
         """ Eng: this function test if your health is maxed out if not it adds
@@ -94,8 +92,43 @@ class Player(Entity):
         """Eng: check name"""
         self.inventory[item] = Object(item)
 
+    def fight(self, monster):
+        """Eng: adds monster to dict"""
+        self.is_fighting = Monster(monster)
+
+    def attacking(self):
+        """Eng: adds monster to dict"""
+        self.is_turn = False
+        self.is_fighting.health -= self.attack - self.is_fighting.defence
+
     def reset(self):
         pass
+
+# create a player 
+player = Player()
+
+class Monster(Entity):
+    monsters = {
+        'wild dog' : {'name': 'Wild Dog', 'atk': 12, 'def': 3, 'level': 2, 'gold': 8},
+        'great snake': {'name': 'Great Snake', 'atk': 25, 'def': 8, 'level': 4, 'gold': 13},
+        'witcher': {'name': 'The Witcher', 'atk': 41, 'def': 17, 'level': 7, 'gold': 22},
+        'death claw': {'name': 'Death Claw', 'atk': 57, 'def': 25, 'level': 12, 'gold': 34},
+    }
+
+    def __init__(self, name):
+        for monster_key, monster in Monster.monsters.items():
+            if monster_key == name:
+                self.name = monster['name']
+                self.xp_release = int(monster['level']/10)
+                super().__init__(monster['level'], monster['atk'], monster['def'], monster['gold'])
+    
+    def attacking(self):
+        """Eng: adds monster to dict"""
+        player.is_turn = True
+        player.health -= self.attack - player.defence
+
+
+        
 
 # loot items
 class Object:
@@ -170,8 +203,9 @@ class Object:
                 elif self.type == 'or' or self.type == 'material':
                     self.value = item['value']
 
+        
+
     def __str__(self):
         return f'{self.name}, {self.type}'
 
-# create a player 
-player = Player()
+

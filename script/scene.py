@@ -284,6 +284,7 @@ class Scene:
                         player.inventory_checked = False
                     elif 'fight' in button.category:
                         Scene.previous_scene = self.scene_name
+                        player.fight(button.category[6:])
                         manager.game.scenes['Fight'].run_scene()
                 if button.destination == 'next':
                         player.n += 1
@@ -302,6 +303,14 @@ class Scene:
                     break
                 elif button.destination == 'sell':
                     player.sell(button.obj)
+                    break
+                elif button.destination == 'fight':
+                    player.combat = True
+                    del manager.game.scenes['Fight'].buttons[button.destination]
+                    break
+                elif button.destination == 'attack':
+                    del manager.game.scenes['Fight'].buttons[button.destination]
+                    player.attacking() 
                     break
                 elif button.destination == 'exit':
                         pygame.quit()
