@@ -18,13 +18,9 @@ class Entity:
         
         self.attack = attack
         self.defence = defence
-
         self.gold = gold
 
         self.inventory = dict()
-
-    def running(self):
-        pass
     
     def update_levels(self):
         self.max_xp = 5 + (5 * self.level ** 2)
@@ -40,7 +36,7 @@ class Player(Entity):
         super().__init__()
         self.inventory_checked = True
         self.is_turn = True
-        self.combat = False
+        self.combat, self.won = False, False
         self.n = 0
 
     def eat(self, food):
@@ -99,35 +95,46 @@ class Player(Entity):
     def attacking(self):
         """Eng: adds monster to dict"""
         self.is_turn = False
-        self.is_fighting.health -= self.attack - self.is_fighting.defence
+        self.is_fighting.health -= abs(self.attack - self.is_fighting.defence)
+        if self.is_fighting.health < 1:
+            self.combat, self.won = False, True
+            self.get_fight_goods()
+            # reset monster
+            
 
     def gameover(self):
         """Eng: end game"""
         self.reset()
         manager.game.scenes['Game Over'].run_scene()
 
+    def get_fight_goods(self):
+        self.gold += self.is_fighting.gold
+        self.current_xp += self.is_fighting.xp_release
+        self.add_item_inventory(self.is_fighting.item)
+
 # create a player 
 player = Player()
 
 class Monster(Entity):
     monsters = {
-        'wild dog' : {'name': 'Wild Dog', 'atk': 12, 'def': 3, 'level': 2, 'gold': 8},
-        'great snake': {'name': 'Great Snake', 'atk': 25, 'def': 8, 'level': 4, 'gold': 13},
-        'witcher': {'name': 'The Witcher', 'atk': 41, 'def': 17, 'level': 7, 'gold': 22},
-        'death claw': {'name': 'Death Claw', 'atk': 57, 'def': 25, 'level': 12, 'gold': 34},
+        'wild dog' : {'name': 'Wild Dog', 'atk': 1, 'def': 3, 'level': 2, 'gold': 8, 'item': 'bone'},
+        'great snake': {'name': 'Great Snake', 'atk': 25, 'def': 8, 'level': 4, 'gold': 13, 'item': 'monster eye'},
+        'witcher': {'name': 'The Witcher', 'atk': 41, 'def': 17, 'level': 7, 'gold': 22, 'item': 'skull'},
+        'death claw': {'name': 'Death Claw', 'atk': 57, 'def': 25, 'level': 12, 'gold': 34, 'item': 'monster meat'},
     }
 
     def __init__(self, name):
         for monster_key, monster in Monster.monsters.items():
             if monster_key == name:
                 self.name = monster['name']
+                self.item = monster['item']
                 self.xp_release = int(monster['level']/10)
                 super().__init__(monster['level'], monster['atk'], monster['def'], monster['gold'])
     
     def attacking(self):
         """Eng: adds monster to dict"""
         player.is_turn = True
-        player.health -= self.attack - player.defence
+        player.health -= abs(self.attack - player.defence)
         if player.health < 1:
             player.gameover()
         

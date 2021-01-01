@@ -25,6 +25,7 @@ def menu_template():
 
 ################################# Monster Fight Template #################################
 def fight_template():
+    monster = player.is_fighting
     # render structure ######################
     gui.render_gui(pause=True)
     gui.render_transparent_background()
@@ -33,52 +34,78 @@ def fight_template():
     # render run/close button
     manager.game.scenes['Fight'].buttons['close'] = Button('button_close', int(DISPLAY_WIDTH) - 55, int(DISPLAY_HEIGHT/2) - 175, Scene.previous_scene)
     # end structure ######################
+    try:
+        monster_gold = monster.gold
+    except:
+        pass 
 
-    # render player stats ######################################
-    gui.render_text('You', int(DISPLAY_WIDTH/2 - 120), int(DISPLAY_HEIGHT/2 - 110), size=28, Regular=True)
-    # stats
-    gui.render_text(f'Gold {int(player.gold)}', int(DISPLAY_WIDTH/2 - 110), int(DISPLAY_HEIGHT/2 - 70), size=18, Regular=True)
-    gui.render_text(f'Attack {int(player.attack)}', int(DISPLAY_WIDTH/2 - 100), int(DISPLAY_HEIGHT/2 - 50), size=18, Regular=True)
-    gui.render_text(f'Defense {int(player.defence)}', int(DISPLAY_WIDTH/2 - 95), int(DISPLAY_HEIGHT/2 - 30), size=18, Regular=True)
-    # render player's health bar
-    gui.render_image('./assets/frames/bar-small.png', int(DISPLAY_WIDTH/2 - 80), int(DISPLAY_HEIGHT/2 + 10))
-    # render player's armor bar
-    gui.render_image('./assets/frames/bar-small.png', int(DISPLAY_WIDTH/2 - 80), int(DISPLAY_HEIGHT/2 + 45))
-    # render icons
-    gui.render_image('./assets/icons/heart-small.png', int(DISPLAY_WIDTH/2 - 132), int(DISPLAY_HEIGHT/2 + 10))
-    gui.render_image('./assets/icons/level-small.png', int(DISPLAY_WIDTH/2 - 132), int(DISPLAY_HEIGHT/2 + 43))
-    # render dynamique bar for both health and levels
-    gui.render_rect(int(DISPLAY_WIDTH/2 - 119), int(DISPLAY_HEIGHT/2+1), int(101 * player.health/player.max_health), 18, Gui.colors['red'])
-    gui.render_rect(int(DISPLAY_WIDTH/2 - 119), int(DISPLAY_HEIGHT/2 + 35), int(101 * player.current_xp/player.max_xp), 18, Gui.colors['yellow'])
-    # render stats on bars
-    gui.render_text(f'{int(player.health)}/{int(player.max_health)}', int(DISPLAY_WIDTH/2 - 70), int(DISPLAY_HEIGHT/2 + 10), size = 10)
-    gui.render_text(f'Level {int(player.level)}', int(DISPLAY_WIDTH/2 - 70), int(DISPLAY_HEIGHT/2 + 45), size = 10)
-    # end player stats #######################################
+    if player.won:
+        # render player stats ######################################
+        gui.render_text(f'You won +{monster_gold} gold', int(DISPLAY_WIDTH/2),  int(DISPLAY_HEIGHT/2 + 80), Regular=True, size=24)
 
-    #render VS on screen
-    gui.render_text('VS', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 - 40), size = 37)
+        # stats
+        gui.render_text(f'Gold {int(player.gold)}', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 - 100), size=18, Regular=True)
+        gui.render_text(f'Attack {int(player.attack)}', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 - 80), size=18, Regular=True)
+        gui.render_text(f'Defense {int(player.defence)}', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 - 60), size=18, Regular=True)
+        # render player's health bar
+        gui.render_image('./assets/frames/bar-small.png', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 - 20))
+        # render player's level bar
+        gui.render_image('./assets/frames/bar-small.png', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + 15))
+        # render icons
+        gui.render_image('./assets/icons/heart-small.png', int(DISPLAY_WIDTH/2 - 52), int(DISPLAY_HEIGHT/2 - 20))
+        gui.render_image('./assets/icons/level-small.png', int(DISPLAY_WIDTH/2 - 52), int(DISPLAY_HEIGHT/2 + 13))
+        # render dynamique bar for both health and levels
+        gui.render_rect(int(DISPLAY_WIDTH/2 - 39), int(DISPLAY_HEIGHT/2 - 30), int(101 * player.health/player.max_health), 18, Gui.colors['red'])
+        gui.render_rect(int(DISPLAY_WIDTH/2 - 39), int(DISPLAY_HEIGHT/2 + 5), int(101 * player.current_xp/player.max_xp), 18, Gui.colors['yellow'])
+        # render stats on bars
+        gui.render_text(f'{int(player.health)}/{int(player.max_health)}', int(DISPLAY_WIDTH/2 + 10), int(DISPLAY_HEIGHT/2 - 20), size = 10)
+        gui.render_text(f'Level {int(player.level)}', int(DISPLAY_WIDTH/2 + 10), int(DISPLAY_HEIGHT/2 + 15), size = 10)
+        # end player stats #######################################
+    else:
+        # render player stats ######################################
+        gui.render_text('You', int(DISPLAY_WIDTH/2 - 120), int(DISPLAY_HEIGHT/2 - 110), size=28, Regular=True)
+        # stats
+        gui.render_text(f'Gold {int(player.gold)}', int(DISPLAY_WIDTH/2 - 110), int(DISPLAY_HEIGHT/2 - 70), size=18, Regular=True)
+        gui.render_text(f'Attack {int(player.attack)}', int(DISPLAY_WIDTH/2 - 100), int(DISPLAY_HEIGHT/2 - 50), size=18, Regular=True)
+        gui.render_text(f'Defense {int(player.defence)}', int(DISPLAY_WIDTH/2 - 95), int(DISPLAY_HEIGHT/2 - 30), size=18, Regular=True)
+        # render player's health bar
+        gui.render_image('./assets/frames/bar-small.png', int(DISPLAY_WIDTH/2 - 80), int(DISPLAY_HEIGHT/2 + 10))
+        # render player's armor bar
+        gui.render_image('./assets/frames/bar-small.png', int(DISPLAY_WIDTH/2 - 80), int(DISPLAY_HEIGHT/2 + 45))
+        # render icons
+        gui.render_image('./assets/icons/heart-small.png', int(DISPLAY_WIDTH/2 - 132), int(DISPLAY_HEIGHT/2 + 10))
+        gui.render_image('./assets/icons/level-small.png', int(DISPLAY_WIDTH/2 - 132), int(DISPLAY_HEIGHT/2 + 43))
+        # render dynamique bar for both health and levels
+        gui.render_rect(int(DISPLAY_WIDTH/2 - 119), int(DISPLAY_HEIGHT/2+1), int(101 * player.health/player.max_health), 18, Gui.colors['red'])
+        gui.render_rect(int(DISPLAY_WIDTH/2 - 119), int(DISPLAY_HEIGHT/2 + 35), int(101 * player.current_xp/player.max_xp), 18, Gui.colors['yellow'])
+        # render stats on bars
+        gui.render_text(f'{int(player.health)}/{int(player.max_health)}', int(DISPLAY_WIDTH/2 - 70), int(DISPLAY_HEIGHT/2 + 10), size = 10)
+        gui.render_text(f'Level {int(player.level)}', int(DISPLAY_WIDTH/2 - 70), int(DISPLAY_HEIGHT/2 + 45), size = 10)
+        # end player stats #######################################
+        #render VS on screen
+        gui.render_text('VS', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 - 40), size = 37)
 
+        # render enemy stats ######################################
+        gui.render_text(monster.name, int(DISPLAY_WIDTH/2 + 85), int(DISPLAY_HEIGHT/2 - 110), size=28, Regular=True)
+        # stats
+        gui.render_text(f'Gold {int(monster.gold)}', int(DISPLAY_WIDTH/2 + 110), int(DISPLAY_HEIGHT/2 - 70), size=18, Regular=True)
+        gui.render_text(f'Attack {int(monster.attack)}', int(DISPLAY_WIDTH/2 + 100), int(DISPLAY_HEIGHT/2 - 50), size=18, Regular=True)
+        gui.render_text(f'Defense {int(monster.defence)}', int(DISPLAY_WIDTH/2 + 95), int(DISPLAY_HEIGHT/2 - 30), size=18, Regular=True)
+        # render player's health bar
+        gui.render_image('./assets/frames/bar-small.png', int(DISPLAY_WIDTH/2 + 80), int(DISPLAY_HEIGHT/2 + 10))
+        # render player's armor bar
+        gui.render_image('./assets/frames/bar-small.png', int(DISPLAY_WIDTH/2 + 80), int(DISPLAY_HEIGHT/2 + 45))
+        # render icons
+        gui.render_image('./assets/icons/heart-small.png', int(DISPLAY_WIDTH/2 + 28), int(DISPLAY_HEIGHT/2 + 10))
+        gui.render_image('./assets/icons/level-small.png', int(DISPLAY_WIDTH/2 + 28), int(DISPLAY_HEIGHT/2 + 43))
+        # render dynamique bar for both health and levels
+        gui.render_rect(int(DISPLAY_WIDTH/2 + 40), int(DISPLAY_HEIGHT/2+1), int(101 * monster.health/monster.max_health), 18, Gui.colors['red'])
+        gui.render_rect(int(DISPLAY_WIDTH/2 + 40), int(DISPLAY_HEIGHT/2 + 35), 45, 18, Gui.colors['yellow'])
+        # render stats on bars
+        gui.render_text(f'{int(monster.health)}/{int(monster.max_health)}', int(DISPLAY_WIDTH/2 + 90), int(DISPLAY_HEIGHT/2 + 10), size = 10)
+        gui.render_text(f'Level {int(monster.level)}', int(DISPLAY_WIDTH/2 + 90), int(DISPLAY_HEIGHT/2 + 44), size = 10)
+        # end enemy stats #######################################
 
-    # render enemy stats ######################################
-    gui.render_text(player.is_fighting.name, int(DISPLAY_WIDTH/2 + 85), int(DISPLAY_HEIGHT/2 - 110), size=28, Regular=True)
-    # stats
-    gui.render_text(f'Gold {int(player.is_fighting.gold)}', int(DISPLAY_WIDTH/2 + 110), int(DISPLAY_HEIGHT/2 - 70), size=18, Regular=True)
-    gui.render_text(f'Attack {int(player.is_fighting.attack)}', int(DISPLAY_WIDTH/2 + 100), int(DISPLAY_HEIGHT/2 - 50), size=18, Regular=True)
-    gui.render_text(f'Defense {int(player.is_fighting.defence)}', int(DISPLAY_WIDTH/2 + 95), int(DISPLAY_HEIGHT/2 - 30), size=18, Regular=True)
-    # render player's health bar
-    gui.render_image('./assets/frames/bar-small.png', int(DISPLAY_WIDTH/2 + 80), int(DISPLAY_HEIGHT/2 + 10))
-    # render player's armor bar
-    gui.render_image('./assets/frames/bar-small.png', int(DISPLAY_WIDTH/2 + 80), int(DISPLAY_HEIGHT/2 + 45))
-    # render icons
-    gui.render_image('./assets/icons/heart-small.png', int(DISPLAY_WIDTH/2 + 28), int(DISPLAY_HEIGHT/2 + 10))
-    gui.render_image('./assets/icons/level-small.png', int(DISPLAY_WIDTH/2 + 28), int(DISPLAY_HEIGHT/2 + 43))
-    # render dynamique bar for both health and levels
-    gui.render_rect(int(DISPLAY_WIDTH/2 + 40), int(DISPLAY_HEIGHT/2+1), int(101 * player.is_fighting.health/player.is_fighting.max_health), 18, Gui.colors['red'])
-    gui.render_rect(int(DISPLAY_WIDTH/2 + 40), int(DISPLAY_HEIGHT/2 + 35), 45, 18, Gui.colors['yellow'])
-    # render stats on bars
-    gui.render_text(f'{int(player.is_fighting.health)}/{int(player.is_fighting.max_health)}', int(DISPLAY_WIDTH/2 + 90), int(DISPLAY_HEIGHT/2 + 10), size = 10)
-    gui.render_text(f'Level {int(player.is_fighting.level)}', int(DISPLAY_WIDTH/2 + 90), int(DISPLAY_HEIGHT/2 + 44), size = 10)
-    # end enemy stats #######################################
 
     # render fight button and fight logic
     if player.combat:
@@ -86,8 +113,8 @@ def fight_template():
             manager.game.scenes['Fight'].buttons['attack'] = Button('button_small', int(DISPLAY_WIDTH/2), DISPLAY_HEIGHT - 190, 'attack')
             gui.render_text('Attack', int(DISPLAY_WIDTH/2),  DISPLAY_HEIGHT - 190, Regular=True, size=20)
         else:
-            player.is_fighting.attacking()
-    else:
+            monster.attacking()
+    elif not player.won:
         manager.game.scenes['Fight'].buttons['fight'] = Button('button_small', int(DISPLAY_WIDTH/2), DISPLAY_HEIGHT - 190, 'fight')
         gui.render_text('Fight', int(DISPLAY_WIDTH/2),  DISPLAY_HEIGHT - 190, Regular=True, size=20)
 

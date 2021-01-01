@@ -320,6 +320,9 @@ class Scene:
                         if is_scene_type_game:
                             Scene.previous_story_scene = scene_key
                         Scene.previous_scene = self.scene_name
+                        if self.scene_name == 'fight':
+                            # reset everything after leaving combat
+                            pass
                         scene.run_scene()                                
 
     def get_current_scene_key(self):
