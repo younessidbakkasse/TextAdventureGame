@@ -242,14 +242,14 @@ def store_template():
 
 ################################# Game Over Template #################################
 def gameover_template():
-    gui.render_transparent_background()
-    # render frame
-    gui.render_frame('huge', 'Game Over')
     # render game over text
-    gui.render_text("You just got killed ", int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 - 60), Regular=True, size=35)
-    gui.render_text(f"by {player.is_fighting.name}.", int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 - 25), Regular=True, size=35)
+    gui.render_text("You just got killed ", int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 - 120), Regular=True, size=32)
+    gui.render_text(f"by {player.is_fighting.name}.", int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 - 80), Regular=True, size=32)
     # render new game          
-    manager.game.scenes['Game Over'].buttons['new game'] = Button('button_normal', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + 50), 'home')
-    gui.render_text("New Game", int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + 50), Regular=True, size=22)
+    manager.game.scenes['Game Over'].buttons['new game'] = Button('button_small', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + 35), 'home')
+    gui.render_text("New Game", int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + 35), Regular=True, size=22)
+    # render exit game          
+    manager.game.scenes['Game Over'].buttons['exit game'] = Button('button_small', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + 100), 'exit')
+    gui.render_text("Exit Game", int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + 100), Regular=True, size=22)
 
     

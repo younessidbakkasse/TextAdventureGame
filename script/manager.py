@@ -9,7 +9,7 @@ from template import (
     store_template, 
     quests_template,
     fight_template,
-    gameover_templat,
+    gameover_template,
 )   
 
 class Game:
@@ -26,7 +26,7 @@ class Game:
             'Quests' : Scene('quests', quests_template),
             'Store' : Scene('store',store_template),
             'Fight' : Scene('fight', fight_template),
-            'Game Over' : Scene('gameover', gameover_template),
+            'Game Over' : Scene('game over', gameover_template),
 
             # Creating main game scenes ####################
             'Prologue' : StoryScene('Pregame', [['Start playing', 'Beach', 'normal']], 'Hi there, this is a story game. are you sure you wanna play. its scary out there !'),

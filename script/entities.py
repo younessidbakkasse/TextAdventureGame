@@ -102,9 +102,9 @@ class Player(Entity):
         self.is_fighting.health -= self.attack - self.is_fighting.defence
 
     def gameover(self):
-        if self.health < 1:
-            self.reset()
-            manager.
+        """Eng: end game"""
+        self.reset()
+        manager.game.scenes['Game Over'].run_scene()
 
 # create a player 
 player = Player()
@@ -128,6 +128,9 @@ class Monster(Entity):
         """Eng: adds monster to dict"""
         player.is_turn = True
         player.health -= self.attack - player.defence
+        if player.health < 1:
+            player.gameover()
+        
 
 
         
