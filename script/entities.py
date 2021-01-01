@@ -28,9 +28,6 @@ class Entity:
         self.attack = attack + attack * self.level/2 
         self.defence = defence + defence * self.level/3
 
-    def reset(self):
-        pass
-
 class Player(Entity):
     def __init__(self):
         super().__init__()
@@ -38,6 +35,10 @@ class Player(Entity):
         self.is_turn = True
         self.combat, self.won = False, False
         self.n = 0
+
+    def reset(self):
+        # resets all stats after game over
+        self.__init__()
 
     def eat(self, food):
         """ Eng: this function test if your health is maxed out if not it adds
@@ -87,6 +88,7 @@ class Player(Entity):
     def add_item_inventory(self, item):
         """Eng: check name"""
         self.inventory[item] = Object(item)
+        self.inventory_checked = False
 
     def fight(self, monster):
         """Eng: adds monster to dict"""
@@ -99,12 +101,10 @@ class Player(Entity):
         if self.is_fighting.health < 1:
             self.combat, self.won = False, True
             self.get_fight_goods()
-            # reset monster
             
 
     def gameover(self):
         """Eng: end game"""
-        self.reset()
         manager.game.scenes['Game Over'].run_scene()
 
     def get_fight_goods(self):

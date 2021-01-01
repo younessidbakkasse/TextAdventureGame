@@ -312,17 +312,21 @@ class Scene:
                     del manager.game.scenes['Fight'].buttons[button.destination]
                     player.attacking() 
                     break
+                elif button.destination == 'home':
+                    player.reset()
                 elif button.destination == 'exit':
                         pygame.quit()
                         sys.exit()
                 for scene in manager.game.scenes.values():
                     if scene.scene_name == button.destination:
+                        if self.scene_name == 'fight' and player.won:
+                            # this removes fight monster btn and it also means that fight button always
+                            # needs to be the first in declaration
+                            manager.game.scenes[Scene.previous_scene].choices.pop(0)
+                            player.won = False
                         if is_scene_type_game:
                             Scene.previous_story_scene = scene_key
                         Scene.previous_scene = self.scene_name
-                        if self.scene_name == 'fight':
-                            # reset everything after leaving combat
-                            pass
                         scene.run_scene()                                
 
     def get_current_scene_key(self):

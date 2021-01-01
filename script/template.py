@@ -36,12 +36,14 @@ def fight_template():
     # end structure ######################
     try:
         monster_gold = monster.gold
+        monster_item = monster.item
     except:
         pass 
 
     if player.won:
-        # render player stats ######################################
+        # render goods ######################################
         gui.render_text(f'You won +{monster_gold} gold', int(DISPLAY_WIDTH/2),  int(DISPLAY_HEIGHT/2 + 80), Regular=True, size=24)
+        gui.render_text(f'and a {monster_item.capitalize()}.', int(DISPLAY_WIDTH/2),  int(DISPLAY_HEIGHT/2 + 110), Regular=True, size=24)
 
         # stats
         gui.render_text(f'Gold {int(player.gold)}', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 - 100), size=18, Regular=True)
