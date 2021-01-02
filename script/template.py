@@ -160,7 +160,7 @@ def stats_template():
 
     # render dynamique bar for both health and levels
     gui.render_rect(int(DISPLAY_WIDTH/2 - 55), int(DISPLAY_HEIGHT/2 + 22), int(140 * player.health/player.max_health), 25, Gui.colors['red'])
-    gui.render_rect(int(DISPLAY_WIDTH/2 - 55), int(DISPLAY_HEIGHT/2 + 57), int(140 * player.current_xp/player.max_xp), 25, Gui.colors['yellow'])
+    gui.render_rect(int(DISPLAY_WIDTH/2 - 55), int(DISPLAY_HEIGHT/2 + 67), int(140 * player.current_xp/player.max_xp), 25, Gui.colors['yellow'])
 
     # render stats on bars
     gui.render_text(f'{int(player.health)}/{int(player.max_health)}', int(DISPLAY_WIDTH/2 + 10), int(DISPLAY_HEIGHT/2 + 35), size = 14)

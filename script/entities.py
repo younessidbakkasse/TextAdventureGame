@@ -1,4 +1,4 @@
-import manager
+import manager, random
 
 class Entity:
     def __init__(self, level = 1, attack = 8, defence = 4, gold = 10):
@@ -21,12 +21,6 @@ class Entity:
         self.gold = gold
 
         self.inventory = dict()
-    
-    def update_levels(self):
-        self.max_xp = 5 + (5 * self.level ** 2)
-        self.max_health = 150 + (15 * self.level)
-        self.attack = attack + attack * self.level/2 
-        self.defence = defence + defence * self.level/3
 
 class Player(Entity):
     def __init__(self):
@@ -39,6 +33,12 @@ class Player(Entity):
     def reset(self):
         # resets all stats after game over
         self.__init__()
+
+    def update_levels(self):
+        self.max_xp = 5 + (5 * self.level ** 2)
+        self.max_health = 150 + (15 * self.level)
+        self.attack = self.attack + int(self.attack * self.level/4)
+        self.defence = self.defence + int(self.defence * self.level/6)
 
     def eat(self, food):
         """ Eng: this function test if your health is maxed out if not it adds
@@ -82,8 +82,9 @@ class Player(Entity):
     def level_up(self):
         if self.current_xp >= self.max_xp:
             self.current_xp -= self.max_xp
-            self.update_levels()
             self.level += 1
+            self.update_levels()
+            print()
 
     def add_item_inventory(self, item):
         """Eng: check name"""
@@ -97,11 +98,15 @@ class Player(Entity):
     def attacking(self):
         """Eng: adds monster to dict"""
         self.is_turn = False
-        self.is_fighting.health -= abs(self.attack - self.is_fighting.defence)
+        if self.attack < self.is_fighting.defence:
+            self.health -= int((self.is_fighting.defence - self.attack)/2)
+        else:
+            self.is_fighting.health -= abs(self.attack - self.is_fighting.defence)
         if self.is_fighting.health < 1:
             self.combat, self.won = False, True
             self.get_fight_goods()
-            
+            self.level_up()
+            print(self.current_xp, self.max_xp)
 
     def gameover(self):
         """Eng: end game"""
@@ -117,8 +122,8 @@ player = Player()
 
 class Monster(Entity):
     monsters = {
-        'wild dog' : {'name': 'Wild Dog', 'atk': 1, 'def': 3, 'level': 2, 'gold': 8, 'item': 'bone'},
-        'great snake': {'name': 'Great Snake', 'atk': 25, 'def': 8, 'level': 4, 'gold': 13, 'item': 'monster eye'},
+        'wild dog' : {'name': 'Wild Dog', 'atk': 7, 'def': 4, 'level': 4, 'gold': 8, 'item': 'bone'},
+        'great snake': {'name': 'Great Snake', 'atk': 14, 'def': 1, 'level': 4, 'gold': 13, 'item': 'monster eye'},
         'witcher': {'name': 'The Witcher', 'atk': 41, 'def': 17, 'level': 7, 'gold': 22, 'item': 'skull'},
         'death claw': {'name': 'Death Claw', 'atk': 57, 'def': 25, 'level': 12, 'gold': 34, 'item': 'monster meat'},
     }
@@ -128,13 +133,17 @@ class Monster(Entity):
             if monster_key == name:
                 self.name = monster['name']
                 self.item = monster['item']
-                self.xp_release = int(monster['level']/10)
+                self.xp_release = int(monster['level'] * random.randint(3, 7))
+
                 super().__init__(monster['level'], monster['atk'], monster['def'], monster['gold'])
     
     def attacking(self):
         """Eng: adds monster to dict"""
         player.is_turn = True
-        player.health -= abs(self.attack - player.defence)
+        if self.attack < player.defence:
+            self.health -= int((player.defence - self.attack)/2)
+        else:
+            player.health -= abs(self.attack - player.defence)
         if player.health < 1:
             player.gameover()
         
