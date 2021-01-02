@@ -3,7 +3,7 @@ import manager
 import sys, pygame, random
 
 # Eng : global variables
-# Fr : 
+# Fr : Variables globales
 DISPLAY_HEIGHT = 600
 DISPLAY_WIDTH = 450
 
@@ -15,7 +15,7 @@ class Gui:
     elements such as buttons, hover effect, text.."""
 
     # Eng : initialising the pygame display and module it's a must
-    # Fr : 
+    # Fr : Initialisation de pygame 
     pygame.init()
     pygame.mixer.init()
 
@@ -29,20 +29,20 @@ class Gui:
     clock = pygame.time.Clock()
 
     # Eng : display set up
-    # FR :
+    # FR : configuration de l'ecran
     pygame.mouse.set_cursor(*pygame.cursors.tri_left)
     pygame.display.set_caption("Dead Island", "favicon")
 
     # Eng : set up game favicon
-    # Fr : 
+    # Fr : l'icon du jeu
     favicon = pygame.image.load("./assets/icons/favicon.png")
     pygame.display.set_icon(favicon)
 
     # Eng : the following loop generates random white squares
-    # Fr :
+    # Fr : cette loop genere les etoiles du fond 
     stars = [pygame.Rect(random.randint(0, DISPLAY_WIDTH), random.randint(0, DISPLAY_HEIGHT), 3, 3) for i in range(35)]
     # Eng : game color palette
-    # Fr :
+    # Fr : la palette des couleurs
     colors = {
         "dark green" : (14, 43, 35),
         "dark blue" : (3, 15, 38),
@@ -59,9 +59,9 @@ class Gui:
 
     def render_ui_buttons(self, pause):
         """ Eng : renders the same user interface buttons acroos all the scenes and stores them on list"""
-        """ Fr : """
+        """ Fr : faire apparaitre l'interface utilisateur et les buttons de gui pour tout les scenes"""
         # Eng : buttons on the right side
-        # Fr :
+        # Fr : les buttons
         if Scene.sound:
             self.gui_buttons["music on"] = Button('button_music_on', DISPLAY_WIDTH - 45, 50, 'music on', category='music')
         else:
@@ -69,7 +69,6 @@ class Gui:
         self.gui_buttons["how to play"] = Button('button_help', DISPLAY_WIDTH - 110, 50, 'how to play')
 
         # Eng : buttons on the left side
-        # Fr :
         self.gui_buttons["store"] = Button("button_cart", 110, 50, 'store')
         if pause: 
             self.gui_buttons["start"] = Button("button_start", 45, 50, None)
@@ -77,25 +76,23 @@ class Gui:
             self.gui_buttons["menu"] = Button("button_pause", 45, 50, "menu")
 
         # Eng : buttons on the right down corner 
-        # Fr :
         self.gui_buttons["inventory"] = Button("button_inventory", DISPLAY_WIDTH - 45, DISPLAY_HEIGHT - 50, 'inventory')
         self.gui_buttons["stats"] = Button("button_character", DISPLAY_WIDTH - 110, DISPLAY_HEIGHT - 50, 'stats')
 
         # Eng : quest's button on the left down corner
-        # Fr :
         self.gui_buttons["quests"] = Button("button_quests", 85, DISPLAY_HEIGHT - 50, 'quests')
         self.render_text("Quests", 85, DISPLAY_HEIGHT - 50, Gui.colors['white'], size=20, Regular=True)
 
     def render_background(self):
         """ Eng : renders a dark green background with random white stars """
-        """ Fr : """
+        """ Fr : faire apparaitre le fond vert fonce avec les etoiles"""
         Gui.display.fill(Gui.colors["dark blue"])
         for star in self.stars:
             pygame.draw.rect(Gui.display, Gui.colors["white"], star)
     
     def render_transparent_background(self):
         """ Eng : renders a dark green transparent background """
-        """ Fr : """
+        """ Fr : faire apparaitre le fond transparent"""
         s = pygame.Surface((DISPLAY_WIDTH, DISPLAY_HEIGHT), pygame.SRCALPHA)   
         s.fill(Gui.colors['transparent'])                       
         Gui.display.blit(s, (0,0))
@@ -125,7 +122,7 @@ class Gui:
 
     def render_logo(self, y, big_logo = True):
         """ Eng : renders the two versions of game logo : small & big """
-        """ Fr : """
+        """ Fr : apparaitre les logos"""
         if big_logo:
             self.render_text("DEAD", DISPLAY_WIDTH/2, y - 10, Gui.colors["dark green"], 115)
             self.render_text("ISLAND", DISPLAY_WIDTH/2, y + 70, Gui.colors["dark green"], 115)
@@ -139,7 +136,7 @@ class Gui:
 
     def render_button(self, name, x, y):
         """ Eng : this function draw buttons from the asset/button file and checks hover effect """
-        """ Fr : """
+        """ Fr : cette fonction dessine les button sur l'ecran"""
         path = f"./assets/buttons/buttons_normal/{name}.png"
         button = self.render_image(path, x, y + 3)
         mx, my = pygame.mouse.get_pos()
@@ -153,7 +150,7 @@ class Gui:
     def render_text(self, text, x, y, color = colors['white'], size = 16, Regular = False):
         """ Eng : Draws any text on the scene window and also returns a rectangle object wich have 
         coord attributes and collide methode """
-        """ Fr : """
+        """ Fr : dessiner les textes"""
         game_font = pygame.font.Font("./assets/fonts/Minecraft.ttf", size)
         if Regular:
             game_font = pygame.font.Font("./assets/fonts/MinecraftRegular.otf", size)
@@ -164,7 +161,7 @@ class Gui:
 
     def render_image(self, path, x, y, scale=False):
         """ Eng : Renders images and icons on the screen and returns a rect object """
-        """ Fr : """
+        """ Fr : faire apparaitre les images"""
         image = pygame.image.load(path).convert_alpha()
         if scale:
             image = pygame.transform.scale2x(image)
@@ -173,27 +170,25 @@ class Gui:
         return image_rect
 
     def render_rect(self, x, y, width, height, color):
-        """ Eng :  """
-        """ Fr : """
+        """ Eng : create a rect """
+        """ Fr : créer un rectangle"""
         pygame.draw.rect(Gui.display, color, pygame.Rect(int(x), int(y), width, height))
 
     def render_circle(self, x, y, radius, color):
-        """ Eng :  """
-        """ Fr : """
+        """ Eng :  create a circle"""
+        """ Fr : créer une cercle"""
         pygame.draw.circle(Gui.display, color, (int(x), int(y)), radius)
 
     def render_gui(self, pause = False):
-        """ Eng :  """
-        """ Fr : """
+        """ Eng : display gui """
+        """ Fr : créer gui"""
         gui.render_logo(40, False)
         gui.render_ui_buttons(pause)
         if not player.inventory_checked:
             self.render_circle(DISPLAY_WIDTH - 70, DISPLAY_HEIGHT - 75, 8, Gui.colors['red'])
-        
-    
+          
 # create a gui
 gui = Gui()
-
 
 class Scene:
     """ Eng : This the Scene Class its a blueprint for every scene for exemple the starting scene
@@ -249,7 +244,6 @@ class Scene:
 
     def get_events(self):
         """ Eng : This function collects Mouse clicks (events) from the user """
-        """ Fr : """
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -265,7 +259,6 @@ class Scene:
         """ Eng : One hell of an importante method it checks if mouse points to a text or 
         button (rect) and also allows scene transitions from self to another depending 
         on the button's name"""
-        """ Fr : """
         scene_key = self.get_current_scene_key()
         is_scene_type_game = isinstance(manager.game.scenes[scene_key], StoryScene)
         # only works in python 3.9 and above
@@ -356,7 +349,6 @@ class Scene:
         for key, scene in manager.game.scenes.items():
             if scene.scene_name == self.scene_name:
                 return key
-
 
 class StoryScene(Scene):
     def __init__(self, scene_name, choices, story_text, template_closure = gui.render_gui):

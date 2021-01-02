@@ -31,6 +31,7 @@ def fight_template():
         monster_item = monster.item
     except:
         pass 
+    
     # render structure ######################
     gui.render_gui(pause=True)
     gui.render_transparent_background()
@@ -41,9 +42,7 @@ def fight_template():
         manager.game.scenes['Fight'].buttons['close'] = Button('button_close', int(DISPLAY_WIDTH) - 55, int(DISPLAY_HEIGHT/2) - 175, ' ')
     else:
         manager.game.scenes['Fight'].buttons['close'] = Button('button_close', int(DISPLAY_WIDTH) - 55, int(DISPLAY_HEIGHT/2) - 175, Scene.previous_scene, obj='close')
-
     # end structure ######################
-    
 
     if player.won:
         # render goods ######################################
@@ -112,7 +111,6 @@ def fight_template():
         gui.render_text(f'{int(monster.health)}/{int(monster.max_health)}', int(DISPLAY_WIDTH/2 + 90), int(DISPLAY_HEIGHT/2 + 10), size = 10)
         gui.render_text(f'Level {int(monster.level)}', int(DISPLAY_WIDTH/2 + 90), int(DISPLAY_HEIGHT/2 + 44), size = 10)
         # end enemy stats #######################################
-
 
     # render fight button and fight logic
     if player.combat:
@@ -193,7 +191,6 @@ def howtoplay_template():
     # render how to play content
     gui.render_text('Use your mouse to play', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2), size = 22, Regular=True)
 
-
 ################################# Inventory Template #################################
 def inventory_template():
     # BUG: there is a bug in inventory why the fuck the equip or use button function on the right side only
@@ -250,7 +247,6 @@ def inventory_template():
     # player checked his inventory
     player.inventory_checked = True
 
-
 ################################# Quests Template #################################
 def quests_template():
     gui.render_gui(pause=True)
@@ -261,7 +257,7 @@ def quests_template():
     manager.game.scenes['Quests'].buttons['close'] = Button('button_close', int(DISPLAY_WIDTH) - 55, int(DISPLAY_HEIGHT/2) - 135, Scene.previous_scene)
     # render how to play content
     gui.render_text('Current quest:', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 - 30), size=22, Regular=True)
-    gui.render_text('Get out of the island.', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + 10), size=30, Regular=True)
+    gui.render_text('Get out of the island.', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + 10), size=27, Regular=True)
 
 ################################# Store Template #################################
 def store_template():

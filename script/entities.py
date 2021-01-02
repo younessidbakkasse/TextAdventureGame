@@ -1,7 +1,11 @@
 import manager, random
 
 class Entity:
+    # Eng: this is a main entity class for both monsters and player 
+    # Fr: ceci est la class pour les monstres et le joueur
     def __init__(self, level = 1, attack = 8, defence = 4, gold = 10):
+        # Eng: initializing data
+        # Fr: initialisation des données 
         self.level = level
         self.max_xp = 5 + (5 * self.level ** 2)
         self.current_xp = 0
@@ -28,18 +32,21 @@ class Player(Entity):
         self.n = 0
 
     def reset(self):
-        # resets all stats after game over
+        """ Eng: resets all stats after game over
+            Fr: reset les caracteristiques et les stats après un game over"""
         self.__init__()
 
     def update_levels(self):
+        """ Eng: update health bar and other stats when player level up
+            Fr: augmente la seuile de la bar de santé et attack, deffence pour chaque niveau d'experience"""
         self.max_xp = 5 + (5 * self.level ** 2)
         self.max_health = 150 + (15 * self.level)
         self.attack = self.attack + int(self.attack * self.level/4)
         self.defence = self.defence + int(self.defence * self.level/6)
 
     def eat(self, food):
-        """ Eng: this function test if your health is maxed out if not it adds
-        the food to your health bar"""
+        """ Eng: this function test if your health is maxed out if not it adds the food to your health bar
+            Fr: c'est pour boire les potions ou manger la nourriture"""
         if self.health < self.max_health:
             self.health += food.health
             if self.health > self.max_health:
@@ -48,13 +55,15 @@ class Player(Entity):
             manager.game.scenes['Inventory'].buttons.pop(f'use {food.name.casefold()}')
 
     def sell(self, item):
-        """Eng: this function sells your items that can be sold in your inventory"""
+        """Eng: this function sells your items that can be sold in your inventory
+            Fr: cette fonction sert a vendre les items dans ton inventaire"""
         self.gold += item.value
         self.inventory.pop(item.name.casefold())
         manager.game.scenes['Inventory'].buttons.pop(f'sell {item.name.casefold()}')
 
     def equip(self, item):   
-        """Eng: this function equip items ex shield or weapons when click button equip in inventory""" 
+        """Eng: this function equip items ex shield or weapons when click button equip in inventory
+            Fr: cette fonction c'est pour equiper les armes et tout type de bouclier dans ton inventaire.""" 
         # This equips item and adds stats 
         def equip_item():
             self.equiped[item.name] = item
@@ -70,32 +79,38 @@ class Player(Entity):
                     equip_item()
 
     def unequip(self, item):
-        """Eng: this function unequip items ex shield or weapons when click button equiped in inventory""" 
+        """Eng: this function unequip items ex shield or weapons when click button equiped in inventory
+            Fr: cette fonction sert à enlever les armes et les boucliers bref l'inverse de equip""" 
         self.equiped.pop(item.name)
         self.attack -= item.attack
         self.defence -= item.defence
         self.inventory[item.name.casefold()].status = 'Equip' 
 
     def level_up(self):
+        """Eng: this function is bisacly a level up function
+            Fr: cette fonction sert a limiter l'xp du joueur comme ça il est tjr inferieure à l'xp max.""" 
         if self.current_xp >= self.max_xp:
             self.current_xp -= self.max_xp
             self.level += 1
             self.update_levels()
-            print()
 
     def add_item_inventory(self, item):
-        """Eng: check name"""
+        """Eng: check name
+            Fr: sert à ajouter des items à l'inventaire"""
         self.inventory[item] = Object(item)
         if manager.Scene.sound:
+            # inventory sound
             manager.Gui.add_item_sound.play()
         self.inventory_checked = False
 
     def fight(self, monster):
-        """Eng: adds monster to dict"""
+        """Eng: adds monster to dict
+            Fr: conserver le monstre que le joueur va combattre"""
         self.is_fighting = Monster(monster)
 
     def attacking(self):
-        """Eng: adds monster to dict"""
+        """Eng: this function convert monster attacks and removes health from monster when player is attacking
+            Fr: cette fonction enleve les HP du monstre quand le joueur l'attaque"""
         self.is_turn = False
         if self.attack < self.is_fighting.defence:
             self.health -= int((self.is_fighting.defence - self.attack)/2)
@@ -105,13 +120,15 @@ class Player(Entity):
             self.combat, self.won = False, True
             self.get_fight_goods()
             self.level_up()
-            print(self.current_xp, self.max_xp)
 
     def gameover(self):
-        """Eng: end game"""
+        """Eng: end game
+            Fr: termine le jeu"""
         manager.game.scenes['Game Over'].run_scene()
 
     def get_fight_goods(self):
+        """Eng: get game items when you beat a monster
+            Fr: C'est pour avoir les items après avoir gagner le combat contre un monstre"""
         self.gold += self.is_fighting.gold
         self.current_xp += self.is_fighting.xp_release
         self.add_item_inventory(self.is_fighting.item)
@@ -138,7 +155,8 @@ class Monster(Entity):
                 super().__init__(monster['level'], monster['atk'], monster['def'], monster['gold'])
     
     def attacking(self):
-        """Eng: adds monster to dict"""
+        """Eng: deos same as function attack for player expet now its monster's turn
+            Fr: fait exactement la meme chose que la fonction attack pour le joueur sauf ici le tour du monstre pour attacker"""
         if manager.Scene.sound and random.randint(0, 1):
             manager.Gui.hurt_sound.play()
         player.is_turn = True
@@ -221,10 +239,4 @@ class Object:
                     self.health = item['health']
                 elif self.type == 'or' or self.type == 'material':
                     self.value = item['value']
-
-        
-
-    def __str__(self):
-        return f'{self.name}, {self.type}'
-
 

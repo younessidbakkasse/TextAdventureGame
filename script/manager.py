@@ -16,7 +16,7 @@ class Game:
     def __init__(self):
         # Constructing GUI scenes 
         self.scenes = {
-            # Paused scenes #######################
+            # Paused scenes ##################################################
             'Home' : Scene('home', home_template),
             'Menu' : Scene('menu', menu_template),
             'Inventory' : Scene('inventory', inventory_template),
@@ -28,7 +28,7 @@ class Game:
             'Fight' : Scene('fight', fight_template),
             'Game Over' : Scene('game over', gameover_template),
 
-            # Creating main game scenes ####################
+            # Creating main game scenes ########################################
             'Pregame' : StoryScene('Pregame', [['Start playing', 'Beach', 'normal']], 'Hi there, this is a story game. are you sure you wanna play. its scary out there !'),
             'Beach' : StoryScene('Beach', [['Explore the beach', 'Nothing', 'normal']], 'Washed ashore, you have only vague recollections of what happened. The past seems unimportant now. Shivering, you watch the bodies float among the debris. No ships can be seen on the horizon.'),
             'Nothing' : StoryScene('Nothing', [['Examine the object', 'Coin', 'normal']], 'There is nothing but sand and gravel. Or so it may seem. You feel a painful sensation in your left foot, causing you to take a step backwards. Glimmering in the sun, a sharp object is revealed.'),
