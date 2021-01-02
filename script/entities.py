@@ -28,6 +28,7 @@ class Player(Entity):
         self.inventory_checked = True
         self.is_turn = True
         self.combat, self.won = False, False
+        self.run_msg = False
         self.n = 0
 
     def reset(self):
@@ -122,10 +123,10 @@ player = Player()
 
 class Monster(Entity):
     monsters = {
-        'wild dog' : {'name': 'Wild Dog', 'atk': 7, 'def': 4, 'level': 4, 'gold': 8, 'item': 'bone'},
-        'great snake': {'name': 'Great Snake', 'atk': 14, 'def': 1, 'level': 4, 'gold': 13, 'item': 'monster eye'},
-        'witcher': {'name': 'The Witcher', 'atk': 41, 'def': 17, 'level': 7, 'gold': 22, 'item': 'skull'},
-        'death claw': {'name': 'Death Claw', 'atk': 57, 'def': 25, 'level': 12, 'gold': 34, 'item': 'monster meat'},
+        'wild dog' : {'name': 'Wild Dog', 'atk': 7, 'def': 4, 'level': 4, 'gold': 8, 'item': 'bone', 'run': True},
+        'great snake': {'name': 'Great Snake', 'atk': 14, 'def': 1, 'level': 4, 'gold': 13, 'item': 'monster eye', 'run': True},
+        'witcher': {'name': 'The Witcher', 'atk': 41, 'def': 17, 'level': 7, 'gold': 22, 'item': 'skull', 'run': False},
+        'death claw': {'name': 'Death Claw', 'atk': 57, 'def': 25, 'level': 12, 'gold': 34, 'item': 'monster meat', 'run': False},
     }
 
     def __init__(self, name):
@@ -133,6 +134,7 @@ class Monster(Entity):
             if monster_key == name:
                 self.name = monster['name']
                 self.item = monster['item']
+                self.run = monster['run']
                 self.xp_release = int(monster['level'] * random.randint(3, 7))
 
                 super().__init__(monster['level'], monster['atk'], monster['def'], monster['gold'])

@@ -26,19 +26,24 @@ def menu_template():
 ################################# Monster Fight Template #################################
 def fight_template():
     monster = player.is_fighting
+    try:
+        monster_gold = monster.gold
+        monster_item = monster.item
+    except:
+        pass 
     # render structure ######################
     gui.render_gui(pause=True)
     gui.render_transparent_background()
     # render frame
     gui.render_frame('big-up', 'Fight')
     # render run/close button
-    manager.game.scenes['Fight'].buttons['close'] = Button('button_close', int(DISPLAY_WIDTH) - 55, int(DISPLAY_HEIGHT/2) - 175, Scene.previous_scene)
+    if not monster.run and player.combat:
+        manager.game.scenes['Fight'].buttons['close'] = Button('button_close', int(DISPLAY_WIDTH) - 55, int(DISPLAY_HEIGHT/2) - 175, ' ')
+    else:
+        manager.game.scenes['Fight'].buttons['close'] = Button('button_close', int(DISPLAY_WIDTH) - 55, int(DISPLAY_HEIGHT/2) - 175, Scene.previous_scene)
+
     # end structure ######################
-    try:
-        monster_gold = monster.gold
-        monster_item = monster.item
-    except:
-        pass 
+    
 
     if player.won:
         # render goods ######################################
@@ -266,12 +271,9 @@ def store_template():
     gui.render_frame('normal', 'store')
     # render close          
     manager.game.scenes['Store'].buttons['close'] = Button('button_close', int(DISPLAY_WIDTH) - 55, int(DISPLAY_HEIGHT/2) - 135, Scene.previous_scene)
-    # render left and right buttons
-    gui.render_button("button_left", 40, int(DISPLAY_HEIGHT/2)) 
-    gui.render_button("button_right", DISPLAY_WIDTH - 40, int(DISPLAY_HEIGHT/2)) 
     # render how to play content
     gui.render_text("Store is available only", int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 - 10), Regular=True, size=19)
-    gui.render_text("for Pro members.", int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + 10), Regular=True, size=19)
+    gui.render_text("at level 10.", int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + 10), Regular=True, size=19)
 
 ################################# Game Over Template #################################
 def gameover_template():

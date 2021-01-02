@@ -287,7 +287,6 @@ class Scene:
                         player.fight(button.category[6:])
                         manager.game.scenes['Fight'].run_scene()
                     elif 'event' in button.category:
-                        print(button.category[6:])
                         player.health -= int(button.category[6:])
                 if button.destination == 'next':
                         player.n += 1
@@ -322,11 +321,13 @@ class Scene:
                         sys.exit()
                 for scene in manager.game.scenes.values():
                     if scene.scene_name == button.destination:
-                        if self.scene_name == 'fight' and player.won:
-                            # this removes fight monster btn and it also means that fight button always
-                            # needs to be the first in declaration
-                            manager.game.scenes[Scene.previous_scene].choices.pop(0)
-                            player.won = False
+                        if self.scene_name == 'fight':
+                            player.combat = False
+                            if player.won:
+                                # this removes fight monster btn and it also means that fight button always
+                                # needs to be the first in declaration
+                                manager.game.scenes[Scene.previous_scene].choices.pop(0)
+                                player.won, player.run_msg = False, False
                         if is_scene_type_game:
                             Scene.previous_story_scene = scene_key
                         Scene.previous_scene = self.scene_name
