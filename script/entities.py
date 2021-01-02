@@ -10,11 +10,7 @@ class Entity:
         self.is_turn = False
 
         self.max_health = 150 + (15 * self.level)
-        self.health = 100
-
-        #todo use setters and getters for this
-        # self.attack = attack + attack * self.level/2 
-        # self.defence = defence + defence * self.level/3
+        self.health = self.max_health
         
         self.attack = attack
         self.defence = defence
@@ -90,6 +86,8 @@ class Player(Entity):
     def add_item_inventory(self, item):
         """Eng: check name"""
         self.inventory[item] = Object(item)
+        if manager.Scene.sound:
+            manager.Gui.add_item_sound.play()
         self.inventory_checked = False
 
     def fight(self, monster):
@@ -123,7 +121,7 @@ player = Player()
 
 class Monster(Entity):
     monsters = {
-        'wild dog' : {'name': 'Wild Dog', 'atk': 7, 'def': 4, 'level': 4, 'gold': 8, 'item': 'bone', 'run': True},
+        'wild dog' : {'name': 'Wild Dog', 'atk': 7, 'def': 4, 'level': 1, 'gold': 8, 'item': 'bone', 'run': False},
         'great snake': {'name': 'Great Snake', 'atk': 14, 'def': 1, 'level': 4, 'gold': 13, 'item': 'monster eye', 'run': True},
         'witcher': {'name': 'The Witcher', 'atk': 41, 'def': 17, 'level': 7, 'gold': 22, 'item': 'skull', 'run': False},
         'death claw': {'name': 'Death Claw', 'atk': 57, 'def': 25, 'level': 12, 'gold': 34, 'item': 'monster meat', 'run': False},
@@ -141,6 +139,8 @@ class Monster(Entity):
     
     def attacking(self):
         """Eng: adds monster to dict"""
+        if manager.Scene.sound and random.randint(0, 1):
+            manager.Gui.hurt_sound.play()
         player.is_turn = True
         if self.attack < player.defence:
             self.health -= int((player.defence - self.attack)/2)
@@ -148,10 +148,6 @@ class Monster(Entity):
             player.health -= abs(self.attack - player.defence)
         if player.health < 1:
             player.gameover()
-        
-
-
-        
 
 # loot items
 class Object:

@@ -17,6 +17,14 @@ class Gui:
     # Eng : initialising the pygame display and module it's a must
     # Fr : 
     pygame.init()
+    pygame.mixer.init()
+
+    # Eng : game music
+    hurt_sound = pygame.mixer.Sound("./assets/sounds/hurt.wav")
+    add_item_sound = pygame.mixer.Sound("./assets/sounds/add_item.wav")
+    click_sound = pygame.mixer.Sound("./assets/sounds/click.wav")
+    close_sound = pygame.mixer.Sound("./assets/sounds/close.wav")
+
     display = pygame.display.set_mode((DISPLAY_WIDTH, DISPLAY_HEIGHT))
     clock = pygame.time.Clock()
 
@@ -266,6 +274,11 @@ class Scene:
             buttons = self.buttons
         for button in buttons.values():   
             if button.rect.collidepoint((self.mx, self.my)):
+                if Scene.sound:
+                    if button.destination == Scene.previous_scene or button.destination == Scene.previous_story_scene:
+                        Gui.close_sound.play()
+                    elif button.destination != 'attack':
+                        Gui.click_sound.play()
                 if is_scene_type_game:
                     # Change sound button from on to off
                     if 'music' in button.category:
@@ -283,6 +296,7 @@ class Scene:
                         # notification reset
                         player.inventory_checked = False
                     elif 'fight' in button.category:
+
                         Scene.previous_scene = self.scene_name
                         player.fight(button.category[6:])
                         manager.game.scenes['Fight'].run_scene()
@@ -327,8 +341,10 @@ class Scene:
                             manager.game.scenes[Scene.previous_scene].choices.pop(0)
                             player.won, player.run_msg = False, False
                         elif self.scene_name =='fight' and button.obj == 'close':
+                            if player.combat:
+                                del manager.game.scenes['Fight'].buttons['attack']
                             player.combat = False
-                            del manager.game.scenes['Fight'].buttons['attack']
+
                         if is_scene_type_game:
                             Scene.previous_story_scene = scene_key
                         Scene.previous_scene = self.scene_name
