@@ -286,6 +286,9 @@ class Scene:
                         Scene.previous_scene = self.scene_name
                         player.fight(button.category[6:])
                         manager.game.scenes['Fight'].run_scene()
+                    elif 'event' in button.category:
+                        print(button.category[6:])
+                        player.health -= int(button.category[6:])
                 if button.destination == 'next':
                         player.n += 1
                         break 

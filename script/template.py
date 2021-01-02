@@ -128,7 +128,11 @@ def credit_template():
     ## render frame
     gui.render_frame('big', 'credit')
     # render close button
-    manager.game.scenes['Credit'].buttons['close'] = Button('button_close', DISPLAY_WIDTH - 60,  int(DISPLAY_HEIGHT/2) - 160, Scene.previous_scene)
+    if Scene.previous_story_scene != None:
+        manager.game.scenes['Credit'].buttons['close'] = Button('button_close', DISPLAY_WIDTH - 60,  int(DISPLAY_HEIGHT/2) - 160, Scene.previous_story_scene)
+    else:
+        manager.game.scenes['Credit'].buttons['close'] = Button('button_close', DISPLAY_WIDTH - 60,  int(DISPLAY_HEIGHT/2) - 160, 'Pregame')
+
     # render credit
     gui.render_text('Game design & production', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 - 40), size = 16, Regular=True)
     gui.render_text('Youness Id bakkasse', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 - 10), size = 25, Regular=True)
