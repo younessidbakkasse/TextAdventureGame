@@ -55,7 +55,18 @@ class Game:
             'Someone' : StoryScene('Someone', [['Talk to the man', 'Witch', 'normal']], "You enter a moonlit grove on top of the hill. Exuberant cherry blossoms form a perfect circle around the meadow. the grass is darkened by the entrails of numerous corpses. A man stands alone in the center."),
             'Witch' : StoryScene('Witch', [['Dodge his attack ', 'Victory', 'fight-witch']], "You asked about the dead bodies. The man turned his face, with an agressive accent, trying to hit you with his enchanted wand. You just realised that he is a witch."),
             'Victory' : StoryScene('Victory', [['Go back to the shack', 'Shack', 'normal'], ['Search the witch', 'Shack', 'loot-blue potion']], "The witch is dead trying to tell his last words. He was talking about a key to get out of the island."),
-            
+
+            # the shack
+            'Shack' : StoryScene('Shack', [['Enter the shack', 'Inside0', 'normal']], "The front door has been left slightly ajar. Partialy broken, it may have been opened by force."),
+            'Inside0' : StoryScene('Inside0', [['Take the food', 'Inside1', 'loot-bread'], ['Climb the ladder', 'Loft0', 'normal']], "Someone has been here quite recently. A pile of bread has been discarded on the worktable in front of you. Facing the northern forest, there's a small window next to ladder."),
+            'Inside1' : StoryScene('Inside1', [['Climb the ladder', 'Loft0', 'normal']], "Someone has been here quite recently. A pile of braead has been discarded on the worktable in front of you. There's also a book on the table. Facing the northern forest, there's a small window next to ladder."),
+            'Loft0' : StoryScene('Loft0', [['Grab the book', 'Loft1', 'loot-book'], ['Climb back down', 'Inside2', 'normal']], "There's a loft up here. covered by dust and cobwebs, an old book lies to a moldy mattress."),
+            'Loft1' : StoryScene('Loft1', [['Climb back down', 'Inside2', 'normal']], "There's a loft up here. covered by dust and cobwebs, an old book lies to a moldy mattress."),
+            'Inside2' : StoryScene('Inside2', [['Go outside', 'Outside', 'normal']], "This place reeks of mold and ancient dust."),
+            'Outside' : StoryScene('Outside', [['Attack', 'Snake', 'fight-great snake'], ['Ignore the snake', 'Outside shack', 'normal']], "When you open the door, you notice a huge snake lurking outside. It keeps it's distance, perhaps anticipating your next move."),
+            'Snake' : StoryScene('Snake', [['Move on', 'Outside shack', 'normal']], "You have slain the big snake. the reptile lies on the ground, bleeding and twitching."),
+            'Outside shack' : StoryScene('Outside shack', [['Go behind the shack', 'Behind shack', 'normal'], ['Follow the footprints', 'Women', 'normal']], "You're standing in front of the abandoned shack near the forest. it's quiet out here, for now. A fresh set of footprints are visible in the forest path."),
+            'Behind shack' : StoryScene('Behind shack', [['Go behind the shack', '', 'normal'], ['Follow the footprints', 'Women', 'normal']], "You're standing in front of the abandoned shack near the northern forest. it's quiet out here, for now. A fresh set of footprints are visible in the forest path."),
             }
 
     def run(self):

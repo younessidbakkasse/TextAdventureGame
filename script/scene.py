@@ -331,9 +331,6 @@ class Scene:
                 for scene in manager.game.scenes.values():
                     if scene.scene_name == button.destination:
                         if self.scene_name == 'fight' and player.won:
-                            # this removes fight monster btn and it also means that fight button always
-                            # needs to be the first in declaration
-                            manager.game.scenes[Scene.previous_scene].choices.pop(0)
                             player.won = False
                             if button.obj == 'close':
                                 manager.game.scenes[Scene.won_fight_scene].run_scene()

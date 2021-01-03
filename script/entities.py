@@ -138,7 +138,7 @@ player = Player()
 class Monster(Entity):
     monsters = {
         'wild dog' : {'name': 'Wild Dog', 'atk': 7, 'def': 4, 'level': 1, 'gold': 8, 'item': 'bone', 'run': False},
-        'great snake': {'name': 'Great Snake', 'atk': 14, 'def': 1, 'level': 4, 'gold': 13, 'item': 'monster eye', 'run': True},
+        'great snake': {'name': 'Great Snake', 'atk': 14, 'def': 1, 'level': 4, 'gold': 13, 'item': 'snake eye', 'run': True},
         'witch': {'name': 'The Witch', 'atk': 17, 'def': 11, 'level': 3, 'gold': 22, 'item': 'wand', 'run': False},
         'death claw': {'name': 'Death Claw', 'atk': 57, 'def': 25, 'level': 12, 'gold': 34, 'item': 'monster meat', 'run': False},
     }
@@ -180,7 +180,7 @@ class Object:
         'pickaxe' : {'name' : 'Pickaxe', 'atk' : 24, 'def' : 3, 'type' : 'weapon'},
         'hammer' : {'name' : 'Hammer', 'atk' : 30, 'def' : 4, 'type' : 'weapon'},
         'torch' : {'name' : 'Torch', 'atk' : 20, 'def' : 30, 'type' : 'weapon'},
-        'wand' : {'name' : 'Magic Wand', 'atk' : 18, 'def' : 4, 'type' : 'weapon'},
+        'wand' : {'name' : 'Wand', 'atk' : 18, 'def' : 4, 'type' : 'weapon'},
         'great wand' : {'name' : 'Great Wand', 'atk' : 180, 'def' : 20, 'type' : 'weapon'},
 
         # shields
@@ -200,7 +200,7 @@ class Object:
         # Monster parts
         'bone' : {'name' : 'Bone', 'value' : 3, 'type' : 'material'},
         'monster meat' : {'name' : 'Monster Meat', 'value' : 8, 'type' : 'material'},
-        'monster eye' : {'name' : 'Monster Eye', 'value' : 15, 'type' : 'material'},
+        'snake eye' : {'name' : 'Snake Eye', 'value' : 15, 'type' : 'material'},
         'skull' : {'name' : 'Human Skull', 'value' : 20, 'type' : 'material'},
 
         # Gems
