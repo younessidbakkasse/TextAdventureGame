@@ -41,8 +41,21 @@ class Game:
             'Lagoon' : StoryScene('Lagoon', [['Take a look around', 'First enemy', 'normal']], "Further north, the beach gives way to a flourishing wetland. You discover a lagoon, surrounded by red pines. At this point there are no more footprints."),
             # Fight scene
             'First enemy' : StoryScene('First enemy', [['Fight', 'First blood', 'fight-wild dog']], "Something is moving through the reeds on the other side. A wild dog emerges. Growling, it runs towards you across the shallows."),
-            'First blood' : StoryScene('First blood', [['Cross the shallows', ' ', 'normal']], "Whimpering, the wild dog collapses. Slowly, the carcass starts to drift into the lagoon."),
-
+            'First blood' : StoryScene('First blood', [['Cross the shallows', 'Shallows', 'normal']], "Whimpering, the wild dog collapses. Slowly, the carcass starts to drift into the lagoon."),
+            # won the fight 
+            'Shallows' : StoryScene('Shallows', [['Study the footprints', 'Match', 'normal'], ['Approach the shack', 'Shack', 'normal']], "Tucked away in lush vegetation, a small shack lies on the outskirts of a deep forest.  You discover a fresh set of footprints on a dirt path nearby, leading into the northern forest."),
+            'Match' : StoryScene('Match', [['Follow the footprints', 'Women', 'normal'], ['Approach the shack', 'Shack', 'normal']], "They match the footprints from the beach, as far as you can tell."),
+            'Women' : StoryScene('Women', [['Keep going...', 'Forest', 'normal'], ['Turn back now', 'Shack', 'normal']], "Crossing a bridge over a stream, you realise that you are bieng watched. Armed with spears, two women observe you from a distance. They are dressed in green cloaks and blue tunics."),
+            'Forest' : StoryScene('Forest', [['Approach the camp', 'Camp', 'normal']], "Seemingly without end, the winding path takes you deep into the forest. The pines are now enveloped by the shimmering light of the golden dusk. Smoke is rising from a campfire in the distance."),
+            'Camp' : StoryScene('Camp', [['Search the camp', 'Hat', 'loot-wizard hat'], ['Follow the footprints', 'Blood', 'normal']], "There is blood all over the place. A wounded man lies on his back near the campfire. He's dressed in green cloak, just like the other forest-dwellers."),
+            'Hat' : StoryScene('Hat', [['Check the other camp', 'Blood', 'normal']], "You just found a wizards hat, and you are wondering, how it could help you to survive in this bloody island."),
+            'Blood' : StoryScene('Blood', [['Keep moving', 'Owl', 'normal']], "The bloodstained footprints lead to another path throught the forest. Forging ahead, you are faced with increasingly rugged terrain. Forced to constantly walk uphill, you lose yourself on the northern highlands."),
+            'Owl' : StoryScene('Owl', [['Explore the forest hills', 'Bodies', 'normal']], "Your eyes adjust to the merciful darkness of spring. the full moon provides further assistance . The owls remind you that one is never truly alone in the forest."),
+            'Bodies' : StoryScene('Bodies', [['Keep going fast', 'Someone', 'normal']], "A trail of dead bodies guides your ascent. You thinks that who ever did this must be a human."),
+            'Someone' : StoryScene('Someone', [['Talk to the man', 'Witch', 'normal']], "You enter a moonlit grove on top of the hill. Exuberant cherry blossoms form a perfect circle around the meadow. the grass is darkened by the entrails of numerous corpses. A man stands alone in the center."),
+            'Witch' : StoryScene('Witch', [['Dodge his attack ', 'Victory', 'fight-witch']], "You asked about the dead bodies. The man turned his face, with an agressive accent, trying to hit you with his enchanted wand. You just realised that he is a witch."),
+            'Victory' : StoryScene('Victory', [['Go back to the shack', 'Shack', 'normal'], ['Search the witch', 'Shack', 'loot-blue potion']], "The witch is dead trying to tell his last words. He was talking about a key to get out of the island."),
+            
             }
 
     def run(self):

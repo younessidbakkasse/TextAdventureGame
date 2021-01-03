@@ -139,7 +139,7 @@ class Monster(Entity):
     monsters = {
         'wild dog' : {'name': 'Wild Dog', 'atk': 7, 'def': 4, 'level': 1, 'gold': 8, 'item': 'bone', 'run': False},
         'great snake': {'name': 'Great Snake', 'atk': 14, 'def': 1, 'level': 4, 'gold': 13, 'item': 'monster eye', 'run': True},
-        'witcher': {'name': 'The Witcher', 'atk': 41, 'def': 17, 'level': 7, 'gold': 22, 'item': 'skull', 'run': False},
+        'witch': {'name': 'The Witch', 'atk': 17, 'def': 11, 'level': 3, 'gold': 22, 'item': 'wand', 'run': False},
         'death claw': {'name': 'Death Claw', 'atk': 57, 'def': 25, 'level': 12, 'gold': 34, 'item': 'monster meat', 'run': False},
     }
 
@@ -180,7 +180,7 @@ class Object:
         'pickaxe' : {'name' : 'Pickaxe', 'atk' : 24, 'def' : 3, 'type' : 'weapon'},
         'hammer' : {'name' : 'Hammer', 'atk' : 30, 'def' : 4, 'type' : 'weapon'},
         'torch' : {'name' : 'Torch', 'atk' : 20, 'def' : 30, 'type' : 'weapon'},
-        'wand' : {'name' : 'Magic Wand', 'atk' : 120, 'def' : 20, 'type' : 'weapon'},
+        'wand' : {'name' : 'Magic Wand', 'atk' : 18, 'def' : 4, 'type' : 'weapon'},
         'great wand' : {'name' : 'Great Wand', 'atk' : 180, 'def' : 20, 'type' : 'weapon'},
 
         # shields
@@ -188,7 +188,7 @@ class Object:
         'iron shield' : {'name' : 'Iron Shield', 'atk' : 2, 'def' : 60, 'type' : 'shield'},
         'wooden armor' : {'name' : 'Wooden Armor', 'atk' : 0, 'def' : 50, 'type' : 'shield'},
         'iron armor' : {'name' : 'Iron Armor', 'atk' : 3, 'def' : 80, 'type' : 'shield'},
-        'wizard hat' : {'name' : 'Wizard Hat', 'atk' : 15, 'def' : 30, 'type' : 'shield'},
+        'wizard hat' : {'name' : 'Wizard Hat', 'atk' : 7, 'def' : 6, 'type' : 'shield'},
 
         # materials
         'book' : {'name' : 'Book', 'value' : 5, 'type' : 'material'},
