@@ -201,6 +201,7 @@ class Scene:
     # Fr : 
     previous_scene = None
     previous_story_scene = None
+    won_fight_scene = None
     # Eng : game music 
     # Fr :
     sound = True
@@ -289,10 +290,11 @@ class Scene:
                         # notification reset
                         player.inventory_checked = False
                     elif 'fight' in button.category:
-
                         Scene.previous_scene = self.scene_name
                         player.fight(button.category[6:])
+                        Scene.won_fight_scene = button.destination
                         manager.game.scenes['Fight'].run_scene()
+
                     elif 'event' in button.category:
                         player.health -= int(button.category[6:])
                 if button.destination == 'next':
@@ -332,7 +334,9 @@ class Scene:
                             # this removes fight monster btn and it also means that fight button always
                             # needs to be the first in declaration
                             manager.game.scenes[Scene.previous_scene].choices.pop(0)
-                            player.won, player.run_msg = False, False
+                            player.won = False
+                            if button.obj == 'close':
+                                manager.game.scenes[Scene.won_fight_scene].run_scene()
                         elif self.scene_name =='fight' and button.obj == 'close':
                             if player.combat:
                                 del manager.game.scenes['Fight'].buttons['attack']

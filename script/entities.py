@@ -28,7 +28,6 @@ class Player(Entity):
         self.inventory_checked = True
         self.is_turn = True
         self.combat, self.won = False, False
-        self.run_msg = False
         self.n = 0
 
     def reset(self):
