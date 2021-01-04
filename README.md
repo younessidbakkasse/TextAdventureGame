@@ -1,7 +1,7 @@
 # ursina    ʕ •ᴥ•ʔゝ□
 An easy to use game engine/framework for python.
 
-![Banner](/docs/made_with_ursina.jpg)
+![Banner](/docs/home.png)
 
 
 ## Getting Started
