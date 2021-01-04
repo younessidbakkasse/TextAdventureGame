@@ -1,5 +1,5 @@
-# ursina    ʕ •ᴥ•ʔゝ□
-An easy to use game engine/framework for python.
+# Adventure Text Game Engine
+An easy way to create rpg text games using Python.
 
 ![Banner](/docs/made_with_ursina.jpg)
 
