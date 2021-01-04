@@ -189,7 +189,7 @@ def howtoplay_template():
     # render close button
     manager.game.scenes['Help'].buttons['close'] = Button('button_close', int(DISPLAY_WIDTH) - 55,  int(DISPLAY_HEIGHT/2) - 165, Scene.previous_scene)
     # render how to play content
-    gui.render_text('Use your mouse to play', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2), size = 22, Regular=True)
+    gui.render_text('Use your mouse to play', int(DISPLAY_WIDTH/2 - 40), int(DISPLAY_HEIGHT/2 - 100), size = 22, Regular=True)
 
 ################################# Inventory Template #################################
 def inventory_template():
@@ -257,7 +257,8 @@ def quests_template():
     manager.game.scenes['Quests'].buttons['close'] = Button('button_close', int(DISPLAY_WIDTH) - 55, int(DISPLAY_HEIGHT/2) - 135, Scene.previous_scene)
     # render how to play content
     gui.render_text('Current quest:', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 - 30), size=22, Regular=True)
-    gui.render_text('Get out of the island.', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + 10), size=27, Regular=True)
+    gui.render_text('Find the man with', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + 10), size=28, Regular=True)
+    gui.render_text('the footprints.', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + 42), size=28, Regular=True)
 
 ################################# Store Template #################################
 def store_template():

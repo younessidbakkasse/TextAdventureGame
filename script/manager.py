@@ -29,7 +29,7 @@ class Game:
             'Game Over' : Scene('game over', gameover_template),
 
             # Creating main game scenes ########################################
-            'Pregame' : StoryScene('Pregame', [['Start playing', 'Beach', 'normal']], 'Hi there, welcome to Dead Island. Are you sure you wanna play. Its scary out there !'),
+            'Pregame' : StoryScene('Pregame', [['Start playing', 'Beach', 'normal']], "Hi there and welcome. Dead Island is story game, your actions impact the story flow. Decide carefully, check your inventory from time to time, equip best weapons because it's scary what's waiting you out there."),
             'Beach' : StoryScene('Beach', [['Explore the beach', 'Nothing', 'normal']], 'Washed ashore, you have only vague recollections of what happened. The past seems unimportant now. Shivering, you watch the bodies float among the debris. No ships can be seen on the horizon.'),
             'Nothing' : StoryScene('Nothing', [['Examine the object', 'Coin', 'normal']], 'There is nothing but sand and gravel. Or so it may seem. You feel a painful sensation in your left foot, causing you to take a step backwards. Glimmering in the sun, a sharp object is revealed.'),
             'Coin' : StoryScene('Coin', [['Continue exploring', 'Footprints', 'loot-golden coin']], "At first, you are unable to make sense of it. You pick it to get a closer look. It's a golden coin. Something about the unusual coin seems familiar."),
@@ -45,7 +45,7 @@ class Game:
             # won the fight 
             'Shallows' : StoryScene('Shallows', [['Study the footprints', 'Match', 'normal'], ['Approach the shack', 'Shack', 'normal']], "Tucked away in lush vegetation, a small shack lies on the outskirts of a deep forest.  You discover a fresh set of footprints on a dirt path nearby, leading into the northern forest."),
             'Match' : StoryScene('Match', [['Follow the footprints', 'Women', 'normal'], ['Approach the shack', 'Shack', 'normal']], "They match the footprints from the beach, as far as you can tell."),
-            'Women' : StoryScene('Women', [['Keep going...', 'Forest', 'normal'], ['Turn back now', 'Shack', 'normal']], "Crossing a bridge over a stream, you realise that you are bieng watched. Armed with spears, two women observe you from a distance. They are dressed in green cloaks and blue tunics."),
+            'Women' : StoryScene('Women', [['Keep going...', 'Forest', 'normal']], "Crossing a bridge over a stream, you realise that you are bieng watched. Armed with spears, two women observe you from a distance. They are dressed in green cloaks and blue tunics."),
             'Forest' : StoryScene('Forest', [['Approach the camp', 'Camp', 'normal']], "Seemingly without end, the winding path takes you deep into the forest. The pines are now enveloped by the shimmering light of the golden dusk. Smoke is rising from a campfire in the distance."),
             'Camp' : StoryScene('Camp', [['Search the camp', 'Hat', 'loot-wizard hat'], ['Follow the footprints', 'Blood', 'normal']], "There is blood all over the place. A wounded man lies on his back near the campfire. He's dressed in green cloak, just like the other forest-dwellers."),
             'Hat' : StoryScene('Hat', [['Check the other camp', 'Blood', 'normal']], "You just found a wizards hat, and you are wondering, how it could help you to survive in this bloody island."),
@@ -66,7 +66,7 @@ class Game:
             'Outside' : StoryScene('Outside', [['Attack', 'Snake', 'fight-great snake'], ['Ignore the snake', 'Outside shack', 'normal']], "When you open the door, you notice a huge snake lurking outside. It keeps it's distance, perhaps anticipating your next move."),
             'Snake' : StoryScene('Snake', [['Move on', 'Outside shack', 'normal']], "You have slain the big snake. the reptile lies on the ground, bleeding and twitching."),
             'Outside shack' : StoryScene('Outside shack', [['Go behind the shack', 'Behind shack', 'normal'], ['Follow the footprints', 'Women', 'normal']], "You're standing in front of the abandoned shack near the forest. it's quiet out here, for now. A fresh set of footprints are visible in the forest path."),
-            'Behind shack' : StoryScene('Behind shack', [['Go behind the shack', '', 'normal'], ['Follow the footprints', 'Women', 'normal']], "You're standing in front of the abandoned shack near the northern forest. it's quiet out here, for now. A fresh set of footprints are visible in the forest path."),
+            'Behind shack' : StoryScene('Behind shack', [['Go behind the shack', '', 'normal'], ['Follow the footprints', 'Women', 'normal']], "You're standing in front of the abandoned shack near the forest. it's quiet out here, for now. A fresh set of footprints are visible in the forest path."),
             }
 
     def run(self):
