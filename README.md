@@ -5,36 +5,30 @@ An easy way to create rpg text games using Python.
 
 
 ## Getting Started
-1) Install Python 3.6 or newer. https://www.python.org/downloads/
-2) Open cmd/terminal and type:
+1) Install Python 3.9 or newer. https://www.python.org/downloads/
+2) Open cmd/terminal and install the newest version from git by typing:
 
-        pip install ursina
+        mkdir mygame
+        cd mygame
+        pip install git+https://github.com/younessidbakkasse/TextGameEngine 
 
-
-If you want to install the newest version from git, you can install like this:
-
-        pip install git+https://github.com/pokepetter/ursina.git
 
 
 If you want to easily edit the source, it's recommended to clone the git
 repo and install as develop like this. Make sure you have git installed. https://git-scm.com/
 
-        git clone https://github.com/pokepetter/ursina.git
-        python setup.py develop
+        git clone https://github.com/younessidbakkasse/TextGameEngine
 
+Also install pygame module using this command:
 
-Also install any of the optional dependencies you want from the list below,
-or install them all with:
-
-        pip install ursina[extras]
+        pip install -r requirements.txt
 
 
 On some systems you might have to use pip3 instead of pip in order to use Python 3 and not the old Python 2.
 
 
 ## Dependencies
-  * python 3.9+
-  * json, for importing json files
+  * pygame 1.9+
   
   
 ## Examples
