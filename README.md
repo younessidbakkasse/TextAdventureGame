@@ -33,56 +33,68 @@ On some systems you might have to use pip3 instead of pip in order to use Python
   
 ## Examples
 ``` python
-from ursina import *            # this will import everything we need from ursina with just one line.
+from manager import *            # this will import everything we need from the engine manager with just one line.
 
-app = Ursina()
-ground = Entity(
-    model = 'cube',
-    color = color.magenta,
-    z = -.1,
-    y = -3,
-    origin = (0, .5),
-    scale = (50, 1, 10),
-    collider = 'box',
-    )
+game = Game()
 
-app.run()                       # opens a window and starts the game.
+game.scenes['First Scene'] = StoryScene(
+        name = 'first scene',  #the name is required so that you can link scenes with each others.
+        buttons = [['Start the game', 'second scene', 'normal']],  #the first element is the text on the button
+        text = "The front door has been left slightly ajar. Partialy broken, it may have been opened by force." # the scene text
+),
+
+game.run()                       # opens a window and starts the game.
 ```
 
 
-* [Minecraft Clone](/samples/minecraft_clone.py)
-
-* [Platformer Game](/samples/platformer.py)
-
-
 ## How do I make a game?
-Ursina games are made by writing Python code. You can use any text editor you want, but personally I like to use Atom.
-1) Create an empty .py file called 'ursina_game.py'
+This game engine is writing in 100% Python code. You can use any text editor you want, but personally I like to use Vscode.
+1) Create an empty .py file called 'my_game.py' avoid names like game.py, manager.py, scene.py
 2) Copy this text into your new file:
 ``` python
-from ursina import *           # this will import everything we need from ursina with just one line.
+from manager import *            # this will import everything we need from the engine manager with just one line.
 
-app = Ursina()
+game = Game()
 
-player = Entity(
-    model = 'cube' ,           # finds a 3d model by name
-    color = color.orange,
-    scale_y = 2
-    )
+game.scenes['First Scene'] = StoryScene(
+        name = 'first scene',  #the name is required so that you can link scenes with each others.
+        buttons = [['Start the game', 'second scene', 'normal']],  #the first element is the text on the button
+        text = "The front door has been left slightly ajar. Partialy broken, it may have been opened by force." # the scene text
+),
 
-def update():                  # update gets automatically called by the engine.
-    player.x += held_keys['d'] * .1
-    player.x -= held_keys['a'] * .1
-
-
-app.run()                     # opens a window and starts the game.
+game.run()                       # opens a window and starts the game.
 ```
 
 3) Type this in the terminal to start the game:
 
-       python ursina_game.py
-   If you use Atom, I recommend installing the package atom-python-run to tun your scripts with the press of a button.
+       python my_game.py
+   If you use Vscode, I recommend installing the python extension to tun on your scripts with the press of a button.
 
-4) You can now move the orange box around with 'a' and 'd'!
+4) you can now control the game there a gui button such as inventory or profile, you can exit the game using the menu
+selection exit game.
 
-   To close the window, you can by default, press shift+q or press the red x. to disable this, write 'window.exit_button.enabled =   False' somewhere in your code.
+5) to link two scenes you need to create a sceond scene exemple below, and add it's name to the button destination list parameter, so when you click the button you directly convert the second scene.
+
+``` python
+from manager import *            # this will import everything we need from the engine manager with just one line.
+
+game = Game()
+
+game.scenes['First Scene'] = StoryScene(
+        name = 'first scene',  #the name is required so that you can link scenes with each others.
+        buttons = [['Start the game', 'second scene', 'normal']],  #the first element is the text on the button
+        text = "The front door has been left slightly ajar. Partialy broken, it may have been opened by force." # the scene text
+),
+
+game.scenes['Second Scene'] = StoryScene(
+        name = 'second scene',  #the name is required so that you can link scenes with each others.
+        buttons = [
+                ['Fight the dragon', 'third scene', 'fight-wild dog'], #first button
+                ['Run away', 'third scene', 'normal'] # second button
+        ],  
+        # here third scene is not yet created
+        text = "You just met a wild dog do you want to fight him or run away" # the scene text
+),
+
+game.run()                       # opens a window and starts the game.
+```
