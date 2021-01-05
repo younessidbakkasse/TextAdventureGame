@@ -7,7 +7,7 @@ An easy way to create rpg text games using Python.
 ## Getting Started
 1) Install Python 3.9 or newer. https://www.python.org/downloads/
 
-2) 2) Open cmd/terminal and type:
+2) Open cmd/terminal and type:
 
         pip install -i https://test.pypi.org/simple/ textipy
 
@@ -73,9 +73,7 @@ selection exit game.
 5) to link two scenes you need to create a sceond scene exemple below, and add it's name to the button destination list parameter, so when you click the button you directly convert the second scene.
 
 ``` python
-from manager import *            # this will import everything we need from the engine manager with just one line.
-
-game = Game()
+from textipy import *            # this will import everything we need from the engine manager with just one line.
 
 game.scenes['Pregame'] = StoryScene(
         name = 'Pregame',  #the name is required so that you can link scenes with each others.
