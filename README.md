@@ -6,18 +6,23 @@ An easy way to create rpg text games using Python.
 
 ## Getting Started
 1) Install Python 3.9 or newer. https://www.python.org/downloads/
-2) Open cmd/terminal and install the newest version from git by typing:
+
+2) 2) Open cmd/terminal and type:
+
+        pip install -i https://test.pypi.org/simple/ textipy
+
+If you want to install the newest version from git use this command:
 
         mkdir mygame
         cd mygame
-        pip install git+https://github.com/younessidbakkasse/TextGameEngine 
+        pip install git+https://github.com/younessidbakkasse/textipy
 
 
 
 If you want to easily edit the source, it's recommended to clone the git
 repo and install as develop like this. Make sure you have git installed. https://git-scm.com/
 
-        git clone https://github.com/younessidbakkasse/TextGameEngine
+        git clone https://github.com/younessidbakkasse/textipy
 
 Also install pygame module using this command:
 
@@ -33,15 +38,7 @@ On some systems you might have to use pip3 instead of pip in order to use Python
   
 ## Examples
 ``` python
-from manager import *            # this will import everything we need from the engine manager with just one line.
-
-game = Game()
-
-game.scenes['First Scene'] = StoryScene(
-        name = 'first scene',  #the name is required so that you can link scenes with each others.
-        buttons = [['Start the game', 'second scene', 'normal']],  #the first element is the text on the button
-        text = "The front door has been left slightly ajar. Partialy broken, it may have been opened by force." # the scene text
-),
+from textipy import *            # this will import everything we need from the engine manager with just one line.
 
 game.run()                       # opens a window and starts the game.
 ```
@@ -52,12 +49,12 @@ This game engine is writing in 100% Python code. You can use any text editor you
 1) Create an empty .py file called 'my_game.py' avoid names like game.py, manager.py, scene.py
 2) Copy this text into your new file:
 ``` python
-from manager import *            # this will import everything we need from the engine manager with just one line.
+from textipy import *          
 
-game = Game()
 
-game.scenes['First Scene'] = StoryScene(
-        name = 'first scene',  #the name is required so that you can link scenes with each others.
+# always chose 'Pregame' as a name of the first scene
+game.scenes['Pregame'] = StoryScene(
+        name = 'Pregame',  #the name is required so that you can link scenes with each others.
         buttons = [['Start the game', 'second scene', 'normal']],  #the first element is the text on the button
         text = "The front door has been left slightly ajar. Partialy broken, it may have been opened by force." # the scene text
 ),
@@ -80,14 +77,14 @@ from manager import *            # this will import everything we need from the 
 
 game = Game()
 
-game.scenes['First Scene'] = StoryScene(
-        name = 'first scene',  #the name is required so that you can link scenes with each others.
-        buttons = [['Start the game', 'second scene', 'normal']],  #the first element is the text on the button
+game.scenes['Pregame'] = StoryScene(
+        name = 'Pregame',  #the name is required so that you can link scenes with each others.
+        buttons = [['Start the game', 'Second Scene', 'normal']],  #the first element is the text on the button
         text = "The front door has been left slightly ajar. Partialy broken, it may have been opened by force." # the scene text
 ),
 
 game.scenes['Second Scene'] = StoryScene(
-        name = 'second scene',  #the name is required so that you can link scenes with each others.
+        name = 'Second Scene',  #the name is required so that you can link scenes with each others.
         buttons = [
                 ['Fight the dragon', 'third scene', 'fight-wild dog'], #first button
                 ['Run away', 'third scene', 'normal'] # second button

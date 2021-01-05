@@ -1,8 +1,7 @@
-from textipy import *
-
+import textipy
 
 # exemple demo to create one game scene with one button
-game.scenes['Pregame'] = StoryScene(
+(
     # always name your first scene pregame
     name = 'Pregame',  
     buttons = [
