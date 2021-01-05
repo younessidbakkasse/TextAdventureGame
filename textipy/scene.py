@@ -1,6 +1,5 @@
 from entities import player
-import textipy
-import sys, pygame, random
+import sys, pygame, random, textipy
 
 # Eng : global variables
 # Fr : Variables globales

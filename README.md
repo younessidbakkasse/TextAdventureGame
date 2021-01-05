@@ -57,7 +57,7 @@ game.scenes['Pregame'] = StoryScene(
         name = 'Pregame',  #the name is required so that you can link scenes with each others.
         buttons = [['Start the game', 'second scene', 'normal']],  #the first element is the text on the button
         text = "The front door has been left slightly ajar. Partialy broken, it may have been opened by force." # the scene text
-),
+)
 
 game.run()                       # opens a window and starts the game.
 ```
@@ -79,7 +79,7 @@ game.scenes['Pregame'] = StoryScene(
         name = 'Pregame',  #the name is required so that you can link scenes with each others.
         buttons = [['Start the game', 'Second Scene', 'normal']],  #the first element is the text on the button
         text = "The front door has been left slightly ajar. Partialy broken, it may have been opened by force." # the scene text
-),
+)
 
 game.scenes['Second Scene'] = StoryScene(
         name = 'Second Scene',  #the name is required so that you can link scenes with each others.
@@ -89,7 +89,7 @@ game.scenes['Second Scene'] = StoryScene(
         ],  
         # here third scene is not yet created
         text = "You just met a wild dog do you want to fight him or run away" # the scene text
-),
+)
 
 game.run()                       # opens a window and starts the game.
 ```
