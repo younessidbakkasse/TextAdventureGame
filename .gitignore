@@ -1,6 +1,9 @@
 ### env repo ###
 /venv
+/textipy/DS_Store
+/textipy/__pycache__
 
 ### VisualStudioCode ###
 .vscode/*
 !.vscode/settings.json
+.DS_Store
