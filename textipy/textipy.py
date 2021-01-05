@@ -73,4 +73,3 @@ class Game:
         self.scenes['Home'].run_scene()  
 
 game = Game()
-

@@ -1,4 +1,4 @@
-# Adventure Text Game Engine
+# Textipy : An Adventure Text Game Engine
 An easy way to create rpg text games using Python.
 
 ![Banner](/docs/home.png)

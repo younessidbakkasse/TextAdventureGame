@@ -1,4 +1,4 @@
-import manager, random
+import textipy, random
 
 class Entity:
     # Eng: this is a main entity class for both monsters and player 
@@ -51,14 +51,14 @@ class Player(Entity):
             if self.health > self.max_health:
                 self.health = self.max_health
             self.inventory.pop(food.name.casefold())
-            manager.game.scenes['Inventory'].buttons.pop(f'use {food.name.casefold()}')
+            textipy.game.scenes['Inventory'].buttons.pop(f'use {food.name.casefold()}')
 
     def sell(self, item):
         """Eng: this function sells your items that can be sold in your inventory
             Fr: cette fonction sert a vendre les items dans ton inventaire"""
         self.gold += item.value
         self.inventory.pop(item.name.casefold())
-        manager.game.scenes['Inventory'].buttons.pop(f'sell {item.name.casefold()}')
+        textipy.game.scenes['Inventory'].buttons.pop(f'sell {item.name.casefold()}')
 
     def equip(self, item):   
         """Eng: this function equip items ex shield or weapons when click button equip in inventory
@@ -97,9 +97,9 @@ class Player(Entity):
         """Eng: check name
             Fr: sert à ajouter des items à l'inventaire"""
         self.inventory[item] = Object(item)
-        if manager.Scene.sound:
+        if textipy.Scene.sound:
             # inventory sound
-            manager.Gui.add_item_sound.play()
+            textipy.Gui.add_item_sound.play()
         self.inventory_checked = False
 
     def fight(self, monster):
@@ -123,7 +123,7 @@ class Player(Entity):
     def gameover(self):
         """Eng: end game
             Fr: termine le jeu"""
-        manager.game.scenes['Game Over'].run_scene()
+        textipy.game.scenes['Game Over'].run_scene()
 
     def get_fight_goods(self):
         """Eng: get game items when you beat a monster
@@ -156,8 +156,8 @@ class Monster(Entity):
     def attacking(self):
         """Eng: deos same as function attack for player expet now its monster's turn
             Fr: fait exactement la meme chose que la fonction attack pour le joueur sauf ici le tour du monstre pour attacker"""
-        if manager.Scene.sound and random.randint(0, 1):
-            manager.Gui.hurt_sound.play()
+        if textipy.Scene.sound and random.randint(0, 1):
+            textipy.Gui.hurt_sound.play()
         player.is_turn = True
         if self.attack < player.defence:
             self.health -= int((player.defence - self.attack)/2)

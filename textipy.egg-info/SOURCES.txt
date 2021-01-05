@@ -1,0 +1,12 @@
+README.md
+setup.py
+textipy/__init__.py
+textipy/app.py
+textipy/entities.py
+textipy/scene.py
+textipy/template.py
+textipy/textipy.py
+textipy.egg-info/PKG-INFO
+textipy.egg-info/SOURCES.txt
+textipy.egg-info/dependency_links.txt
+textipy.egg-info/top_level.txt
