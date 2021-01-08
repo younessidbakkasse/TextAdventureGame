@@ -1,6 +1,9 @@
+<<<<<<< HEAD
+import sys, pygame, random, entities
+=======
 from entities import player
-import textipy
-import sys, pygame, random
+import sys, pygame, random, textipy
+>>>>>>> 52633d8c8d3c4c201b04648af1806725ca6a3d2c
 
 # Eng : global variables
 # Fr : Variables globales
@@ -184,7 +187,7 @@ class Gui:
         """ Fr : créer gui"""
         gui.render_logo(40, False)
         gui.render_ui_buttons(pause)
-        if not player.inventory_checked:
+        if not entities.player.inventory_checked:
             self.render_circle(DISPLAY_WIDTH - 70, DISPLAY_HEIGHT - 75, 8, Gui.colors['red'])
           
 # create a gui
@@ -261,7 +264,7 @@ class Scene:
         button (rect) and also allows scene transitions from self to another depending 
         on the button's name"""
         scene_key = self.get_current_scene_key()
-        is_scene_type_game = isinstance(textipy.game.scenes[scene_key], StoryScene)
+        is_scene_type_game = isinstance(game.scenes[scene_key], StoryScene)
         # only works in python 3.9 and above
         buttons = gui.gui_buttons | self.buttons
         if not is_scene_type_game:
@@ -286,58 +289,58 @@ class Scene:
                             break
                     # check for loot buttons
                     elif 'loot' in button.category:
-                        player.add_item_inventory(button.loot)
+                        entities.player.add_item_inventory(button.loot)
                         # notification reset
-                        player.inventory_checked = False
+                        entities.player.inventory_checked = False
                     elif 'fight' in button.category:
                         Scene.previous_scene = self.scene_name
-                        player.fight(button.category[6:])
+                        entities.player.fight(button.category[6:])
                         Scene.won_fight_scene = button.destination
-                        textipy.game.scenes['Fight'].run_scene()
+                        game.scenes['Fight'].run_scene()
 
                     elif 'event' in button.category:
-                        player.health -= int(button.category[6:])
+                        entities.player.health -= int(button.category[6:])
                 if button.destination == 'next':
-                        player.n += 1
+                        entities.player.n += 1
                         break 
                 elif button.destination == 'previous':
-                        player.n -= 1
+                        entities.player.n -= 1
                         break 
                 elif button.destination == 'equip':
-                    player.equip(button.obj)
+                    entities.player.equip(button.obj)
                     break
                 elif button.destination == 'equiped':
-                    player.unequip(button.obj)
+                    entities.player.unequip(button.obj)
                     break
                 elif button.destination == 'use':
-                    player.eat(button.obj)
+                    entities.player.eat(button.obj)
                     break
                 elif button.destination == 'sell':
-                    player.sell(button.obj)
+                    entities.player.sell(button.obj)
                     break
                 elif button.destination == 'fight':
-                    player.combat = True
-                    del textipy.game.scenes['Fight'].buttons[button.destination]
+                    entities.player.combat = True
+                    del game.scenes['Fight'].buttons[button.destination]
                     break
                 elif button.destination == 'attack':
-                    del textipy.game.scenes['Fight'].buttons[button.destination]
-                    player.attacking() 
+                    del game.scenes['Fight'].buttons[button.destination]
+                    entities.player.attacking() 
                     break
                 elif button.destination == 'home':
-                    player.reset()
+                    entities.player.reset()
                 elif button.destination == 'exit':
                         pygame.quit()
                         sys.exit()
-                for scene in textipy.game.scenes.values():
+                for scene in game.scenes.values():
                     if scene.scene_name == button.destination:
-                        if self.scene_name == 'fight' and player.won:
-                            player.won = False
+                        if self.scene_name == 'fight' and entities.player.won:
+                            entities.player.won = False
                             if button.obj == 'close':
-                                textipy.game.scenes[Scene.won_fight_scene].run_scene()
+                                game.scenes[Scene.won_fight_scene].run_scene()
                         elif self.scene_name =='fight' and button.obj == 'close':
-                            if player.combat:
-                                del textipy.game.scenes['Fight'].buttons['attack']
-                            player.combat = False
+                            if entities.player.combat:
+                                del game.scenes['Fight'].buttons['attack']
+                            entities.player.combat = False
 
                         if is_scene_type_game:
                             Scene.previous_story_scene = scene_key
@@ -345,9 +348,9 @@ class Scene:
                         scene.run_scene()                                
 
     def get_current_scene_key(self):
-        """ Eng : This function return current scene key in game textipy dict """
+        """ Eng : This function return current scene key in game dict """
         """ Fr : """
-        for key, scene in textipy.game.scenes.items():
+        for key, scene in game.scenes.items():
             if scene.scene_name == self.scene_name:
                 return key
 
@@ -369,7 +372,7 @@ class StoryScene(Scene):
 
     def render_previous_story(self):
         if self.scene_name != 'Pregame':
-            for i, line in enumerate(textipy.game.scenes[Scene.previous_story_scene].process_story_text()):
+            for i, line in enumerate(game.scenes[Scene.previous_story_scene].process_story_text()):
                 gui.render_text(line, int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 - 180 + i * 15), size = 14, Regular=True, color=Gui.colors['grey'])
         
     def render_choices(self):
@@ -409,7 +412,285 @@ class StoryScene(Scene):
         return processed_text.splitlines()
 
 
-class Button():
+################################# Menu Template #################################
+def menu_template():
+    gui.render_gui(pause=True)
+    gui.render_transparent_background()
+    # render frame 
+    gui.render_frame('normal', 'pause')
+    # render close button
+    game.scenes['Menu'].buttons['close'] = Button('button_close', int(DISPLAY_WIDTH) - 55, int(DISPLAY_HEIGHT/2) - 135, Scene.previous_scene)
+    # render menu options
+    game.scenes['Menu'].buttons["home"] = Button('New Game', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 - 40), 'home', category='text')
+    game.scenes['Menu'].buttons["exit"] = Button('Exit Game', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + 10), 'exit', category='text')
+    game.scenes['Menu'].buttons["credit"] = Button('Credit', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + 60), 'credit', category='text')
+    
+
+################################# Monster Fight Template #################################
+def fight_template():
+    monster = entities.player.is_fighting
+    try:
+        monster_gold = monster.gold
+        monster_item = monster.item
+    except:
+        pass 
+    
+    # render structure ######################
+    gui.render_gui(pause=True)
+    gui.render_transparent_background()
+    # render frame
+    gui.render_frame('big-up', 'Fight')
+    # render run/close button
+    if not monster.run and entities.player.combat:
+        game.scenes['Fight'].buttons['close'] = Button('button_close', int(DISPLAY_WIDTH) - 55, int(DISPLAY_HEIGHT/2) - 175, ' ')
+    else:
+        game.scenes['Fight'].buttons['close'] = Button('button_close', int(DISPLAY_WIDTH) - 55, int(DISPLAY_HEIGHT/2) - 175, Scene.previous_scene, obj='close')
+    # end structure ######################
+
+    if entities.player.won:
+        # render goods ######################################
+        gui.render_text(f'You won +{monster_gold} gold', int(DISPLAY_WIDTH/2),  int(DISPLAY_HEIGHT/2 + 80), Regular=True, size=24)
+        gui.render_text(f'and a {monster_item.capitalize()}.', int(DISPLAY_WIDTH/2),  int(DISPLAY_HEIGHT/2 + 110), Regular=True, size=24)
+
+        # stats
+        gui.render_text(f'Gold {int(entities.player.gold)}', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 - 100), size=18, Regular=True)
+        gui.render_text(f'Attack {int(entities.player.attack)}', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 - 80), size=18, Regular=True)
+        gui.render_text(f'Defense {int(entities.player.defence)}', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 - 60), size=18, Regular=True)
+        # render entities.player's health bar
+        gui.render_image('./textipy/assets/frames/bar-small.png', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 - 20))
+        # render entities.player's level bar
+        gui.render_image('./textipy/assets/frames/bar-small.png', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + 15))
+        # render icons
+        gui.render_image('./textipy/assets/icons/heart-small.png', int(DISPLAY_WIDTH/2 - 52), int(DISPLAY_HEIGHT/2 - 20))
+        gui.render_image('./textipy/assets/icons/level-small.png', int(DISPLAY_WIDTH/2 - 52), int(DISPLAY_HEIGHT/2 + 13))
+        # render dynamique bar for both health and levels
+        gui.render_rect(int(DISPLAY_WIDTH/2 - 39), int(DISPLAY_HEIGHT/2 - 30), int(101 * entities.player.health/entities.player.max_health), 18, Gui.colors['red'])
+        gui.render_rect(int(DISPLAY_WIDTH/2 - 39), int(DISPLAY_HEIGHT/2 + 5), int(101 * entities.player.current_xp/entities.player.max_xp), 18, Gui.colors['yellow'])
+        # render stats on bars
+        gui.render_text(f'{int(entities.player.health)}/{int(entities.player.max_health)}', int(DISPLAY_WIDTH/2 + 10), int(DISPLAY_HEIGHT/2 - 20), size = 10)
+        gui.render_text(f'Level {int(entities.player.level)}', int(DISPLAY_WIDTH/2 + 10), int(DISPLAY_HEIGHT/2 + 15), size = 10)
+        # end entities.player stats #######################################
+    else:
+        # render entities.player stats ######################################
+        gui.render_text('You', int(DISPLAY_WIDTH/2 - 120), int(DISPLAY_HEIGHT/2 - 110), size=28, Regular=True)
+        # stats
+        gui.render_text(f'Gold {int(entities.player.gold)}', int(DISPLAY_WIDTH/2 - 110), int(DISPLAY_HEIGHT/2 - 70), size=18, Regular=True)
+        gui.render_text(f'Attack {int(entities.player.attack)}', int(DISPLAY_WIDTH/2 - 100), int(DISPLAY_HEIGHT/2 - 50), size=18, Regular=True)
+        gui.render_text(f'Defense {int(entities.player.defence)}', int(DISPLAY_WIDTH/2 - 95), int(DISPLAY_HEIGHT/2 - 30), size=18, Regular=True)
+        # render entities.player's health bar
+        gui.render_image('./textipy/assets/frames/bar-small.png', int(DISPLAY_WIDTH/2 - 80), int(DISPLAY_HEIGHT/2 + 10))
+        # render entities.player's armor bar
+        gui.render_image('./textipy/assets/frames/bar-small.png', int(DISPLAY_WIDTH/2 - 80), int(DISPLAY_HEIGHT/2 + 45))
+        # render icons
+        gui.render_image('./textipy/assets/icons/heart-small.png', int(DISPLAY_WIDTH/2 - 132), int(DISPLAY_HEIGHT/2 + 10))
+        gui.render_image('./textipy/assets/icons/level-small.png', int(DISPLAY_WIDTH/2 - 132), int(DISPLAY_HEIGHT/2 + 43))
+        # render dynamique bar for both health and levels
+        gui.render_rect(int(DISPLAY_WIDTH/2 - 119), int(DISPLAY_HEIGHT/2+1), int(101 * entities.player.health/entities.player.max_health), 18, Gui.colors['red'])
+        gui.render_rect(int(DISPLAY_WIDTH/2 - 119), int(DISPLAY_HEIGHT/2 + 35), int(101 * entities.player.current_xp/entities.player.max_xp), 18, Gui.colors['yellow'])
+        # render stats on bars
+        gui.render_text(f'{int(entities.player.health)}/{int(entities.player.max_health)}', int(DISPLAY_WIDTH/2 - 70), int(DISPLAY_HEIGHT/2 + 10), size = 10)
+        gui.render_text(f'Level {int(entities.player.level)}', int(DISPLAY_WIDTH/2 - 70), int(DISPLAY_HEIGHT/2 + 45), size = 10)
+        # end entities.player stats #######################################
+        #render VS on screen
+        gui.render_text('VS', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 - 40), size = 37)
+
+        # render enemy stats ######################################
+        gui.render_text(monster.name, int(DISPLAY_WIDTH/2 + 85), int(DISPLAY_HEIGHT/2 - 110), size=28, Regular=True)
+        # stats
+        gui.render_text(f'Gold {int(monster.gold)}', int(DISPLAY_WIDTH/2 + 110), int(DISPLAY_HEIGHT/2 - 70), size=18, Regular=True)
+        gui.render_text(f'Attack {int(monster.attack)}', int(DISPLAY_WIDTH/2 + 100), int(DISPLAY_HEIGHT/2 - 50), size=18, Regular=True)
+        gui.render_text(f'Defense {int(monster.defence)}', int(DISPLAY_WIDTH/2 + 95), int(DISPLAY_HEIGHT/2 - 30), size=18, Regular=True)
+        # render entities.player's health bar
+        gui.render_image('./textipy/assets/frames/bar-small.png', int(DISPLAY_WIDTH/2 + 80), int(DISPLAY_HEIGHT/2 + 10))
+        # render entities.player's armor bar
+        gui.render_image('./textipy/assets/frames/bar-small.png', int(DISPLAY_WIDTH/2 + 80), int(DISPLAY_HEIGHT/2 + 45))
+        # render icons
+        gui.render_image('./textipy/assets/icons/heart-small.png', int(DISPLAY_WIDTH/2 + 28), int(DISPLAY_HEIGHT/2 + 10))
+        gui.render_image('./textipy/assets/icons/level-small.png', int(DISPLAY_WIDTH/2 + 28), int(DISPLAY_HEIGHT/2 + 43))
+        # render dynamique bar for both health and levels
+        gui.render_rect(int(DISPLAY_WIDTH/2 + 40), int(DISPLAY_HEIGHT/2+1), int(101 * monster.health/monster.max_health), 18, Gui.colors['red'])
+        gui.render_rect(int(DISPLAY_WIDTH/2 + 40), int(DISPLAY_HEIGHT/2 + 35), 45, 18, Gui.colors['yellow'])
+        # render stats on bars
+        gui.render_text(f'{int(monster.health)}/{int(monster.max_health)}', int(DISPLAY_WIDTH/2 + 90), int(DISPLAY_HEIGHT/2 + 10), size = 10)
+        gui.render_text(f'Level {int(monster.level)}', int(DISPLAY_WIDTH/2 + 90), int(DISPLAY_HEIGHT/2 + 44), size = 10)
+        # end enemy stats #######################################
+
+    # render fight button and fight logic
+    if entities.player.combat:
+        if entities.player.is_turn:
+            game.scenes['Fight'].buttons['attack'] = Button('button_small', int(DISPLAY_WIDTH/2), DISPLAY_HEIGHT - 190, 'attack')
+            gui.render_text('Attack', int(DISPLAY_WIDTH/2),  DISPLAY_HEIGHT - 190, Regular=True, size=20)
+        else:
+            monster.attacking()
+    elif not entities.player.won:
+        game.scenes['Fight'].buttons['fight'] = Button('button_small', int(DISPLAY_WIDTH/2), DISPLAY_HEIGHT - 190, 'fight')
+        gui.render_text('Fight', int(DISPLAY_WIDTH/2),  DISPLAY_HEIGHT - 190, Regular=True, size=20)
+
+    
+################################# Game Credit Template #################################
+def credit_template():
+    gui.render_gui(pause=True)
+    gui.render_transparent_background()
+    ## render frame
+    gui.render_frame('big', 'credit')
+    # render close button
+    if Scene.previous_story_scene != None:
+        game.scenes['Credit'].buttons['close'] = Button('button_close', DISPLAY_WIDTH - 60,  int(DISPLAY_HEIGHT/2) - 160, Scene.previous_story_scene)
+    else:
+        game.scenes['Credit'].buttons['close'] = Button('button_close', DISPLAY_WIDTH - 60,  int(DISPLAY_HEIGHT/2) - 160, 'Pregame')
+
+    # render credit
+    gui.render_text('Game design & production', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 - 40), size = 16, Regular=True)
+    gui.render_text('Youness Id bakkasse', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 - 10), size = 25, Regular=True)
+    gui.render_text('Sound effects', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + 50), size = 16, Regular=True)
+    gui.render_text('Soundhound.com', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + 80), size = 25, Regular=True)
+
+
+################################# Stats Template #################################
+def stats_template():
+    gui.render_gui(pause=True)
+    gui.render_transparent_background()
+    # render frame
+    gui.render_frame('normal', 'stats')
+    # render close button
+    game.scenes['Stats'].buttons['close'] = Button('button_close', int(DISPLAY_WIDTH) - 55, int(DISPLAY_HEIGHT/2) - 135, Scene.previous_scene)
+    # render stats
+    gui.render_text(f'Gold {int(entities.player.gold)}', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 - 70), size=22, Regular=True)
+    gui.render_text(f'Attack {int(entities.player.attack)}', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 - 40), size=22, Regular=True)
+    gui.render_text(f'Defense {int(entities.player.defence)}', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 - 10), size=22, Regular=True)
+
+    # render entities.player's health bar
+    gui.render_image('./textipy/assets/frames/bar.png', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + 35))
+    # render entities.player's level bar
+    gui.render_image('./textipy/assets/frames/bar.png', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + 80))
+
+    # render icons
+    gui.render_image('./textipy/assets/icons/heart.png', int(DISPLAY_WIDTH/2 - 72), int(DISPLAY_HEIGHT/2 + 35))
+    gui.render_image('./textipy/assets/icons/level.png', int(DISPLAY_WIDTH/2 - 72), int(DISPLAY_HEIGHT/2 + 80))
+
+    # render dynamique bar for both health and levels
+    gui.render_rect(int(DISPLAY_WIDTH/2 - 55), int(DISPLAY_HEIGHT/2 + 22), int(140 * entities.player.health/entities.player.max_health), 25, Gui.colors['red'])
+    gui.render_rect(int(DISPLAY_WIDTH/2 - 55), int(DISPLAY_HEIGHT/2 + 67), int(140 * entities.player.current_xp/entities.player.max_xp), 25, Gui.colors['yellow'])
+
+    # render stats on bars
+    gui.render_text(f'{int(entities.player.health)}/{int(entities.player.max_health)}', int(DISPLAY_WIDTH/2 + 10), int(DISPLAY_HEIGHT/2 + 35), size = 14)
+    gui.render_text(f'Level {int(entities.player.level)}', int(DISPLAY_WIDTH/2 + 10), int(DISPLAY_HEIGHT/2 + 80), size = 14)
+
+################################# HomeTemplate #################################
+def home_template():
+    # render big centered logo
+    gui.render_logo(160, True)
+    # start game button
+    game.scenes['Home'].buttons["Pregame"] = Button('button_game', DISPLAY_WIDTH/2, DISPLAY_HEIGHT- 170, 'Pregame')
+
+################################# How to play Template #################################
+def howtoplay_template():
+    gui.render_gui(pause=True)
+    gui.render_transparent_background()
+    # render frame
+    gui.render_frame('big', 'how to play')
+    # render close button
+    game.scenes['Help'].buttons['close'] = Button('button_close', int(DISPLAY_WIDTH) - 55,  int(DISPLAY_HEIGHT/2) - 165, Scene.previous_scene)
+    # render how to play content
+    gui.render_text('Use your mouse to play', int(DISPLAY_WIDTH/2 - 40), int(DISPLAY_HEIGHT/2 - 100), size = 22, Regular=True)
+
+################################# Inventory Template #################################
+def inventory_template():
+    # BUG: there is a bug in inventory why the fuck the equip or use button function on the right side only
+    # BUG: there is another bug in navigation when an item desipears on right all navigating btns desipear too
+    gui.render_gui(pause=True)
+    gui.render_transparent_background()
+    def frame():
+        # render frame
+        gui.render_frame('big', 'inventory')
+        # render close button
+        game.scenes['Inventory'].buttons['close'] = Button('button_close', int(DISPLAY_WIDTH) - 55,  int(DISPLAY_HEIGHT/2) - 165, Scene.previous_scene)
+    frame()
+    if len(entities.player.inventory) == 0:
+        # render no item message
+        gui.render_text("There's no items", int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 - 3), Regular=True, size=19)
+        gui.render_text("in your inventory.", int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + 21), Regular=True, size=19)
+    # render left and right buttons
+    else:
+        # render item holder
+        for i, item in enumerate(list(entities.player.inventory.items())[entities.player.n:entities.player.n+2]):
+            gui.render_image('./textipy/assets/frames/holder.png', int(DISPLAY_WIDTH/2 - (-2*i+1)*75), int(DISPLAY_HEIGHT/2))
+
+            # render item info
+            # render shields and weapons elements
+            gui.render_text(item[1].name, int(DISPLAY_WIDTH/2 - (-2*i+1)*75),  int(DISPLAY_HEIGHT/2) - 100, Regular=True, size=16)
+            if item[1].type == 'shield' or item[1].type == 'weapon':
+                gui.render_text(f'Atk +{item[1].attack}', int(DISPLAY_WIDTH/2 - (-2*i+1)*75),  int(DISPLAY_HEIGHT/2) - 64, Regular=True, size=18)
+                gui.render_text(f'Def +{item[1].defence}', int(DISPLAY_WIDTH/2 - (-2*i+1)*75),  int(DISPLAY_HEIGHT/2) - 42, Regular=True, size=18)
+                game.scenes['Inventory'].buttons[f'equip {item[0]}'] = Button('button_really_small', int(DISPLAY_WIDTH/2 - (-2*i+1)*75),  int(DISPLAY_HEIGHT/2) + 120, item[1].status.casefold(), obj=item[1])
+                gui.render_text(item[1].status, int(DISPLAY_WIDTH/2 - (-2*i+1)*75),  int(DISPLAY_HEIGHT/2) + 120, Regular=True, size=18)
+            # render food elements
+            elif item[1].type == 'food' or item[1].type == 'potion':
+                gui.render_text(f'Health', int(DISPLAY_WIDTH/2 - (-2*i+1)*75),  int(DISPLAY_HEIGHT/2) - 64, Regular=True, size=18)
+                gui.render_text(f'+{item[1].health} HP', int(DISPLAY_WIDTH/2 - (-2*i+1)*75),  int(DISPLAY_HEIGHT/2) - 42, Regular=True, size=18)
+                game.scenes['Inventory'].buttons[f'use {item[0]}'] = Button('button_really_small', int(DISPLAY_WIDTH/2 - (-2*i+1)*75),  int(DISPLAY_HEIGHT/2) + 120, 'use', obj=item[1])
+                gui.render_text('Use', int(DISPLAY_WIDTH/2 - (-2*i+1)*75),  int(DISPLAY_HEIGHT/2) + 120, Regular=True, size=18)
+            # render Sell buttons
+            elif item[1].type == 'or' or item[1].type == 'material':
+                gui.render_text(f'Value', int(DISPLAY_WIDTH/2 - (-2*i+1)*75),  int(DISPLAY_HEIGHT/2) - 64, Regular=True, size=18)
+                gui.render_text(f'+{item[1].value} Gold', int(DISPLAY_WIDTH/2 - (-2*i+1)*75),  int(DISPLAY_HEIGHT/2) - 42, Regular=True, size=18)
+                game.scenes['Inventory'].buttons[f'sell {item[0]}'] = Button('button_really_small', int(DISPLAY_WIDTH/2 - (-2*i+1)*75),  int(DISPLAY_HEIGHT/2) + 120, 'sell', obj=item[1])
+                gui.render_text('Sell', int(DISPLAY_WIDTH/2 - (-2*i+1)*75),  int(DISPLAY_HEIGHT/2) + 120, Regular=True, size=18)
+            # render item image
+            gui.render_image(f'./textipy/assets/items/{item[0]}.png', int(DISPLAY_WIDTH/2 - (-2*i+1)*75), int(DISPLAY_HEIGHT/2 + 25), scale=True)
+            i += 1
+
+        # render navigation button for carsuoal
+        # render right arrow
+        if len(entities.player.inventory) > 2 and not entities.player.n >= len(entities.player.inventory) - 2:
+            game.scenes['Inventory'].buttons['right arrow'] = Button("button_right", DISPLAY_WIDTH - 45, int(DISPLAY_HEIGHT/2), 'next', category='navigate')
+        # render left arrow
+        if len(entities.player.inventory) > 2 and entities.player.n > 0:
+            game.scenes['Inventory'].buttons['left arrow'] = Button("button_left", 45, int(DISPLAY_HEIGHT/2), 'previous', category='navigate')   
+    # entities.player checked his inventory
+    entities.player.inventory_checked = True
+
+################################# Quests Template #################################
+def quests_template():
+    gui.render_gui(pause=True)
+    gui.render_transparent_background()
+    # render frame
+    gui.render_frame('normal', 'quests')
+    # render close button
+    game.scenes['Quests'].buttons['close'] = Button('button_close', int(DISPLAY_WIDTH) - 55, int(DISPLAY_HEIGHT/2) - 135, Scene.previous_scene)
+    # render how to play content
+    gui.render_text('Current quest:', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 - 30), size=22, Regular=True)
+    gui.render_text('Find the man with', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + 10), size=28, Regular=True)
+    gui.render_text('the footprints.', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + 42), size=28, Regular=True)
+
+################################# Store Template #################################
+def store_template():
+    gui.render_gui(pause=True)
+    gui.render_transparent_background()
+    # render frame
+    gui.render_frame('normal', 'store')
+    # render close          
+    game.scenes['Store'].buttons['close'] = Button('button_close', int(DISPLAY_WIDTH) - 55, int(DISPLAY_HEIGHT/2) - 135, Scene.previous_scene)
+    # render how to play content
+    gui.render_text("Store is available only", int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 - 10), Regular=True, size=19)
+    gui.render_text("at level 10.", int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + 10), Regular=True, size=19)
+
+################################# Game Over Template #################################
+def gameover_template():
+    # render game over text
+    gui.render_text("You just got killed ", int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 - 120), Regular=True, size=32)
+    gui.render_text(f"by {entities.player.is_fighting.name}.", int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 - 80), Regular=True, size=32)
+    # render new game          
+    game.scenes['Game Over'].buttons['new game'] = Button('button_small', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + 35), 'home')
+    gui.render_text("New Game", int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + 35), Regular=True, size=22)
+    # render exit game          
+    game.scenes['Game Over'].buttons['exit game'] = Button('button_small', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + 100), 'exit')
+    gui.render_text("Exit Game", int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + 100), Regular=True, size=22)
+
+    
+
+
+class Button:
     def __init__(self, path, x, y, destination, category = 'normal', obj = None):
         self.path = path
         self.destination = destination
@@ -426,5 +707,45 @@ class Button():
             self.rect = gui.render_button(path, x, y)
         else:
             self.rect = gui.render_button(path, x, y)
+   
+
+class Game:
+    def __init__(self):
+        # Constructing GUI scenes
+        self.title = '' 
+        self.scenes = {
+            # Paused scenes ##################################################
+            'Home' : Scene('home', home_template),
+            'Menu' : Scene('menu', menu_template),
+            'Inventory' : Scene('inventory', inventory_template),
+            'Credit' : Scene('credit', credit_template),
+            'Help' : Scene('how to play', howtoplay_template),
+            'Stats' : Scene('stats', stats_template),
+            'Quests' : Scene('quests', quests_template),
+            'Store' : Scene('store', store_template),
+            'Fight' : Scene('fight', fight_template),
+            'Game Over' : Scene('game over', gameover_template),
+            }
+
+    def run(self):
+        self.scenes['Home'].run_scene()  
+
+game = Game()
+
+# Comment : First scene
+game.scenes['Pregame'] = StoryScene(
+        name = 'Pregame',
+        buttons = [['Commencer', 'Autre', 'normal']],
+        text = 'Bonne annee à tous le monde.',
+)
+
+# Comment : Second scene
+game.scenes['Autre'] = StoryScene(
+        name = 'Autre',
+        buttons = [['Start Playing', '', 'normal']],
+        text = 'Hi there, this a story game, its scary out there are you sure you wanna play.',
+)
+
+game.run()
 
 

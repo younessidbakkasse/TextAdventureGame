@@ -27,7 +27,7 @@ class Game:
             'Store' : Scene('store',store_template),
             'Fight' : Scene('fight', fight_template),
             'Game Over' : Scene('game over', gameover_template),
-        }
+            }
 
     def run(self):
         self.scenes['Home'].run_scene()  
