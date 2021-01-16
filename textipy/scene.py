@@ -1,5 +1,5 @@
-from entities import player
-import sys, pygame, random, textipy
+from entities import player, manager, random
+import sys, pygame
 
 # Eng : global variables
 # Fr : Variables globales
@@ -19,10 +19,10 @@ class Gui:
     pygame.mixer.init()
 
     # Eng : game music
-    hurt_sound = pygame.mixer.Sound("./textipy/assets/sounds/hurt.wav")
-    add_item_sound = pygame.mixer.Sound("./textipy/assets/sounds/add_item.wav")
-    click_sound = pygame.mixer.Sound("./textipy/assets/sounds/click.wav")
-    close_sound = pygame.mixer.Sound("./textipy/assets/sounds/close.wav")
+    hurt_sound = pygame.mixer.Sound("./assets/sounds/hurt.wav")
+    add_item_sound = pygame.mixer.Sound("./assets/sounds/add_item.wav")
+    click_sound = pygame.mixer.Sound("./assets/sounds/click.wav")
+    close_sound = pygame.mixer.Sound("./assets/sounds/close.wav")
 
     display = pygame.display.set_mode((DISPLAY_WIDTH, DISPLAY_HEIGHT))
     clock = pygame.time.Clock()
@@ -34,7 +34,7 @@ class Gui:
 
     # Eng : set up game favicon
     # Fr : l'icon du jeu
-    favicon = pygame.image.load("./textipy/assets/icons/favicon.png")
+    favicon = pygame.image.load("./assets/icons/favicon.png")
     pygame.display.set_icon(favicon)
 
     # Eng : the following loop generates random white squares
@@ -99,22 +99,22 @@ class Gui:
     def render_frame(self, frame_type, frame_name):
         if frame_type == 'normal':
             # render frame
-            self.render_image(f'./textipy/assets/frames/{frame_type}.png', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2))
+            self.render_image(f'./assets/frames/{frame_type}.png', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2))
             # render menu pause title
             self.render_text(frame_name, int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 - 110))
         elif frame_type == 'big':
             # render frame
-            self.render_image(f'./textipy/assets/frames/{frame_type}.png', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + 20))
+            self.render_image(f'./assets/frames/{frame_type}.png', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + 20))
             # render menu pause title
             self.render_text(frame_name, int(DISPLAY_WIDTH/2), 160)
         elif frame_type == 'big-up':
             # render frame
-            self.render_image(f'./textipy/assets/frames/big.png', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2))
+            self.render_image(f'./assets/frames/big.png', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2))
             # render menu pause title
             self.render_text(frame_name, int(DISPLAY_WIDTH/2), 140)
         elif frame_type == 'huge':
             # render frame
-            self.render_image(f'./textipy/assets/frames/{frame_type}.png', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + 10))
+            self.render_image(f'./assets/frames/{frame_type}.png', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 + 10))
             # render menu pause title
             self.render_text(frame_name, int(DISPLAY_WIDTH/2), 77)
 
@@ -136,11 +136,11 @@ class Gui:
     def render_button(self, name, x, y):
         """ Eng : this function draw buttons from the asset/button file and checks hover effect """
         """ Fr : cette fonction dessine les button sur l'ecran"""
-        path = f"./textipy/assets/buttons/buttons_normal/{name}.png"
+        path = f"./assets/buttons/buttons_normal/{name}.png"
         button = self.render_image(path, x, y + 3)
         mx, my = pygame.mouse.get_pos()
         if button.collidepoint(mx, my):
-            path = f"./textipy/assets/buttons/buttons_pressed/{name}.png"
+            path = f"./assets/buttons/buttons_pressed/{name}.png"
             button_pressed = self.render_image(path, x, y)
             return button_pressed
         return button
@@ -150,9 +150,9 @@ class Gui:
         """ Eng : Draws any text on the scene window and also returns a rectangle object wich have 
         coord attributes and collide methode """
         """ Fr : dessiner les textes"""
-        game_font = pygame.font.Font("./textipy/assets/fonts/Minecraft.ttf", size)
+        game_font = pygame.font.Font("./assets/fonts/Minecraft.ttf", size)
         if Regular:
-            game_font = pygame.font.Font("./textipy/assets/fonts/MinecraftRegular.otf", size)
+            game_font = pygame.font.Font("./assets/fonts/MinecraftRegular.otf", size)
         text_surface = game_font.render(text, False, color)
         text_rect = text_surface.get_rect(center = (int(x), int(y)))
         Gui.display.blit(text_surface, text_rect)
@@ -260,7 +260,7 @@ class Scene:
         button (rect) and also allows scene transitions from self to another depending 
         on the button's name"""
         scene_key = self.get_current_scene_key()
-        is_scene_type_game = isinstance(textipy.game.scenes[scene_key], StoryScene)
+        is_scene_type_game = isinstance(manager.game.scenes[scene_key], StoryScene)
         # only works in python 3.9 and above
         buttons = gui.gui_buttons | self.buttons
         if not is_scene_type_game:
@@ -292,7 +292,7 @@ class Scene:
                         Scene.previous_scene = self.scene_name
                         player.fight(button.category[6:])
                         Scene.won_fight_scene = button.destination
-                        textipy.game.scenes['Fight'].run_scene()
+                        manager.game.scenes['Fight'].run_scene()
 
                     elif 'event' in button.category:
                         player.health -= int(button.category[6:])
@@ -316,10 +316,10 @@ class Scene:
                     break
                 elif button.destination == 'fight':
                     player.combat = True
-                    del textipy.game.scenes['Fight'].buttons[button.destination]
+                    del manager.game.scenes['Fight'].buttons[button.destination]
                     break
                 elif button.destination == 'attack':
-                    del textipy.game.scenes['Fight'].buttons[button.destination]
+                    del manager.game.scenes['Fight'].buttons[button.destination]
                     player.attacking() 
                     break
                 elif button.destination == 'home':
@@ -327,15 +327,15 @@ class Scene:
                 elif button.destination == 'exit':
                         pygame.quit()
                         sys.exit()
-                for scene in textipy.game.scenes.values():
+                for scene in manager.game.scenes.values():
                     if scene.scene_name == button.destination:
                         if self.scene_name == 'fight' and player.won:
                             player.won = False
                             if button.obj == 'close':
-                                textipy.game.scenes[Scene.won_fight_scene].run_scene()
+                                manager.game.scenes[Scene.won_fight_scene].run_scene()
                         elif self.scene_name =='fight' and button.obj == 'close':
                             if player.combat:
-                                del textipy.game.scenes['Fight'].buttons['attack']
+                                del manager.game.scenes['Fight'].buttons['attack']
                             player.combat = False
 
                         if is_scene_type_game:
@@ -344,19 +344,19 @@ class Scene:
                         scene.run_scene()                                
 
     def get_current_scene_key(self):
-        """ Eng : This function return current scene key in game textipy dict """
+        """ Eng : This function return current scene key in game manager dict """
         """ Fr : """
-        for key, scene in textipy.game.scenes.items():
+        for key, scene in manager.game.scenes.items():
             if scene.scene_name == self.scene_name:
                 return key
 
 class StoryScene(Scene):
-    def __init__(self, name = None, buttons = None, text = None, template_closure = gui.render_gui):
+    def __init__(self, scene_name, choices, story_text, template_closure = gui.render_gui):
         """ Eng : """
         """ Fr : """
-        super().__init__(name, template_closure)
-        self.story_text = text
-        self.choices = buttons
+        super().__init__(scene_name, template_closure)
+        self.story_text = story_text
+        self.choices = choices
         self.last_line = 0
 
     def render_story_text(self):
@@ -368,7 +368,7 @@ class StoryScene(Scene):
 
     def render_previous_story(self):
         if self.scene_name != 'Pregame':
-            for i, line in enumerate(textipy.game.scenes[Scene.previous_story_scene].process_story_text()):
+            for i, line in enumerate(manager.game.scenes[Scene.previous_story_scene].process_story_text()):
                 gui.render_text(line, int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 - 180 + i * 15), size = 14, Regular=True, color=Gui.colors['grey'])
         
     def render_choices(self):

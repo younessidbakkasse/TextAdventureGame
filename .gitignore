@@ -1,6 +1,3 @@
-
-/venv
-
 .vscode/*
 !.vscode/settings.json
 

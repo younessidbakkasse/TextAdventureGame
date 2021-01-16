@@ -1,5 +1,5 @@
 # Textipy : An Adventure Text Game Engine
-An easy way to create rpg text games using Python.
+An easy way to create rpg textual games using Python.
 
 
 ## Getting Started
@@ -7,7 +7,7 @@ An easy way to create rpg text games using Python.
 
 2) Open cmd/terminal and type:
 
-        pip install -i https://test.pypi.org/simple/ textipy
+        pip install textipy
 
 If you want to install the newest version from git use this command:
 
@@ -22,12 +22,11 @@ repo and install as develop like this. Make sure you have git installed. https:/
 
         git clone https://github.com/younessidbakkasse/textipy
 
-Also install pygame module using this command:
-
-        pip install pygame
-
+The package installation will also install pygame 2.0.1
 
 On some systems you might have to use pip3 instead of pip in order to use Python 3 and not the old Python 2.
+
+3) Start your first game screen by importing the game object.
 
 
 ## Dependencies
