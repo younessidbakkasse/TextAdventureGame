@@ -2,7 +2,8 @@
     its a school project to initiat with Python programming 
   more informations and licence please check README file attached to the folder. 
 """
-from manager import game
+from manager import game, scenario_en
 
 if __name__ == "__main__":
+    game.scenes.update(scenario_en)
     game.run()
