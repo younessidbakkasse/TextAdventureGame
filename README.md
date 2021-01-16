@@ -33,7 +33,7 @@ On some systems you might have to use pip3 instead of pip in order to use Python
 
 ## Dependencies
   * pygame 1.9+
-  
+
   
 ## Examples
 ``` python
@@ -92,6 +92,10 @@ game.scenes['Second Scene'] = StoryScene(
 
 game.run()                       # opens a window and starts the game.
 ```
+
+## Bugs
+Please note that this is a pre-release version and, like all pre-releases, it certainly has bugs we don’t know about. If you run into any problems, please report them at : std.youness@gmail.com
+
 
 # Contributions
 Any pull requests are welcomed! We will have the code checked carefully. Please contact me at : std.youness@gmail.com if you have any thoughts on how to make this a better project.
