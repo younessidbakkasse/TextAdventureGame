@@ -1,6 +1,8 @@
 # Textipy : An Adventure Text Game Engine
 An easy way to create rpg textual games using Python.
 
+![Banner](/docs/home.png)
+
 
 ## Getting Started
 1) Install Python 3.9 or newer. https://www.python.org/downloads/
