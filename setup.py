@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="textipy", 
-    version="1.0.1",
+    version="1.0.2",
     author="Youness ID BAKKASSE",
     author_email="std.youness@gmail.com",
     description="A textual simple game engine powered by Python and Pygame.",

@@ -11,6 +11,7 @@ from template import (
     gameover_template,
     Scene,
     StoryScene,
+    Gui,
 ) 
 
 
