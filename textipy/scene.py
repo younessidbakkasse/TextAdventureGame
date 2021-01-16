@@ -1,4 +1,4 @@
-from entities import player, manager, random
+from entities import player, textipy, random
 import sys, pygame
 
 # Eng : global variables
@@ -260,7 +260,7 @@ class Scene:
         button (rect) and also allows scene transitions from self to another depending 
         on the button's name"""
         scene_key = self.get_current_scene_key()
-        is_scene_type_game = isinstance(manager.game.scenes[scene_key], StoryScene)
+        is_scene_type_game = isinstance(textipy.game.scenes[scene_key], StoryScene)
         # only works in python 3.9 and above
         buttons = gui.gui_buttons | self.buttons
         if not is_scene_type_game:
@@ -292,7 +292,7 @@ class Scene:
                         Scene.previous_scene = self.scene_name
                         player.fight(button.category[6:])
                         Scene.won_fight_scene = button.destination
-                        manager.game.scenes['Fight'].run_scene()
+                        textipy.game.scenes['Fight'].run_scene()
 
                     elif 'event' in button.category:
                         player.health -= int(button.category[6:])
@@ -316,10 +316,10 @@ class Scene:
                     break
                 elif button.destination == 'fight':
                     player.combat = True
-                    del manager.game.scenes['Fight'].buttons[button.destination]
+                    del textipy.game.scenes['Fight'].buttons[button.destination]
                     break
                 elif button.destination == 'attack':
-                    del manager.game.scenes['Fight'].buttons[button.destination]
+                    del textipy.game.scenes['Fight'].buttons[button.destination]
                     player.attacking() 
                     break
                 elif button.destination == 'home':
@@ -327,15 +327,15 @@ class Scene:
                 elif button.destination == 'exit':
                         pygame.quit()
                         sys.exit()
-                for scene in manager.game.scenes.values():
+                for scene in textipy.game.scenes.values():
                     if scene.scene_name == button.destination:
                         if self.scene_name == 'fight' and player.won:
                             player.won = False
                             if button.obj == 'close':
-                                manager.game.scenes[Scene.won_fight_scene].run_scene()
+                                textipy.game.scenes[Scene.won_fight_scene].run_scene()
                         elif self.scene_name =='fight' and button.obj == 'close':
                             if player.combat:
-                                del manager.game.scenes['Fight'].buttons['attack']
+                                del textipy.game.scenes['Fight'].buttons['attack']
                             player.combat = False
 
                         if is_scene_type_game:
@@ -344,9 +344,9 @@ class Scene:
                         scene.run_scene()                                
 
     def get_current_scene_key(self):
-        """ Eng : This function return current scene key in game manager dict """
+        """ Eng : This function return current scene key in game textipy dict """
         """ Fr : """
-        for key, scene in manager.game.scenes.items():
+        for key, scene in textipy.game.scenes.items():
             if scene.scene_name == self.scene_name:
                 return key
 
@@ -368,7 +368,7 @@ class StoryScene(Scene):
 
     def render_previous_story(self):
         if self.scene_name != 'Pregame':
-            for i, line in enumerate(manager.game.scenes[Scene.previous_story_scene].process_story_text()):
+            for i, line in enumerate(textipy.game.scenes[Scene.previous_story_scene].process_story_text()):
                 gui.render_text(line, int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2 - 180 + i * 15), size = 14, Regular=True, color=Gui.colors['grey'])
         
     def render_choices(self):
