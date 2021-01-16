@@ -2,7 +2,7 @@
     the scenario_en is a dict full of already made text and buttons in english, you can use 
     the french version by remplacing 'scenario_en' 'to scenario_fr'.
 """
-from textipy import game, scenario_en, scenario_fr 
+from textipy import game, scenario_en, scenario_f 
 
 if __name__ == "__main__":
     # Remove this line if you want to start your game from scratch

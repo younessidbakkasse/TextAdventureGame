@@ -29,7 +29,7 @@ On some systems you might have to use pip3 instead of pip in order to use Python
   
 ## Examples
 ``` python
-from textipy import *            # this will import everything we need from the engine manager with just one line.
+from textipy import game           # this will import everything we need from the engine manager with just one line.
 
 game.run()                       # opens a window and starts the game.
 ```
@@ -53,15 +53,15 @@ game.scenes['Pregame'] = StoryScene(
 game.run()                       # opens a window and starts the game.
 ```
 
-3) Type this in the terminal to start the game:
+4) Type this in the terminal to start the game:
 
        python my_game.py
    If you use Vscode, I recommend installing the python extension to tun on your scripts with the press of a button.
 
-4) you can now control the game there a gui button such as inventory or profile, you can exit the game using the menu
+5) you can now control the game there a gui button such as inventory or profile, you can exit the game using the menu
 selection exit game.
 
-5) to link two scenes you need to create a sceond scene exemple below, and add it's name to the button destination list parameter, so when you click the button you directly convert the second scene.
+6) to link two scenes you need to create a sceond scene exemple below, and add it's name to the button destination list parameter, so when you click the button you directly convert the second scene.
 
 ``` python
 from textipy import *            # this will import everything we need from the engine manager with just one line.
@@ -81,6 +81,17 @@ game.scenes['Second Scene'] = StoryScene(
         # here third scene is not yet created
         text = "You just met a wild dog do you want to fight him or run away" # the scene text
 )
+
+game.run()                       # opens a window and starts the game.
+```
+
+7) If you want to use an already made scenario for your game use the 'scenario_en' like below:
+
+``` python
+from textipy import *            # this will import everything we need from the engine manager with just one line.
+
+game.scenes.update(scenario_en)
+# game.scenes.update(scenario_fr) for french version
 
 game.run()                       # opens a window and starts the game.
 ```
