@@ -11,12 +11,16 @@ An easy way to create rpg textual games using Python.
 
         pip install textipy
 
-If you want to install the newest version from git and easily edit the source, it's recommended to clone the git
+The package will also install pygame 2.0.1
+
+
+If you want to install the newest version from git which is compatible with python 3.5 and above and to easily edit the source according to your needs, it's recommended to clone the git
 repo and install like this. Make sure you have git installed. https://git-scm.com/
 
         git clone https://github.com/younessidbakkasse/textipy
+        pip install pygame
 
-The package will also install pygame 2.0.1
+you will have to install pygame for this to work.
 
 On some systems you might have to use pip3 instead of pip in order to use Python 3 and not the old Python 2.
 
@@ -91,7 +95,6 @@ game.run()                       # opens a window and starts the game.
 from textipy import *            # this will import everything we need from the engine manager with just one line.
 
 game.scenes.update(scenario_en)
-# game.scenes.update(scenario_fr) for french version
 
 game.run()                       # opens a window and starts the game.
 ```

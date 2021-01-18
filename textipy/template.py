@@ -190,7 +190,7 @@ def howtoplay_template():
     # render close button
     textipy.game.scenes['Help'].buttons['close'] = Button('button_close', int(DISPLAY_WIDTH) - 55,  int(DISPLAY_HEIGHT/2) - 165, Scene.previous_scene)
     # render how to play content
-    gui.render_text('Use your mouse to play', int(DISPLAY_WIDTH/2 - 40), int(DISPLAY_HEIGHT/2 - 100), size = 22, Regular=True)
+    gui.render_text('Use your mouse to play', int(DISPLAY_WIDTH/2), int(DISPLAY_HEIGHT/2), size = 22, Regular=True)
 
 ################################# Inventory Template #################################
 def inventory_template():

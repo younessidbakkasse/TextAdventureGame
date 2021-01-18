@@ -261,8 +261,9 @@ class Scene:
         on the button's name"""
         scene_key = self.get_current_scene_key()
         is_scene_type_game = isinstance(textipy.game.scenes[scene_key], StoryScene)
-        # only works in python 3.9 and above
-        buttons = gui.gui_buttons | self.buttons
+        
+        # only works in python 3.5 and above
+        buttons = {**gui.gui_buttons, **self.buttons}
         if not is_scene_type_game:
             buttons = self.buttons
         for button in buttons.values():   
