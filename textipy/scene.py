@@ -352,12 +352,12 @@ class Scene:
                 return key
 
 class StoryScene(Scene):
-    def __init__(self, scene_name, choices, story_text, template_closure = gui.render_gui):
+    def __init__(self, name = "", buttons = "", text = "", template_closure = gui.render_gui):
         """ Eng : """
         """ Fr : """
-        super().__init__(scene_name, template_closure)
-        self.story_text = story_text
-        self.choices = choices
+        super().__init__(name, template_closure)
+        self.story_text = text
+        self.choices = buttons
         self.last_line = 0
 
     def render_story_text(self):
